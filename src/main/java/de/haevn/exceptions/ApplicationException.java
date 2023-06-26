@@ -1,6 +1,6 @@
 package de.haevn.exceptions;
 
-public class ApplicationException extends Throwable {
+public class ApplicationException extends RuntimeException {
     public ApplicationException(Throwable other) {
         this(other.getMessage(), other);
     }

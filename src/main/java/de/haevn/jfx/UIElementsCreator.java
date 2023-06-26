@@ -19,6 +19,14 @@ public class UIElementsCreator {
         return createButton(title, 150, event);
     }
 
+    public static Button createButton(String title, Runnable event) {
+        return createButton(title, 150, event);
+    }
+
+
+    public static Button createButton(String title, double width, Runnable event) {
+        return createButton(title, width, event::run);
+    }
     public static Button createButton(String title, double width, EventHandler<ActionEvent> event) {
         Button button = new Button(title);
         button.setOnAction(event);
