@@ -3,6 +3,7 @@ package de.haevn.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -43,6 +44,25 @@ public final class SerializationUtils {
         return jsonMapper.readValue(json, type);
     }
 
+    public static <T> T getElement(String json, Class<T> type, String ... keys) throws JsonProcessingException {
+        JsonNode root = jsonMapper.readTree(json);
+        for (String key : keys) {
+            root = root.get(key);
+        }
+
+        return jsonMapper.readValue(root.toString(), type);
+
+    }
+
+    public static <T> T getElement(String json, TypeReference<T> type, String ... keys) throws JsonProcessingException {
+        JsonNode root = jsonMapper.readTree(json);
+        for (String key : keys) {
+            root = root.get(key);
+        }
+
+        return jsonMapper.readValue(root.toString(), type);
+
+    }
 
     //----------------------------------------------------------------------------------------------------------------------
     //  Secure parsing
