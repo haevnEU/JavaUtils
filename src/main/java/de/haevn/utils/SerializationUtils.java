@@ -44,17 +44,34 @@ public final class SerializationUtils {
         return jsonMapper.readValue(json, type);
     }
 
-    public static <T> T getElement(String json, Class<T> type, String ... keys) throws JsonProcessingException {
+    public static <T> Optional<T> getElementSecure(String json, Class<T> type, String... keys) {
+        try {
+            return Optional.of(getElement(json, type, keys));
+        } catch (JsonProcessingException e) {
+            return Optional.empty();
+        }
+    }
+
+    public static <T> T getElement(String json, Class<T> type, String... keys) throws JsonProcessingException {
         JsonNode root = jsonMapper.readTree(json);
         for (String key : keys) {
             root = root.get(key);
         }
 
         return jsonMapper.readValue(root.toString(), type);
+    }
+
+    public static <T> Optional<T> getElementSecure(String json, TypeReference<T> type, String... keys) {
+        try {
+            return Optional.of(getElement(json, type, keys));
+        } catch (
+                JsonProcessingException e) {
+            return Optional.empty();
+        }
 
     }
 
-    public static <T> T getElement(String json, TypeReference<T> type, String ... keys) throws JsonProcessingException {
+    public static <T> T getElement(String json, TypeReference<T> type, String... keys) throws JsonProcessingException {
         JsonNode root = jsonMapper.readTree(json);
         for (String key : keys) {
             root = root.get(key);
