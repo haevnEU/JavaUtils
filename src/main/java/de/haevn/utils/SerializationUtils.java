@@ -61,7 +61,7 @@ public final class SerializationUtils {
         return jsonMapper.readValue(root.toString(), type);
     }
 
-    public static <T> Optional<T> getElementSecure(String json, TypeReference<T> type, String... keys) {
+    public static <T> Optional<T>  getElementSecure(String json, TypeReference<T> type, String... keys) {
         try {
             return Optional.of(getElement(json, type, keys));
         } catch (
