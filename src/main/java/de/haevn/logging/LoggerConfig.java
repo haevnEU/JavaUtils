@@ -15,6 +15,9 @@ import java.io.PrintStream;
 public class LoggerConfig {
     private PrintStream output = System.out;
     private Level level = Level.ALL;
+    private boolean autoFlush = true;
+    private boolean useShutdownHook = true;
+    private int logSize = 100;
 
     /**
      * Get the current minimum log level.
@@ -65,4 +68,38 @@ public class LoggerConfig {
     public PrintStream getOutput() {
         return output;
     }
+
+
+    /**
+     * Activate or deactivate auto flush.
+     * @param autoFlush The auto flush state.
+     */
+    public void setAutoFlush(boolean autoFlush) {
+        this.autoFlush = autoFlush;
+    }
+
+    /**
+     * Get the current auto flush state.
+     * @return The auto flush state.
+     */
+    public boolean isAutoFlush() {
+        return autoFlush;
+    }
+
+    /**
+     * Set the maximum log size.
+     * @param logSize The maximum log size.
+     */
+    public void setLogSize(int logSize) {
+        this.logSize = logSize;
+    }
+
+    /**
+     * Get the current maximum log size.
+     * @return The maximum log size.
+     */
+    public int getLogSize() {
+        return logSize;
+    }
+
 }

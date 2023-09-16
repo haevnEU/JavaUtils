@@ -1,6 +1,7 @@
 package de.haevn.utils;
 
-import javafx.scene.paint.Color;
+
+import java.awt.*;
 
 public final class ColorUtils {
     private ColorUtils() {
@@ -55,7 +56,7 @@ public final class ColorUtils {
     }
 
     public static String colorToHex(Color color) {
-        return colorToHex(colorToInt(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity()));
+        return colorToHex(colorToInt(color.getRed(), color.getGreen(), color.getBlue()));
     }
 
     public static String colorToHex(String hex) {

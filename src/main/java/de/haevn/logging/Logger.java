@@ -14,6 +14,7 @@ import java.util.List;
 public class Logger {
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
+    private final Thread shutdownHook = new Thread(this::flush);
 
     /**
      * Creates a new Logger with default configuration
@@ -29,6 +30,13 @@ public class Logger {
      */
     public Logger(LoggerConfig config) {
         this.config = config;
+    }
+
+    /**
+     * Returns the configuration of the logger
+     */
+    public LoggerConfig getConfig() {
+        return config;
     }
 
     /**
@@ -134,6 +142,22 @@ public class Logger {
         logEntries.clear();
     }
 
+    /**
+     * Activates the shutdown hook
+     * @hidden This method is preview method and should not be used in production
+     */
+    public void preview_activateShutdownHook(){
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+    }
+
+    /**
+     * Deactivates the shutdown hook
+     * @hidden This method is preview method and should not be used in production
+     */
+    public void preview_deactivateShutdownHook(){
+        Runtime.getRuntime().removeShutdownHook(shutdownHook);
+    }
+
 
     /**
      * Builder class for log entries
@@ -210,6 +234,10 @@ public class Logger {
         public void log() {
             if (config.getLevel().ordinal() >= entry.getLevel().ordinal()) {
                 logEntries.add(entry);
+            }
+
+            if(config.isAutoFlush() || config.getLogSize() <= logEntries.size()){
+                flush();
             }
         }
 
