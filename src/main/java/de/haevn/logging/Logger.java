@@ -2,6 +2,7 @@ package de.haevn.logging;
 
 import de.haevn.utils.MetaMethodAccessor;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,9 +126,9 @@ public class Logger {
      */
     public void flush() {
         logEntries.forEach(entry -> {
-            System.out.println(entry.getTimestamp() + " " + entry.getLevel() + " " + entry.getHelper() + " " + entry.getMessage());
+            config.getOutput().println(entry.getTimestamp() + " " + entry.getLevel() + " " + entry.getHelper() + " " + entry.getMessage());
             if (entry.getThrowable() != null) {
-                entry.getThrowable().printStackTrace();
+                entry.getThrowable().printStackTrace(config.getOutput());
             }
         });
         logEntries.clear();

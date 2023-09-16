@@ -16,14 +16,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 
-import static de.haevn.Main.APP_NAME;
 
 public final class FileIO {
-
-    public static final File DATA_ROOT = new File(FileIO.getRootPathWithSeparator());
-    public static final File JSON_DIRECTORY = new File(DATA_ROOT, "json");
-    public static final File CONFIG_DIRECTORY = new File(DATA_ROOT, "config");
-    public static final File STYLES_DIRECTORY = new File(DATA_ROOT, "styles");
 
     private FileIO() {
     }
@@ -128,9 +122,9 @@ public final class FileIO {
     }
 
 
-    public static String readFile(String path) {
+    public static String readFile(final String appName, final String path) {
         try {
-            String target = getRootPathWithSeparator() + path;
+            String target = getRootPathWithSeparator(appName) + path;
             var lines = Files.readAllLines(Paths.get(target));
             return String.join("\n", lines);
         } catch (IOException e) {
@@ -138,9 +132,9 @@ public final class FileIO {
         }
     }
 
-    public static void store(String path, String data) {
+    public static void store(final String appName, String path, String data) {
         try {
-            String target = getRootPathWithSeparator() + path;
+            String target = getRootPathWithSeparator(appName) + path;
             createFileIfNotExists(new File(target));
             Files.write(Paths.get(target), data.getBytes());
         } catch (IOException ignored) {
@@ -195,16 +189,16 @@ public final class FileIO {
         }
     }
 
-    public static String getRootPath() {
-        return System.getProperty("user.home") + File.separator + APP_NAME;
+    public static String getRootPath(final String appName) {
+        return System.getProperty("user.home") + File.separator + appName;
     }
 
-    public static String getRootPathWithSeparator() {
-        return getRootPath() + File.separator;
+    public static String getRootPathWithSeparator(final String appName) {
+        return getRootPath(appName) + File.separator;
     }
 
-    public static Tuple<Boolean, String> validate() {
-        final String root = getRootPathWithSeparator();
+    public static Tuple<Boolean, String> validate(final String appName) {
+        final String root = getRootPathWithSeparator(appName);
         if (!Files.exists(Path.of(root))) return new Tuple<>(false, "Root path does not exist");
 
         if (!Files.exists(Path.of(root + "json"))) return new Tuple<>(false, "Json path does not exist");
