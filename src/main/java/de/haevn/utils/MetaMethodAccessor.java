@@ -83,6 +83,6 @@ public class MetaMethodAccessor {
 
     @Override
     public String toString() {
-        return "\"" + className + "#" + methodName + "\" in \"" + fileName + "#" + lineNumber + "\"";
+        return "\"" + className + "#" + methodName + ":" + lineNumber + "\" in \"" + fileName + "\"";
     }
 }
