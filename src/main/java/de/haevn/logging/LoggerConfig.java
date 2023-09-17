@@ -17,13 +17,16 @@ import java.io.PrintStream;
 @Getter
 @Setter
 public class LoggerConfig {
-    private PrintStream fileOutput = null;
+    private PrintStream fileOutput;
     private PrintStream consoleOutput = System.out;
     private Level level = Level.ALL;
     private boolean autoFlush = true;
     private boolean useShutdownHook = true;
     private int logSize = 100;
 
+
+    public LoggerConfig() {
+    }
 
     /**
      * Set the output stream.

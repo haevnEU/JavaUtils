@@ -107,4 +107,16 @@ public class LogEntry {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+
+
+    private Object obj;
+
+    public Object getObj() {
+        return obj;
+    }
+
+    public void setObj(Object obj) {
+        this.obj = obj;
+    }
 }

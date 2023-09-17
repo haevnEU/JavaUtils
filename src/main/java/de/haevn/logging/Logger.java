@@ -1,7 +1,7 @@
 package de.haevn.logging;
 
 import de.haevn.utils.MetaMethodAccessor;
-import lombok.Getter;
+import de.haevn.utils.SerializationUtils;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -20,6 +20,7 @@ public class Logger {
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
+
 
     /**
      * Creates a new Logger with default configuration
@@ -156,6 +157,12 @@ public class Logger {
 
                 sb.append(entry.getMessage());
 
+                if(null != entry.getObj()){
+                    SerializationUtils.exportJson(entry.getObj())
+                            .ifPresent(json -> sb.append("\n").append(json));
+                }
+
+
                 stream.println(sb);
 
                 if (null != entry.getThrowable()) {
@@ -246,6 +253,11 @@ public class Logger {
          */
         public EntryBuilder withMessage(String message, Object... args) {
             entry.setMessage(String.format(message, args));
+            return this;
+        }
+
+        public EntryBuilder withObject(Object obj){
+            entry.setObj(obj);
             return this;
         }
 
