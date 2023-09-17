@@ -11,8 +11,8 @@ import java.io.PrintStream;
  * Configuration for the logger.
  *
  * @author haevn
- * @version 1.0
- * @since 1.1
+ * @version 1.1
+ * @since 1.0
  */
 @Getter
 @Setter
