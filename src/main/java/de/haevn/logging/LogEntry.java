@@ -10,12 +10,12 @@ import de.haevn.utils.MetaMethodAccessor;
  * @since 1.0
  */
 public class LogEntry {
-    private Level level;
-    private MetaMethodAccessor helper;
+    private Level level = Level.UNKNOWN;
+    private MetaMethodAccessor helper = null;
 
-    private String message;
-    private Throwable throwable;
-    private long timestamp;
+    private String message = "";
+    private Throwable throwable = null;
+    private long timestamp = 0;
 
     /**
      * Creates a new log entry.

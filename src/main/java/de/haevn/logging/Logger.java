@@ -1,10 +1,14 @@
 package de.haevn.logging;
 
 import de.haevn.utils.MetaMethodAccessor;
+import lombok.Getter;
 
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Haevn
@@ -12,6 +16,13 @@ import java.util.List;
  * @since 1.0
  */
 public class Logger {
+    /**
+     * -- GETTER --
+     * Returns the configuration of the logger
+     *
+     * @deprecated This method is deprecated and will be removed in a future version
+     */
+    @Getter
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
@@ -30,13 +41,6 @@ public class Logger {
      */
     public Logger(LoggerConfig config) {
         this.config = config;
-    }
-
-    /**
-     * Returns the configuration of the logger
-     */
-    public LoggerConfig getConfig() {
-        return config;
     }
 
     /**
@@ -134,27 +138,58 @@ public class Logger {
      */
     public void flush() {
         logEntries.forEach(entry -> {
-            config.getOutput().println(entry.getTimestamp() + " " + entry.getLevel() + " " + entry.getHelper() + " " + entry.getMessage());
-            if (entry.getThrowable() != null) {
-                entry.getThrowable().printStackTrace(config.getOutput());
-            }
+            final PrintStream consoleOutput = config.getConsoleOutput();
+            final PrintStream fileOutput = config.getFileOutput();
+
+            final Consumer<PrintStream> consumer = stream -> {
+                if (null == stream) {
+                    return;
+                }
+
+                final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+                final Date resultdate = new Date(entry.getTimestamp());
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("[").append(sdf.format(resultdate)).append("] ");
+                sb.append("[").append(entry.getLevel().name()).append("] ");
+
+
+                if (null != entry.getHelper()) {
+                    sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("] ");
+                    sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("] ");
+                }
+
+                sb.append(entry.getMessage());
+
+                stream.println(sb);
+
+                if (null != entry.getThrowable()) {
+                    entry.getThrowable().printStackTrace(stream);
+                }
+            };
+
+            consumer.accept(consoleOutput);
+            consumer.accept(fileOutput);
         });
         logEntries.clear();
     }
 
     /**
      * Activates the shutdown hook
+     *
      * @hidden This method is preview method and should not be used in production
      */
-    public void preview_activateShutdownHook(){
+    public void preview_activateShutdownHook() {
         Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
     /**
      * Deactivates the shutdown hook
+     *
      * @hidden This method is preview method and should not be used in production
      */
-    public void preview_deactivateShutdownHook(){
+    public void preview_deactivateShutdownHook() {
         Runtime.getRuntime().removeShutdownHook(shutdownHook);
     }
 
@@ -219,24 +254,15 @@ public class Logger {
         }
 
         /**
-         * Sets the timestamp of the log entry to the current time
-         *
-         * @return The EntryBuilder
-         */
-        public EntryBuilder withCurrentTimestamp() {
-            entry.setTimestamp(System.currentTimeMillis());
-            return this;
-        }
-
-        /**
          * Adds the log entry to the log entries list if the log level is high enough
          */
         public void log() {
             if (config.getLevel().ordinal() >= entry.getLevel().ordinal()) {
+                entry.setTimestamp(System.currentTimeMillis());
                 logEntries.add(entry);
             }
 
-            if(config.isAutoFlush() || config.getLogSize() <= logEntries.size()){
+            if (config.isAutoFlush() || config.getLogSize() <= logEntries.size()) {
                 flush();
             }
         }
