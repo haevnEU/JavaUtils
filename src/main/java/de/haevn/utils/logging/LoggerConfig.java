@@ -1,4 +1,4 @@
-package de.haevn.javautils.logging;
+package de.haevn.utils.logging;
 
 import lombok.Getter;
 import lombok.Setter;

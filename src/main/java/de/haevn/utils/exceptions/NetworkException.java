@@ -1,4 +1,4 @@
-package de.haevn.javautils.exceptions;
+package de.haevn.utils.exceptions;
 
 import java.net.http.HttpResponse;
 

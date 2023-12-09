@@ -1,4 +1,4 @@
-package de.haevn.javautils.exceptions;
+package de.haevn.utils.exceptions;
 
 public class InvalidCastException extends ApplicationException {
     public InvalidCastException(Class<?> provided, Class<?> required) {

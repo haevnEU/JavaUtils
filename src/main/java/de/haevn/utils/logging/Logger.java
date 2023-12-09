@@ -1,7 +1,7 @@
-package de.haevn.javautils.logging;
+package de.haevn.utils.logging;
 
-import de.haevn.javautils.utils.MetaMethodAccessor;
-import de.haevn.javautils.utils.SerializationUtils;
+import de.haevn.utils.MetaMethodAccessor;
+import de.haevn.utils.SerializationUtils;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;

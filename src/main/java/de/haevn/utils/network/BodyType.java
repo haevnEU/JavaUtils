@@ -1,4 +1,4 @@
-package de.haevn.javautils.network;
+package de.haevn.utils.network;
 
 import java.net.http.HttpRequest;
 

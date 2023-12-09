@@ -1,4 +1,4 @@
-package de.haevn.javautils.network;
+package de.haevn.utils.network;
 
 import java.awt.*;
 import java.io.*;
@@ -13,7 +13,7 @@ import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-import static de.haevn.javautils.network.NetworkUtils.isUrl;
+import static de.haevn.utils.network.NetworkUtils.isUrl;
 
 /**
  * Provides methods to interact with the network.

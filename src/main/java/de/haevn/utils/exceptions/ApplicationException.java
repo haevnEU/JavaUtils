@@ -1,4 +1,4 @@
-package de.haevn.javautils.exceptions;
+package de.haevn.utils.exceptions;
 
 public class ApplicationException extends RuntimeException {
     public ApplicationException(Throwable other) {

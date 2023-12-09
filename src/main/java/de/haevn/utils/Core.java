@@ -1,4 +1,4 @@
-package de.haevn.javautils.utils;
+package de.haevn.utils;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
