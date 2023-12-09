@@ -34,4 +34,11 @@ public class Core {
         }
     }
 
+    public static void executeSecure(Runnable run){
+        try {
+            run.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

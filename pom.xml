@@ -36,7 +36,7 @@
         <app.name>Utility</app.name>
         <app.description>Utility Library for other projects</app.description>
         <app.url></app.url>
-        <app.version>0.0.0.5-SNAPSHOT</app.version>
+        <app.version>0.0.0.6-SNAPSHOT</app.version>
         <app.build>DEV</app.build>
         <app.preview>false</app.preview>
 
