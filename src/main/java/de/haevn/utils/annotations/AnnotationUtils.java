@@ -33,19 +33,15 @@ public class AnnotationUtils {
         final File[] files = directory.listFiles();
         if (null == files) return classes;
 
-
-        for (File file : files) {
-            if (file.isDirectory()) {
-                classes.addAll(getClasses(packageName + "." + file.getName()));
-            } else if (file.getName().endsWith(".class")) {
+        Arrays.stream(files).forEach(file ->{
+            if(file.isDirectory()) classes.addAll(getClasses(packageName + "." + file.getName()));
+            else if(file.getName().endsWith(".class")){
                 final String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
                 try {
                     classes.add(Class.forName(className));
                 } catch (ClassNotFoundException ignored) {}
             }
-        }
-
-
+        });
         return classes;
     }
 }
