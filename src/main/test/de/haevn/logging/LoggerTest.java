@@ -1,4 +1,4 @@
-package de.haevn.logging;
+package de.haevn.javautils.logging;
 
 import lombok.SneakyThrows;
 
