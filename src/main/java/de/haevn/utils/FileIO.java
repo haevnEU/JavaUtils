@@ -129,6 +129,9 @@ public final class FileIO {
 
     public static String readFile(final String appName, final String path) {
         try {
+            if(appName.isBlank()){
+                return "";
+            }
             String target = getRootPathWithSeparator(appName) + path;
             var lines = Files.readAllLines(Paths.get(target));
             return String.join("\n", lines);
@@ -143,6 +146,9 @@ public final class FileIO {
 
     public static void store(final String appName, String path, String data) {
         try {
+            if(appName.isBlank()){
+                return;
+            }
             String target = getRootPathWithSeparator(appName) + path;
             createFileIfNotExists(new File(target));
             Files.write(Paths.get(target), data.getBytes());
