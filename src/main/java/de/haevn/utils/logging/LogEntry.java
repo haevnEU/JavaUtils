@@ -1,6 +1,6 @@
-package de.haevn.javautils.logging;
+package de.haevn.utils.logging;
 
-import de.haevn.javautils.utils.MetaMethodAccessor;
+import de.haevn.utils.MetaMethodAccessor;
 
 /**
  * Represents a log entry.

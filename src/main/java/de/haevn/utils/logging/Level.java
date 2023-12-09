@@ -1,4 +1,4 @@
-package de.haevn.javautils.logging;
+package de.haevn.utils.logging;
 
 /**
  * Defines the log levels.

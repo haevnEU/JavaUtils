@@ -1,4 +1,4 @@
-package de.haevn.javautils.utils;
+package de.haevn.utils;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -15,6 +15,7 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public final class FileIO {
@@ -197,20 +198,6 @@ public final class FileIO {
         return getRootPath(appName) + File.separator;
     }
 
-    public static Tuple<Boolean, String> validate(final String appName) {
-        final String root = getRootPathWithSeparator(appName);
-        if (!Files.exists(Path.of(root))) return new Tuple<>(false, "Root path does not exist");
-
-        if (!Files.exists(Path.of(root + "json"))) return new Tuple<>(false, "Json path does not exist");
-
-        if (!Files.exists(Path.of(root + "config"))) return new Tuple<>(false, "Configuration path does not exist");
-        if (!Files.exists(Path.of(root + "config/config.property")))
-            return new Tuple<>(false, "Config file does not exist");
-        if (!Files.exists(Path.of(root + "config/urls.property")))
-            return new Tuple<>(false, "Urls file does not exist");
-        return new Tuple<>(true, "All files exist");
-    }
-
     public static void openDefaultApplication(File file) {
         try {
             Desktop.getDesktop().open(file);
@@ -231,5 +218,12 @@ public final class FileIO {
 
     public static void unzip(File inputFile, File outputDirectory) {
 
+    }
+
+    public static void construct(String appName, List<String> directories){
+        createDirectoryIfNotExists(new File(getRootPathWithSeparator(appName)));
+        for (String directory : directories) {
+            createDirectoryIfNotExists(new File(getRootPathWithSeparator(appName) + directory));
+        }
     }
 }

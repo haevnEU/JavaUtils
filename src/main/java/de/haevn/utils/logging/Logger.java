@@ -1,7 +1,7 @@
-package de.haevn.javautils.logging;
+package de.haevn.utils.logging;
 
-import de.haevn.javautils.utils.MetaMethodAccessor;
-import de.haevn.javautils.utils.SerializationUtils;
+import de.haevn.utils.MetaMethodAccessor;
+import de.haevn.utils.SerializationUtils;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -21,11 +21,7 @@ public class Logger {
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
 
-
-    /**
-     * Creates a new Logger with default configuration
-     */
-    public Logger() {
+    public <T>Logger(){
         this(new LoggerConfig());
     }
 
@@ -34,7 +30,7 @@ public class Logger {
      *
      * @param config The configuration to use
      */
-    public Logger(LoggerConfig config) {
+    public <T>Logger(LoggerConfig config) {
         this.config = config;
     }
 

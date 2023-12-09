@@ -1,4 +1,4 @@
-package de.haevn.javautils.utils;
+package de.haevn.utils;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -10,6 +10,17 @@ public class Core {
     public static void copyText(String text) {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(new StringSelection(text), null);
+    }
+
+    public static void sleepSecond(long seconds) {
+        sleepMillis(seconds * 1000);
+    }
+
+    public static void sleepMillis(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignored) {
+        }
     }
 
 }

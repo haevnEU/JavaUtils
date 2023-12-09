@@ -1,6 +1,6 @@
-package de.haevn.javautils.exceptions;
+package de.haevn.utils.exceptions;
 
-import de.haevn.javautils.utils.MetaMethodAccessor;
+import de.haevn.utils.MetaMethodAccessor;
 
 public class NotYetImplementedException extends Exception {
     private String message;
