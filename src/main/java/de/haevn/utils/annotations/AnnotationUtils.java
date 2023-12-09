@@ -15,7 +15,7 @@ public class AnnotationUtils {
     private AnnotationUtils() {
     }
 
-    public static List<Class<?>> collectBy(final String packageName, Class<? extends Annotation> annotation) {
+    public static List<Class<?>>  collectBy(final String packageName, Class<? extends Annotation> annotation) {
         return getClasses(packageName).stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).toList();
     }
 

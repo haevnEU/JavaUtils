@@ -65,6 +65,9 @@ public final class PropertyHandler {
     public String get(String key) {
         return properties.getProperty(key, "");
     }
+    public String get(String key, String defaultValue) {
+        return properties.getProperty(key, defaultValue);
+    }
 
     public boolean getBoolean(String key) {
         return Boolean.parseBoolean(properties.getProperty(key, "false"));
