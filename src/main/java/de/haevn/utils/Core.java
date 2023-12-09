@@ -5,7 +5,18 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
 public class Core {
+    private static String APP_NAME = "";
     private Core() {}
+
+    public static void setAppName(String appName) {
+        if(APP_NAME.isBlank()) {
+            APP_NAME = appName;
+        }
+    }
+
+    public static String getAppName() {
+        return APP_NAME;
+    }
 
     public static void copyText(String text) {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();

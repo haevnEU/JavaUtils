@@ -32,6 +32,7 @@ public class Logger {
      */
     public <T>Logger(LoggerConfig config) {
         this.config = config;
+        activateShutdownHook();
     }
 
     /**

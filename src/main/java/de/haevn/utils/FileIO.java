@@ -123,6 +123,10 @@ public final class FileIO {
     }
 
 
+    public static String readFile(final String path){
+        return readFile(Core.getAppName(), path);
+    }
+
     public static String readFile(final String appName, final String path) {
         try {
             String target = getRootPathWithSeparator(appName) + path;
@@ -133,6 +137,10 @@ public final class FileIO {
         }
     }
 
+    public static void store(String path, String data) {
+        store(Core.getAppName(), path, data);
+    }
+
     public static void store(final String appName, String path, String data) {
         try {
             String target = getRootPathWithSeparator(appName) + path;
@@ -141,6 +149,7 @@ public final class FileIO {
         } catch (IOException ignored) {
         }
     }
+
 
     public static void append(String filename, String data) {
         append(new File(filename), data);
@@ -190,8 +199,17 @@ public final class FileIO {
         }
     }
 
+
+    public static String getRootPath() {
+        return getRootPath(Core.getAppName());
+    }
+
     public static String getRootPath(final String appName) {
         return System.getProperty("user.home") + File.separator + appName;
+    }
+
+    public static String getRootPathWithSeparator() {
+        return getRootPathWithSeparator(Core.getAppName());
     }
 
     public static String getRootPathWithSeparator(final String appName) {
@@ -218,6 +236,10 @@ public final class FileIO {
 
     public static void unzip(File inputFile, File outputDirectory) {
 
+    }
+
+    public static void construct(List<String> directories){
+        construct(Core.getAppName(), directories);
     }
 
     public static void construct(String appName, List<String> directories){
