@@ -17,8 +17,16 @@ public final class MathUtils {
     }
 
     public static String numberToRoundText(double number) {
+        return numberToRoundText(number, false);
+    }
+
+    public static String numberToRoundText(double number, boolean separator) {
+        if(separator) {
+            return getDecimalFormat().format(Math.round(number));
+        }
         return Integer.toString((int) Math.round(number));
     }
+
 
     public static Integer stringToInteger(String string, int fallbackNumber) {
         try {

@@ -16,6 +16,7 @@ public class LogEntry {
     private String message = "";
     private Throwable throwable = null;
     private long timestamp = 0;
+    private String threadName = "";
 
     /**
      * Creates a new log entry.
@@ -118,5 +119,13 @@ public class LogEntry {
 
     public void setObj(Object obj) {
         this.obj = obj;
+    }
+
+    public String getThreadName() {
+        return threadName;
+    }
+
+    public void setThreadName(String name) {
+        this.threadName = name;
     }
 }

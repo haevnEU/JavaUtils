@@ -63,22 +63,45 @@ public final class PropertyHandler {
     //----------------------------------------------------------------------------------------------------------------------
 
     public String get(String key) {
-        return properties.getProperty(key, "");
+        return get(key, "");
     }
     public String get(String key, String defaultValue) {
+        if(!properties.containsKey(key)){
+            properties.setProperty(key, defaultValue);
+        }
         return properties.getProperty(key, defaultValue);
     }
 
     public boolean getBoolean(String key) {
-        return Boolean.parseBoolean(properties.getProperty(key, "false"));
+        return Boolean.parseBoolean(get(key, "false"));
+    }
+
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return Boolean.parseBoolean(get(key, String.valueOf(defaultValue)));
+    }
+
+    public int getInt(String key){
+        return Integer.parseInt(get(key, "0"));
+    }
+
+    public int getInt(String key, int defaultValue) {
+        return Integer.parseInt(get(key, String.valueOf(defaultValue)));
     }
 
     public long getLong(String key) {
-        return Long.parseLong(properties.getProperty(key, "0"));
+        return Long.parseLong(get(key, "0"));
+    }
+
+    public long getLong(String key, long defaultValue) {
+        return Long.parseLong(get(key, String.valueOf(defaultValue)));
     }
 
     public double getDouble(String key) {
-        return Double.parseDouble(properties.getProperty(key, "0"));
+        return Double.parseDouble(get(key, "0.0"));
+    }
+
+    public double getDouble(String key, double defaultValue) {
+        return Double.parseDouble(get(key, String.valueOf(defaultValue)));
     }
 
     public List<String> getAllProperties() {
@@ -90,6 +113,14 @@ public final class PropertyHandler {
         properties.setProperty(k, value);
         try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator("ProjectLunar") + "config/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
+        } catch (IOException e) {
+            LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
+        }
+    }
+
+    public void store(){
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator("ProjectLunar") + "config/" + name + EXTENSION)) {
+            properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
         }

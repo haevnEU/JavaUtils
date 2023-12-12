@@ -42,7 +42,7 @@ public class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder at(Level level) {
-        return new EntryBuilder(level);
+        return new EntryBuilder(level).forEnclosingMethod(4);
     }
 
     /**
@@ -152,6 +152,11 @@ public class Logger {
                     sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("] ");
                 }
 
+                if(null != entry.getThreadName()){
+                    sb.append("[").append(entry.getThreadName()).append("] ");
+                }
+                sb.append("[").append(entry.getThreadName()).append("] ");
+
                 sb.append(entry.getMessage());
 
                 if(null != entry.getObj()){
@@ -220,6 +225,16 @@ public class Logger {
         }
 
         /**
+         * Sets the helper to the current method
+         *
+         * @return The EntryBuilder
+         */
+        private EntryBuilder forEnclosingMethod(int skip) {
+            MetaMethodAccessor.getMethod(skip).ifPresent(entry::setHelper);
+            return this;
+        }
+
+        /**
          * Appends a throwable to the log entry
          *
          * @param throwable The throwable to append
@@ -227,6 +242,11 @@ public class Logger {
          */
         public EntryBuilder withException(Throwable throwable) {
             entry.setThrowable(throwable);
+            return this;
+        }
+
+        public EntryBuilder withThreadName(){
+            entry.setThreadName(Thread.currentThread().getName());
             return this;
         }
 

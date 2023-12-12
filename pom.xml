@@ -36,7 +36,7 @@
         <app.name>Utility</app.name>
         <app.description>Utility Library for other projects</app.description>
         <app.url></app.url>
-        <app.version>1.0.0.0</app.version>
+        <app.version>1.0.0.3</app.version>
         <app.build>DEV</app.build>
         <app.preview>false</app.preview>
 
@@ -51,7 +51,6 @@
         <version.commons-lang3>3.12.0</version.commons-lang3>
         <version.flogger>0.7.4</version.flogger>
         <version.zip4j>2.11.5</version.zip4j>
-
         <version.junit>5.9.1</version.junit>
         <version.jetbrains.annotations>23.1.0</version.jetbrains.annotations>
 
