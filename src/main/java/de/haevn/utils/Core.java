@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 public class Core {
     private static String APP_NAME = "";
+    private static String VERSION = "";
     private Core() {}
 
     public static void setAppName(String appName) {
@@ -51,5 +52,13 @@ public class Core {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setVersion(final String version){
+        VERSION = version;
+    }
+
+    public static String getAppVersion() {
+        return VERSION;
     }
 }

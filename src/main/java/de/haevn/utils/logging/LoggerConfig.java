@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 /**
@@ -16,7 +17,7 @@ import java.io.PrintStream;
  */
 @Getter
 @Setter
-public class LoggerConfig {
+public final class LoggerConfig {
     private PrintStream fileOutput;
     private PrintStream consoleOutput = System.out;
     private Level level = Level.ALL;
@@ -52,6 +53,6 @@ public class LoggerConfig {
      * @param logFile The output stream.
      */
     public void setOutput(File logFile) throws FileNotFoundException {
-        this.fileOutput = new PrintStream(logFile);
+        this.fileOutput = new PrintStream(new FileOutputStream(logFile, true));
     }
 }

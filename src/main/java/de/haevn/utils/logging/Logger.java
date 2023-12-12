@@ -1,8 +1,12 @@
 package de.haevn.utils.logging;
 
+import de.haevn.utils.Core;
+import de.haevn.utils.FileIO;
 import de.haevn.utils.MetaMethodAccessor;
 import de.haevn.utils.SerializationUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,14 +19,27 @@ import java.util.function.Consumer;
  * @version 1.1
  * @since 1.0
  */
-public class Logger {
-
+public final class Logger {
+    private boolean firstFlush = true;
+    private final String name;
+    private static final LoggerHandler HANDLER = LoggerHandler.getInstance();
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
 
+    public static void main(String[] args) {
+        Core.setAppName("LIBRARY_TESTING");
+        final var logger = new Logger();
+        logger.atInfo().forEnclosingMethod().withMessage("Test").log();
+        logger.atInfo().forEnclosingMethod().withMessage("Test").log();
+
+    }
     public <T>Logger(){
-        this(new LoggerConfig());
+        this(null, new LoggerConfig());
+    }
+
+    public <T>Logger(Class<?> cl){
+        this(cl, new LoggerConfig());
     }
 
     /**
@@ -30,8 +47,22 @@ public class Logger {
      *
      * @param config The configuration to use
      */
-    public <T>Logger(LoggerConfig config) {
+    public <T>Logger(Class<?> cl, LoggerConfig config) {
+        this.name = (null == cl) ? "Logger" : cl.getName();
         this.config = config;
+        if(null == this.config.getFileOutput()){
+            try {
+                final var logFile = new File(FileIO.getRootPathWithSeparator() + "logs" + File.separatorChar + this.name +  "_" + ".log");
+                if(!logFile.exists()){
+                    logFile.getParentFile().mkdirs();
+                    logFile.createNewFile();
+                }
+                this.config.setFileOutput(new PrintStream(new FileOutputStream(logFile, true)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        HANDLER.addLogger(this);
         activateShutdownHook();
     }
 
@@ -152,10 +183,9 @@ public class Logger {
                     sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("] ");
                 }
 
-                if(null != entry.getThreadName()){
+                if(entry.getThreadName().isBlank()){
                     sb.append("[").append(entry.getThreadName()).append("] ");
                 }
-                sb.append("[").append(entry.getThreadName()).append("] ");
 
                 sb.append(entry.getMessage());
 
@@ -164,11 +194,21 @@ public class Logger {
                             .ifPresent(json -> sb.append("\n").append(json));
                 }
 
-
-                stream.println(sb);
-
                 if (null != entry.getThrowable()) {
                     entry.getThrowable().printStackTrace(stream);
+                }
+
+
+                if(firstFlush && stream.equals(fileOutput)){
+                    firstFlush = false;
+                    stream.println("====================START OF LOG====================");
+                    stream.println("Application: " + Core.getAppName());
+                    stream.println("Module: " + name);
+                    stream.println("Date: " + sdf.format(resultdate));
+                    stream.println("Version: " + Core.getAppVersion());
+                    stream.println(sb);
+                }else{
+                    stream.println(sb);
                 }
             };
 
@@ -202,7 +242,7 @@ public class Logger {
     /**
      * Builder class for log entries
      */
-    public class EntryBuilder {
+    public final class EntryBuilder {
         private final LogEntry entry = new LogEntry();
 
         /**

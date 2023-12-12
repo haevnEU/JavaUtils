@@ -9,7 +9,7 @@ import de.haevn.utils.MetaMethodAccessor;
  * @version 1.0
  * @since 1.0
  */
-public class LogEntry {
+public final class LogEntry {
     private Level level = Level.UNKNOWN;
     private MetaMethodAccessor helper = null;
 
