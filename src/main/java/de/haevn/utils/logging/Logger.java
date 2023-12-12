@@ -20,20 +20,12 @@ import java.util.function.Consumer;
  * @since 1.0
  */
 public final class Logger {
-    private boolean firstFlush = true;
     private final String name;
     private static final LoggerHandler HANDLER = LoggerHandler.getInstance();
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
 
-    public static void main(String[] args) {
-        Core.setAppName("LIBRARY_TESTING");
-        final var logger = new Logger();
-        logger.atInfo().forEnclosingMethod().withMessage("Test").log();
-        logger.atInfo().forEnclosingMethod().withMessage("Test").log();
-
-    }
     public <T>Logger(){
         this(null, new LoggerConfig());
     }
@@ -48,11 +40,11 @@ public final class Logger {
      * @param config The configuration to use
      */
     public <T>Logger(Class<?> cl, LoggerConfig config) {
-        this.name = (null == cl) ? "Logger" : cl.getName();
+        this.name = (null == cl) ? "Logger" : cl.getSimpleName();
         this.config = config;
         if(null == this.config.getFileOutput()){
             try {
-                final var logFile = new File(FileIO.getRootPathWithSeparator() + "logs" + File.separatorChar + this.name +  "_" + ".log");
+                final var logFile = new File(FileIO.getRootPathWithSeparator() + "logs" + File.separatorChar + this.name + ".log");
                 if(!logFile.exists()){
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
@@ -197,19 +189,7 @@ public final class Logger {
                 if (null != entry.getThrowable()) {
                     entry.getThrowable().printStackTrace(stream);
                 }
-
-
-                if(firstFlush && stream.equals(fileOutput)){
-                    firstFlush = false;
-                    stream.println("====================START OF LOG====================");
-                    stream.println("Application: " + Core.getAppName());
-                    stream.println("Module: " + name);
-                    stream.println("Date: " + sdf.format(resultdate));
-                    stream.println("Version: " + Core.getAppVersion());
                     stream.println(sb);
-                }else{
-                    stream.println(sb);
-                }
             };
 
             consumer.accept(consoleOutput);
