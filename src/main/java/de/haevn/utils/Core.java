@@ -3,9 +3,9 @@ package de.haevn.utils;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 public class Core {
     private static String APP_NAME = "";
@@ -60,5 +60,23 @@ public class Core {
 
     public static String getAppVersion() {
         return VERSION;
+    }
+
+
+
+    public static String getCurrentTime(){
+        return getCurrentDateWithFormat("HH:mm:ss");
+    }
+
+    public static String getCurrentDate(){
+        return getCurrentDateWithFormat("dd/MM/yyyy");
+    }
+
+    public static String getCurrentDateAndTime(){
+        return getCurrentDateWithFormat("dd/MM/yyyy HH:mm:ss");
+    }
+
+    public static String getCurrentDateWithFormat(String format){
+        return new SimpleDateFormat(format).format(new Date());
     }
 }

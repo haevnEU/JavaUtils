@@ -166,24 +166,24 @@ public final class Logger {
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.append("[").append(sdf.format(resultdate)).append("] ");
-                sb.append("[").append(entry.getLevel().name()).append("] ");
+                sb.append("[").append(sdf.format(resultdate)).append("]");
+                sb.append("[").append(entry.getLevel().name()).append("]");
 
 
                 if (null != entry.getHelper()) {
-                    sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("] ");
-                    sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("] ");
+                    sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("]");
+                    sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("]");
                 }
 
                 if(entry.getThreadName().isBlank()){
-                    sb.append("[").append(entry.getThreadName()).append("] ");
+                    sb.append("[").append(entry.getThreadName()).append("]");
                 }
 
-                sb.append(entry.getMessage());
+                sb.append("[").append(entry.getMessage()).append("]");
 
                 if(null != entry.getObj()){
                     SerializationUtils.exportJson(entry.getObj())
-                            .ifPresent(json -> sb.append("\n").append(json));
+                            .ifPresent(json -> sb.append("\n[").append(json).append("]"));
                 }
 
                 if (null != entry.getThrowable()) {
