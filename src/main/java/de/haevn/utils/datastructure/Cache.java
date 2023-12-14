@@ -1,4 +1,6 @@
-package de.haevn.utils.io;
+package de.haevn.utils.datastructure;
+
+import de.haevn.utils.enumeration.MillisecondTimeUnits;
 
 public class Cache <T>{
     private final long duration;
@@ -6,7 +8,7 @@ public class Cache <T>{
     private final long creationTime;
 
     public Cache(T value){
-        this(value, 1000 * 60 * 60 * 24);
+        this(value, MillisecondTimeUnits.DAYS.getValue());
     }
 
     public Cache(T value, long creationTime){

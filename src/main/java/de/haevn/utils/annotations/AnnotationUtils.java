@@ -66,8 +66,7 @@ public class AnnotationUtils {
                 final String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
                 try {
                     classes.add(Class.forName(className));
-                } catch (ClassNotFoundException ignored) {
-                }
+                } catch (ClassNotFoundException ignored) { }
             }
         });
         return classes;

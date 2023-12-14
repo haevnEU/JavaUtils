@@ -8,6 +8,21 @@ import java.util.Base64;
 
 /**
  * This class provides method to encode and decode data with Base64.
+ * <pre>
+ * {@code
+ * // Encoding example
+ * final String encoded = Base64Util.Encoder.encode("Hello World");
+ * final String encoded = Base64Util.Encoder.encode("Hello World".getBytes());
+ * final String encoded = Base64Util.Encoder.encode(new File("./home/test.txt"));
+ * final String encoded = Base64Util.Encoder.encode(new FileInputStream(new File("./home/test.txt")));
+ *
+ *
+ * final String decoded = Base64Util.Decoder.decode("SGVsbG8gV29ybGQ=");
+ * final String decoded = Base64Util.Decoder.decode("SGVsbG8gV29ybGQ=".getBytes());
+ * final String decoded = Base64Util.Decoder.decode(new File("./home/test.txt"));
+ * final String decoded = Base64Util.Decoder.decode(new FileInputStream(new File("./home/test.txt")));
+ * }
+ * </pre>
  * @since 1.1
  * @version 1.1
  * @author haevn
@@ -23,8 +38,6 @@ public final class Base64Util {
     public static class Encoder {
         private Encoder() {
         }
-
-        private static final Base64.Encoder ENCODER = Base64.getEncoder();
 
 
         /**
@@ -42,7 +55,7 @@ public final class Base64Util {
          * @return The encoded bytes
          */
         public static String encode(final byte[] bytes) {
-            return ENCODER.encodeToString(bytes);
+            return Base64.getEncoder().encodeToString(bytes);
         }
 
         /**
@@ -85,8 +98,6 @@ public final class Base64Util {
         private Decoder() {
         }
 
-        private static final Base64.Decoder DECODER = Base64.getDecoder();
-
         /**
          * Decodes the given text.
          * @param text The text to decode
@@ -102,7 +113,7 @@ public final class Base64Util {
          * @return The decoded bytes
          */
         public static String decode(final byte[] bytes) {
-            return new String(DECODER.decode(bytes));
+            return new String(Base64.getDecoder().decode(bytes));
         }
 
         /**

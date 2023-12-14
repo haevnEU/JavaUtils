@@ -13,6 +13,13 @@ import java.util.concurrent.TimeUnit;
  * It uses a {@link ScheduledExecutorService} to execute the tasks.
  * Accessing via BackgroundWorker.getInstance() will return a singleton instance with 70% of the available processors.
  * Accessing via BackgroundWorker.getInstance(int) will return a singleton instance with the given amount of threads.
+ * <br>
+ * <b>Example</b>
+ * <pre>
+ * {@code
+ * BackgroundWorker.getInstance().submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
+ * }
+ * </pre>
  * @version 1.0
  * @since 1.0
  * @author haevn
@@ -21,6 +28,11 @@ public class BackgroundWorker {
 
     private static BackgroundWorker INSTANCE;
 
+    /**
+     * Initialize the singleton instance with the given amount of threads, e.g. 70% of the available processors
+     * @param amountThreads the amount of threads
+     * @return the singleton instance
+     */
     public static BackgroundWorker initialize(final int amountThreads){
         INSTANCE = new BackgroundWorker(amountThreads);
         return INSTANCE;
