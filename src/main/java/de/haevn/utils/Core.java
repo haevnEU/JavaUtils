@@ -8,18 +8,18 @@ import java.util.Date;
 import java.util.function.Function;
 
 public class Core {
-    private static String APP_NAME = "";
-    private static String VERSION = "";
+    private static String appName = "";
+    private static String appVersion = "";
     private Core() {}
 
     public static void setAppName(String appName) {
-        if(APP_NAME.isBlank()) {
-            APP_NAME = appName;
+        if(Core.appName.isBlank()) {
+            Core.appName = appName;
         }
     }
 
     public static String getAppName() {
-        return APP_NAME;
+        return appName;
     }
 
     public static void copyText(String text) {
@@ -55,11 +55,11 @@ public class Core {
     }
 
     public static void setVersion(final String version){
-        VERSION = version;
+        appVersion = version;
     }
 
     public static String getAppVersion() {
-        return VERSION;
+        return appVersion;
     }
 
 

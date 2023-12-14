@@ -10,6 +10,7 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public class NetworkUtils {
+    private NetworkUtils() {}
 
     /**
      * Checks if the given code is a valid HTTP status code.

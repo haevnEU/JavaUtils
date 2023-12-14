@@ -238,18 +238,17 @@ public final class FileIO {
     }
 
     public static void zip(File outputFile, File... input) {
-        final ZipFile zip = new ZipFile(outputFile);
-        for (File file : input) {
-            try {
-                zip.addFolder(file);
-            } catch (ZipException e) {
-                e.printStackTrace();
+        try(final ZipFile zip = new ZipFile(outputFile)) {
+            for (File file : input) {
+                try {
+                    zip.addFolder(file);
+                } catch (ZipException e) {
+                    e.printStackTrace();
+                }
             }
+        }catch (IOException ignored){
+            // The throw should be ignored
         }
-    }
-
-    public static void unzip(File inputFile, File outputDirectory) {
-
     }
 
     public static void construct(List<String> directories){

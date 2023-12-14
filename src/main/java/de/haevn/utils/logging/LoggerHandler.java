@@ -7,7 +7,7 @@ public final class LoggerHandler {
     private static final LoggerHandler INSTANCE = new LoggerHandler();
     private final List<Logger> loggers = new ArrayList<>();
 
-    public synchronized static LoggerHandler getInstance() {
+    public static synchronized LoggerHandler getInstance() {
         return INSTANCE;
     }
 

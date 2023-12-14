@@ -24,7 +24,7 @@ import static de.haevn.utils.network.NetworkUtils.isUrl;
  */
 public final class NetworkInteraction {
 
-    private static int TIMEOUT = 10;
+    private static int timeout = 10;
 
     private NetworkInteraction() {
     }
@@ -40,9 +40,9 @@ public final class NetworkInteraction {
      */
     public static void init(File config) {
         Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(config));
-            TIMEOUT = Integer.parseInt(properties.getProperty("timeout", "10"));
+        try (final FileInputStream fs = new FileInputStream(config)){
+            properties.load(fs);
+            timeout = Integer.parseInt(properties.getProperty("timeout", "10"));
         } catch (IOException ignored) {
         }
     }
@@ -311,7 +311,7 @@ public final class NetworkInteraction {
                     .uri(new URI(url))
                     .method(method.getValue(), bodyPublisher)
                     .setHeader("Content-Type", contentType.getValue())
-                    .timeout(java.time.Duration.ofSeconds(TIMEOUT))
+                    .timeout(java.time.Duration.ofSeconds(timeout))
                     .build();
             var result = HttpClient.newBuilder()
                     .followRedirects(HttpClient.Redirect.NORMAL)

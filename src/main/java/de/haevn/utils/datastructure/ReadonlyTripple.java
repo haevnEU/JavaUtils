@@ -28,7 +28,9 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      *
      * @param value ignored
      */
+    @Override
     public void setFirst(K value) {
+        // This method ensures read-only access
     }
 
     /**
@@ -36,7 +38,9 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      *
      * @param value ignored
      */
+    @Override
     public void setSecond(V value) {
+        // This method ensures read-only access
     }
 
     /**
@@ -44,6 +48,8 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      *
      * @param value ignored
      */
+    @Override
     public void setThird(T value) {
+        // This method ensures read-only access
     }
 }

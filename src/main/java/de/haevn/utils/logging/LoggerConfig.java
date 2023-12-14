@@ -25,10 +25,6 @@ public final class LoggerConfig {
     private boolean useShutdownHook = true;
     private int logSize = 100;
 
-
-    public LoggerConfig() {
-    }
-
     /**
      * Set the output stream.
      *

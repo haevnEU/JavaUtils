@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class BackgroundWorker {
 
-    private static BackgroundWorker INSTANCE;
+    private static BackgroundWorker instance;
 
     /**
      * Initialize the singleton instance with the given amount of threads, e.g. 70% of the available processors
@@ -34,8 +34,8 @@ public class BackgroundWorker {
      * @return the singleton instance
      */
     public static BackgroundWorker initialize(final int amountThreads){
-        INSTANCE = new BackgroundWorker(amountThreads);
-        return INSTANCE;
+        instance = new BackgroundWorker(amountThreads);
+        return instance;
     }
 
     /**
@@ -44,10 +44,10 @@ public class BackgroundWorker {
      * @return the singleton instance
      */
     public static synchronized BackgroundWorker getInstance(final int amountThreads) {
-        if(null == INSTANCE){
-            INSTANCE = new BackgroundWorker(amountThreads);
+        if(null == instance){
+            instance = new BackgroundWorker(amountThreads);
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**
