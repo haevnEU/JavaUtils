@@ -79,4 +79,5 @@ public class Core {
     public static String getCurrentDateWithFormat(String format){
         return new SimpleDateFormat(format).format(new Date());
     }
+
 }
