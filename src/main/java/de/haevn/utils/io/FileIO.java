@@ -128,6 +128,13 @@ public final class FileIO {
         return readFile(Core.getAppName(), path);
     }
 
+    public static String readFile(final File file){
+        return readFile(Core.getAppName(), file);
+    }
+
+    public static String readFile(final String appName, final File path){
+        return readFile(appName, path.getPath());
+    }
     public static String readFile(final String appName, final String path) {
         try {
             if(appName.isBlank()){

@@ -80,4 +80,10 @@ public class Core {
         return new SimpleDateFormat(format).format(new Date());
     }
 
+    public static String[] getKeyValue(String key, String value){
+        return new String[]{key, value};
+    }
+
+
+
 }

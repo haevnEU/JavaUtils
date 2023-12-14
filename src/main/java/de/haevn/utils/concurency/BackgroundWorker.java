@@ -21,6 +21,11 @@ public class BackgroundWorker {
 
     private static BackgroundWorker INSTANCE;
 
+    public static BackgroundWorker initialize(final int amountThreads){
+        INSTANCE = new BackgroundWorker(amountThreads);
+        return INSTANCE;
+    }
+
     /**
      * Get the singleton instance with the given amount of threads, e.g. 70% of the available processors
      * @param amountThreads the amount of threads

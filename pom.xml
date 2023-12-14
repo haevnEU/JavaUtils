@@ -6,7 +6,7 @@
 
     <groupId>de.haevn</groupId>
     <artifactId>Utility</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <description>Utility Library for other projects</description>
     <url>https://github.com/nimile/JavaUtils</url>
 

@@ -151,50 +151,55 @@ public final class Logger {
      * Flushes the log entries to a given output
      */
     public void flush() {
-        logEntries.forEach(entry -> {
-            final PrintStream consoleOutput = config.getConsoleOutput();
-            final PrintStream fileOutput = config.getFileOutput();
+        synchronized (logEntries) {
 
-            final Consumer<PrintStream> consumer = stream -> {
-                if (null == stream) {
-                    return;
-                }
+            logEntries.forEach(entry -> {
 
-                final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
-                final Date resultdate = new Date(entry.getTimestamp());
+                final PrintStream consoleOutput = config.getConsoleOutput();
+                final PrintStream fileOutput = config.getFileOutput();
 
-                StringBuilder sb = new StringBuilder();
+                final Consumer<PrintStream> consumer = stream -> {
+                    if (null == stream) {
+                        return;
+                    }
 
-                sb.append("[").append(sdf.format(resultdate)).append("]");
-                sb.append("[").append(entry.getLevel().name()).append("]");
+                    final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+                    final Date resultdate = new Date(entry.getTimestamp());
+
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.append("[").append(sdf.format(resultdate)).append("]");
+                    sb.append("[").append(entry.getLevel().name()).append("]");
 
 
-                if (null != entry.getHelper()) {
-                    sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("]");
-                    sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("]");
-                }
+                    if (null != entry.getHelper()) {
+                        sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("]");
+                        sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("]");
+                    }
 
-                if(entry.getThreadName().isBlank()){
-                    sb.append("[").append(entry.getThreadName()).append("]");
-                }
+                    if (entry.getThreadName().isBlank()) {
+                        sb.append("[").append(entry.getThreadName()).append("]");
+                    }
 
-                sb.append("[").append(entry.getMessage()).append("]");
+                    sb.append("[").append(entry.getMessage()).append("]");
 
-                if(null != entry.getObj()){
-                    SerializationUtils.exportJson(entry.getObj())
-                            .ifPresent(json -> sb.append("\n[").append(json).append("]"));
-                }
+                    if (null != entry.getObj()) {
+                        SerializationUtils.exportJson(entry.getObj())
+                                .ifPresent(json -> sb.append("\n[").append(json).append("]"));
+                    }
 
-                if (null != entry.getThrowable()) {
-                    entry.getThrowable().printStackTrace(stream);
-                }
+                    if (null != entry.getThrowable()) {
+                        entry.getThrowable().printStackTrace(stream);
+                    }
                     stream.println(sb);
-            };
 
-            consumer.accept(consoleOutput);
-            consumer.accept(fileOutput);
-        });
-        logEntries.clear();
+                };
+
+                consumer.accept(consoleOutput);
+                consumer.accept(fileOutput);
+            });
+            logEntries.clear();
+        }
     }
 
     /**
