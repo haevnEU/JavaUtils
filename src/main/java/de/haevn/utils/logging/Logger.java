@@ -1,9 +1,8 @@
 package de.haevn.utils.logging;
 
-import de.haevn.utils.Core;
-import de.haevn.utils.FileIO;
+import de.haevn.utils.io.FileIO;
 import de.haevn.utils.MetaMethodAccessor;
-import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.io.SerializationUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

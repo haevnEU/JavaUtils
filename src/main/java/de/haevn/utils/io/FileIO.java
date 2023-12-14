@@ -1,5 +1,6 @@
-package de.haevn.utils;
+package de.haevn.utils.io;
 
+import de.haevn.utils.Core;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 

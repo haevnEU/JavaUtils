@@ -1,4 +1,4 @@
-package de.haevn.utils;
+package de.haevn.utils.datastructure;
 
 /**
  * A simple tuple class.

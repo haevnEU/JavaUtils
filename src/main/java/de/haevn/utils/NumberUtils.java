@@ -2,15 +2,14 @@ package de.haevn.utils;
 
 import java.text.NumberFormat;
 
-public final class MathUtils {
-    private MathUtils() {
+public final class NumberUtils {
+    private NumberUtils() {
     }
 
 
     public static NumberFormat getDecimalFormat() {
         return NumberFormat.getInstance();
     }
-
 
     public static int hexToInteger(String hex) {
         return Integer.parseInt(hex, 16);

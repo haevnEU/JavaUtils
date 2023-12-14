@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.haevn</groupId>
-    <artifactId>${app.name}</artifactId>
-    <version>${app.version}</version>
-    <description>${app.description}</description>
-    <url>${app.url}</url>
+    <artifactId>Utility</artifactId>
+    <version>1.0.0</version>
+    <description>Utility Library for other projects</description>
+    <url>https://github.com/nimile/JavaUtils</url>
 
     <contributors>
         <contributor>
@@ -33,10 +33,6 @@
 
     <properties>
         <!-- app.data -->
-        <app.name>Utility</app.name>
-        <app.description>Utility Library for other projects</app.description>
-        <app.url></app.url>
-        <app.version>1.0.1.0</app.version>
         <app.build>DEV</app.build>
         <app.preview>false</app.preview>
 

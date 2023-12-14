@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
  * </code>
  * @version 1.0
  * @since 1.0
- * @author nilsm
+ * @author haevn
  */
 public class TimeMeasurement implements AutoCloseable {
     private static final List<String> RUN_TIME_STACK = new ArrayList<>();

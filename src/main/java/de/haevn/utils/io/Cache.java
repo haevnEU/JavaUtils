@@ -1,4 +1,4 @@
-package de.haevn.utils;
+package de.haevn.utils.io;
 
 public class Cache <T>{
     private final long duration;

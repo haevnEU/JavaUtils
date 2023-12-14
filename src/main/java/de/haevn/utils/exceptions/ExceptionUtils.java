@@ -1,4 +1,4 @@
-package de.haevn.utils;
+package de.haevn.utils.exceptions;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

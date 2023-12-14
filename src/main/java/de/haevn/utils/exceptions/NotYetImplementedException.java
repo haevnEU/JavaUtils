@@ -2,7 +2,7 @@ package de.haevn.utils.exceptions;
 
 import de.haevn.utils.MetaMethodAccessor;
 
-public class NotYetImplementedException extends Exception {
+public class NotYetImplementedException extends Error {
     private String message;
 
     public NotYetImplementedException() {
