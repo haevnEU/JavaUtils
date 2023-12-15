@@ -1,5 +1,11 @@
 package de.haevn.utils.enumeration;
 
+/**
+ * A simple enum for micro time units.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public enum MicroTimeUnits {
 
     MICROSECONDS(1),

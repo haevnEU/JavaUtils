@@ -2,6 +2,14 @@ package de.haevn.utils.datastructure;
 
 import de.haevn.utils.enumeration.MillisecondTimeUnits;
 
+/**
+ * A simple cache class.
+ *
+ * @param <T> The type of the cached value.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public class Cache <T>{
     private final long duration;
     private final T value;

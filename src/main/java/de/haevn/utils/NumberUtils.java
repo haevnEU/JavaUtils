@@ -2,6 +2,12 @@ package de.haevn.utils;
 
 import java.text.NumberFormat;
 
+/**
+ * A simple class for number information.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public final class NumberUtils {
     private NumberUtils() {
     }

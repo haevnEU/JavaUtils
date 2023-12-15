@@ -1,5 +1,11 @@
 package de.haevn.utils.system;
 
+/**
+ * A simple class for OS information.
+ * @version 1.1
+ * @since 1.1
+ * @author haevn
+ */
 public class User {
     private User(){}
 

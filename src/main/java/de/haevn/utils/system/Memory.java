@@ -6,6 +6,12 @@ import de.haevn.utils.enumeration.BinarySize;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
+/**
+ * A simple class for memory information.
+ * @version 1.1
+ * @since 1.1
+ * @author haevn
+ */
 public final class Memory {
     private Memory(){}
 
@@ -48,6 +54,12 @@ public final class Memory {
 
     }
 
+    /**
+     * A simple class for hard drive information.
+     * @version 1.1
+     * @since 1.1
+     * @author haevn
+     */
     public static final class HardDrive {
         private HardDrive() {}
 
@@ -96,6 +108,12 @@ public final class Memory {
         }
     }
 
+    /**
+     * A simple class for virtual machine information.
+     * @version 1.1
+     * @since 1.1
+     * @author haevn
+     */
     public static final class VirtualMachine {
         private VirtualMachine() {
         }
@@ -140,13 +158,4 @@ public final class Memory {
         }
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(RAM.getMemoryTotal(BinarySize.GIGABYTE));
-        System.out.println(RAM.getMemoryFree(BinarySize.GIGABYTE));
-        System.out.println(RAM.getMemoryUsed(BinarySize.GIGABYTE));
-        System.out.println(RAM.getMemoryUsedPercentage());
-        System.out.println(RAM.getMemoryFreePercentage());
-
-    }
 }

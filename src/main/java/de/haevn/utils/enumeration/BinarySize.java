@@ -1,5 +1,11 @@
 package de.haevn.utils.enumeration;
 
+/**
+ * A simple enum for binary sizes.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public enum BinarySize {
     BYTE(1),
     KILOBYTE(1024),

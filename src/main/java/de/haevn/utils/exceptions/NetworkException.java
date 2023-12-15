@@ -2,6 +2,15 @@ package de.haevn.utils.exceptions;
 
 import java.net.http.HttpResponse;
 
+/**
+ * A simple exception class for network exceptions.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @see ApplicationException
+ * @see RuntimeException
+ * @author haevn
+ */
 public class NetworkException extends ApplicationException {
     private final String url;
     private final int statusCode;

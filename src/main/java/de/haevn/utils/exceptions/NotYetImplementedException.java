@@ -2,6 +2,12 @@ package de.haevn.utils.exceptions;
 
 import de.haevn.utils.MetaMethodAccessor;
 
+/**
+ * Indicates that the method is not yet implemented.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public class NotYetImplementedException extends Error {
     private String message;
 

@@ -3,6 +3,12 @@ package de.haevn.utils;
 
 import java.awt.*;
 
+/**
+ * A simple class for color information.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public final class ColorUtils {
     private ColorUtils() {
     }

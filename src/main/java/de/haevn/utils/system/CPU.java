@@ -4,6 +4,16 @@ import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 
+/**
+ * A simple class for CPU information.
+ * @version 1.0
+ * @since 1.0
+ * @see OperatingSystemMXBean
+ * @see ManagementFactory
+ * @see Runtime
+ * @see CPU
+ * @author haevn
+ */
 public class CPU {
     private static final OperatingSystemMXBean OS_BEAN = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 

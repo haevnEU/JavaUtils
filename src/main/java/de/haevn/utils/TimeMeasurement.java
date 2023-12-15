@@ -9,13 +9,29 @@ import java.util.concurrent.Callable;
 
 /**
  * This class can be used to measure the time of a code.
- * <code>
- *     try(TimeMeasurement timeMeasurement = new TimeMeasurement()){
+ * <br>
+ * <b>Example 1</b>
+ * <pre>
+ * {@code
+ *  try(TimeMeasurement timeMeasurement = new TimeMeasurement()){
  *     timeMeasurement.time(() -> {
  *     // Code to measure
  *     }, this.getClass(), "methodName", "description");
- *     }catch(Excecption ex){}
- * </code>
+ * }catch(Excecption ex){}
+ * }
+ * </pre>
+ * <br>
+ * <b>Example 2</b>
+ * <pre>
+ * {@code
+ *  TimeMeasurement timeMeasurement = new TimeMeasurement();
+ *  timeMeasurement.time(() -> {
+ *    // Code to measure
+ * }, this.getClass(), "methodName", "description");
+ * timeMeasurement.close();
+ * }
+ * </pre>
+ *
  * @version 1.0
  * @since 1.0
  * @author haevn

@@ -1,5 +1,11 @@
 package de.haevn.utils.enumeration;
 
+/**
+ * A simple enum for nano time units.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public enum NanoTimeUnits {
     NANOSECONDS(1),
     MICROSECONDS(NANOSECONDS.getValue() * 1000),

@@ -1,5 +1,11 @@
 package de.haevn.utils.enumeration;
 
+/**
+ * A simple enum for millisecond time units.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public enum MillisecondTimeUnits {
     MILLISECONDS(1),
     SECONDS(MILLISECONDS.getValue() * 1000),

@@ -7,6 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.function.Function;
 
+/**
+ * A simple class for core information.
+ * @version 1.0
+ * @since 1.0
+ * @author haevn
+ */
 public class Core {
     private static String appName = "";
     private static String appVersion = "";
