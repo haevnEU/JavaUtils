@@ -1,0 +1,19 @@
+name: Auto Comment
+on:
+  pull_request:
+    branches: [ master ]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wow-actions/auto-comment@v1
+        with:
+          pullRequestOpened: |
+            # Codereview
+            Please tick every checkbox before merging
+            - [ ] No unused imports
+            - [ ] All warnings are evaluated
+            - [ ] All TODO are evaluated
+            - [ ] No errors open
+            - [ ] Build succeed 
+            - [ ] Code is properly formatted
