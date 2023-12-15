@@ -19,7 +19,7 @@ jobs:
       - run: mkdir staging
       - run: ls
       - name: Publish to GitHub Packages Apache Maven
-        run: cp target/*jar-with-dependencies.jar staging
+        run: cp target/*.jar staging
       - name: Publish to GitHub Packages Apache Maven
         uses: actions/upload-artifact@v1
         with:
