@@ -24,6 +24,9 @@ public final class ColorUtils {
     }
 
     public static long colorToInt(String hex) {
+        if(hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
         return Integer.parseInt(hex, 16);
     }
 
