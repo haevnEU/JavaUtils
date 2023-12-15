@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * This class is used inside the {@link DiscordWebhook} class to send embeds to discord webhooks.
+ * This class is used inside the {@link de.haevn.utils.network.webhook.DiscordWebhook DiscordWebhook} class to send embeds to discord webhooks.
  * <br>
  * <b>Example</b>
  * <pre>

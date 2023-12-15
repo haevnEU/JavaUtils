@@ -1,11 +1,11 @@
-package de.haevn.utils.network.webhook.discord;
+package de.haevn.utils.network.webhook;
 
 import de.haevn.utils.exceptions.ValidationFailedException;
 import de.haevn.utils.io.SerializationUtils;
 import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;
-import de.haevn.utils.network.webhook.IWebhook;
+import de.haevn.utils.network.webhook.discord.Embed;
 import de.haevn.utils.network.webhook.discord.embed.EmbedAuthor;
 import de.haevn.utils.network.webhook.discord.embed.EmbedField;
 import de.haevn.utils.network.webhook.discord.embed.EmbedFooter;
