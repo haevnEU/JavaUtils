@@ -16,6 +16,7 @@ jobs:
           java-version: 21
       - name: Build project with Maven
         run: mvn -B clean compile package --file pom.xml
+      - run: pwd
       - name: Publish to GitHub Packages Apache Maven
         run: mkdir staging && cp target/*jar-with-dependencies.jar staging
       - name: Publish to GitHub Packages Apache Maven
