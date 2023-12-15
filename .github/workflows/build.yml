@@ -16,9 +16,10 @@ jobs:
           java-version: 21
       - name: Build project with Maven
         run: mvn -B clean compile package --file pom.xml
-      - run: pwd
+      - run: mkdir staging
+      - run: ls
       - name: Publish to GitHub Packages Apache Maven
-        run: mkdir staging && cp target/*jar-with-dependencies.jar staging
+        run: cp target/*jar-with-dependencies.jar staging
       - name: Publish to GitHub Packages Apache Maven
         uses: actions/upload-artifact@v1
         with:
