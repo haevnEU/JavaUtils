@@ -1,4 +1,4 @@
-package de.haevn.utils.network.discord.embed;
+package de.haevn.utils.network.webhook.discord.embed;
 
 import lombok.Builder;
 

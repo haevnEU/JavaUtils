@@ -1,13 +1,14 @@
-package de.haevn.utils.network.discord;
+package de.haevn.utils.network.webhook.discord;
 
 import de.haevn.utils.exceptions.ValidationFailedException;
 import de.haevn.utils.io.SerializationUtils;
 import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;
-import de.haevn.utils.network.discord.embed.EmbedAuthor;
-import de.haevn.utils.network.discord.embed.EmbedField;
-import de.haevn.utils.network.discord.embed.EmbedFooter;
+import de.haevn.utils.network.webhook.IWebhook;
+import de.haevn.utils.network.webhook.discord.embed.EmbedAuthor;
+import de.haevn.utils.network.webhook.discord.embed.EmbedField;
+import de.haevn.utils.network.webhook.discord.embed.EmbedFooter;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ import java.util.List;
  * @version 1.1
  * @since 1.1
  */
-public class DiscordWebhook {
-    private final Logger LOGGER = new Logger(DiscordWebhook.class);
+public class DiscordWebhook implements IWebhook<Embed> {
+    private static final Logger LOGGER = new Logger(DiscordWebhook.class);
     private final String url;
 
     public DiscordWebhook(final String url) {
@@ -93,23 +94,6 @@ public class DiscordWebhook {
         }
         if (author.name().length() > 256) {
             throw new ValidationFailedException("Author name is too long");
-        }
-    }
-
-    /**
-     * Send the embed without throwing an exception
-     * <br>
-     * It wraps the {@link #send(Embed)} method
-     *
-     * @param embed the embed
-     * @return true if the embed was sent successfully, false otherwise
-     */
-    public boolean sendWithoutException(final Embed embed) {
-        try {
-            send(embed);
-            return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 

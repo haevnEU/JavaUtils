@@ -1,7 +1,6 @@
-package de.haevn.utils.network.discord.embed;
+package de.haevn.utils.network.webhook.discord.embed;
 
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public record EmbedVideo(String url, String proxy_url, int height, int width) {
