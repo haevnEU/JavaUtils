@@ -3,16 +3,18 @@ on:
   pull_request_target:
     branches: [ master ]
 jobs:
-  comment:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/github-script@v5
+    run:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: wow-actions/auto-comment@v1
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '- [ ] No unused imports\n- [ ] All warnings are evaluated\n- [ ] All TODO are evaluated\n- [ ] No errors open\n- [ ] Build succeed\n- [ ] Code is properly formatted'
-            })
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            pullRequestOpened: |
+                # Codereview
+                Please tick every checkbox before merging
+                - [ ] No unused imports
+                - [ ] All warnings are evaluated
+                - [ ] All TODO are evaluated
+                - [ ] No errors open
+                - [ ] Build succeed
+                - [ ] Code is properly formatted
