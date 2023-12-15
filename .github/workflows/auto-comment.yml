@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: wow-actions/auto-comment@v1
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pullRequestOpened: |
             # Codereview
             Please tick every checkbox before merging
