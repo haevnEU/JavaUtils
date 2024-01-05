@@ -1,5 +1,7 @@
 package de.haevn.utils.annotations;
 
+import de.haevn.utils.enumeration.FeatureType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,4 +28,6 @@ public @interface AutoCollect {
      * @return The order.
      */
     int order() default 10;
+
+    FeatureType feature() default FeatureType.ENABLED;
 }

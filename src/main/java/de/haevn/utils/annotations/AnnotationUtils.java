@@ -1,5 +1,7 @@
 package de.haevn.utils.annotations;
 
+import de.haevn.utils.enumeration.FeatureType;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.URL;
@@ -28,6 +30,24 @@ public class AnnotationUtils {
         return getClasses(packageName).stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).toList();
     }
 
+    /**
+     * Collects all classes inside the given package which are annotated with the specified annotation and feature type.
+     *
+     * @param packageName The package name.
+     * @param annotation The annotation.
+     * @param FeatureType The feature type.
+     * @return A list of classes.
+     */
+    public static List<Class<?>> collectBy(final String packageName, Class<? extends Annotation> annotation, FeatureType ... features) {
+        return getClasses(packageName).stream()
+                .filter(clazz -> clazz.isAnnotationPresent(annotation))
+                .filter(clazz -> isFeaturePresent(clazz, features))
+                .toList();
+    }
+
+    private static boolean isFeaturePresent(final Class<?> annotation, final  FeatureType ... features) {
+        return annotation.getAnnotation(AutoCollect.class).feature().has(features);
+    }
 
     /**
      * Collects all classes in the given package.
