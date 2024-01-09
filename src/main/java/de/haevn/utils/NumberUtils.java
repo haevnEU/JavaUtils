@@ -17,15 +17,15 @@ public final class NumberUtils {
         return NumberFormat.getInstance();
     }
 
-    public static int hexToInteger(String hex) {
+    public static int hexToInteger(final String hex) {
         return Integer.parseInt(hex, 16);
     }
 
-    public static String numberToRoundText(double number) {
+    public static String numberToRoundText(final double number) {
         return numberToRoundText(number, false);
     }
 
-    public static String numberToRoundText(double number, boolean separator) {
+    public static String numberToRoundText(final double number, final boolean separator) {
         if(separator) {
             return getDecimalFormat().format(Math.round(number));
         }
@@ -33,7 +33,7 @@ public final class NumberUtils {
     }
 
 
-    public static Integer stringToInteger(String string, int fallbackNumber) {
+    public static Integer stringToInteger(final String string, final int fallbackNumber) {
         try {
             return Integer.parseInt(string);
         } catch (NumberFormatException e) {
@@ -41,11 +41,11 @@ public final class NumberUtils {
         }
     }
 
-    public static Integer stringToInteger(String string) {
+    public static Integer stringToInteger(final String string) {
         return stringToInteger(string, 0);
     }
 
-    public static Double stringToDouble(String string, double fallbackNumber) {
+    public static Double stringToDouble(final String string, final double fallbackNumber) {
         try {
             return Double.parseDouble(string);
         } catch (NumberFormatException e) {
@@ -53,28 +53,28 @@ public final class NumberUtils {
         }
     }
 
-    public static Double stringToDouble(String string) {
+    public static Double stringToDouble(final String string) {
         return stringToDouble(string, 0.0);
     }
 
 
-    public static String numberToShortValue(int number) {
+    public static String numberToShortValue(final int number) {
         if (number < 1000) return Integer.toString(number);
         if (number < 1000000) return getDecimalFormat().format(number / 1000.0) + "K";
         if (number < 1000000000) return getDecimalFormat().format(number / 1000000.0) + "M";
         return getDecimalFormat().format(number / 1000000000.0) + "B";
     }
 
-    public static String numberToShortValue(double number) {
+    public static String numberToShortValue(final double number) {
         return numberToShortValue((int) number);
     }
 
 
-    public static String msToString(double milliseconds) {
+    public static String msToString(final double milliseconds) {
         return msToString(Math.round(milliseconds));
     }
 
-    public static String msToString(long milliseconds) {
+    public static String msToString(final long milliseconds) {
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);

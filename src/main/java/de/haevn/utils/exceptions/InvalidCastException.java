@@ -9,11 +9,11 @@ package de.haevn.utils.exceptions;
  * @author haevn
  */
 public class InvalidCastException extends ApplicationException {
-    public InvalidCastException(Class<?> provided, Class<?> required) {
+    public InvalidCastException(final Class<?> provided, final Class<?> required) {
         this(provided, required, "Invalid cast");
     }
 
-    public InvalidCastException(Class<?> provided, Class<?> required, String message) {
+    public InvalidCastException(final Class<?> provided, final Class<?> required, final String message) {
 
         super("Provided class: " + provided.getCanonicalName()
                 + "\nProvided class: " + required.getCanonicalName()

@@ -20,7 +20,7 @@ public final class ExceptionUtils {
      * @param throwable The throwable.
      * @return The stack trace of the given {@link Throwable} as a string.
      */
-    public static String getStackTrace(Throwable throwable) {
+    public static String getStackTrace(final Throwable throwable) {
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
         throwable.printStackTrace(pw);

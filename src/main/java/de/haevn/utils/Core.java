@@ -28,37 +28,37 @@ public class Core {
         return appName;
     }
 
-    public static void setAppName(String appName) {
+    public static void setAppName(final String appName) {
         if (Core.appName.isBlank()) {
             Core.appName = appName;
         }
     }
 
-    public static void copyText(String text) {
+    public static void copyText(final String text) {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(new StringSelection(text), null);
     }
 
-    public static <R, T> R map(T value, Function<? super T, ? extends R> mapper) {
+    public static <R, T> R map(final T value, final Function<? super T, ? extends R> mapper) {
         return mapper.apply(value);
     }
 
-    public static <T> T mapRecord(T value, Function<? super T, ? extends T> mapper) {
+    public static <T> T mapRecord(final T value, final Function<? super T, ? extends T> mapper) {
         return mapper.apply(value);
     }
 
-    public static void sleepSecond(long seconds) {
+    public static void sleepSecond(final long seconds) {
         sleepMillis(seconds * 1000);
     }
 
-    public static void sleepMillis(long millis) {
+    public static void sleepMillis(final long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ignored) {
         }
     }
 
-    public static void executeSecure(Runnable run) {
+    public static void executeSecure(final Runnable run) {
         try {
             run.run();
         } catch (Exception e) {
@@ -87,11 +87,11 @@ public class Core {
         return getCurrentDateWithFormat("dd/MM/yyyy HH:mm:ss");
     }
 
-    public static String getCurrentDateWithFormat(String format) {
+    public static String getCurrentDateWithFormat(final String format) {
         return new SimpleDateFormat(format).format(new Date());
     }
 
-    public static String[] getKeyValue(String key, String value) {
+    public static String[] getKeyValue(final String key, final String value) {
         return new String[]{key, value};
     }
 

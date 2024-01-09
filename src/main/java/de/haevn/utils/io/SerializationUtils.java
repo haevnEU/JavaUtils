@@ -27,24 +27,24 @@ public final class SerializationUtils {
     //  Regular
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static <T> T parseXml(String json, Class<T> type) throws JsonProcessingException {
+    public static <T> T parseXml(final String json, final Class<T> type) throws JsonProcessingException {
         return xmlMapper.readValue(json, type);
     }
 
-    public static <T> T parseXml(String json, TypeReference<T> type) throws JsonProcessingException {
+    public static <T> T parseXml(final String json, final TypeReference<T> type) throws JsonProcessingException {
         return xmlMapper.readValue(json, type);
     }
 
 
-    public static <T> T parseJson(String json, Class<T> type) throws JsonProcessingException {
+    public static <T> T parseJson(final String json, final Class<T> type) throws JsonProcessingException {
         return jsonMapper.readValue(json, type);
     }
 
-    public static <T> T parseJson(String json, TypeReference<T> type) throws JsonProcessingException {
+    public static <T> T parseJson(final String json, final TypeReference<T> type) throws JsonProcessingException {
         return jsonMapper.readValue(json, type);
     }
 
-    public static <T> Optional<T> getElementSecure(String json, Class<T> type, String... keys) {
+    public static <T> Optional<T> getElementSecure(final String json, final Class<T> type, final String... keys) {
         try {
             return Optional.of(getElement(json, type, keys));
         } catch (JsonProcessingException e) {
@@ -52,7 +52,7 @@ public final class SerializationUtils {
         }
     }
 
-    public static <T> T getElement(String json, Class<T> type, String... keys) throws JsonProcessingException {
+    public static <T> T getElement(final String json, final Class<T> type, final String... keys) throws JsonProcessingException {
         JsonNode root = jsonMapper.readTree(json);
         for (String key : keys) {
             root = root.get(key);
@@ -61,7 +61,7 @@ public final class SerializationUtils {
         return jsonMapper.readValue(root.toString(), type);
     }
 
-    public static <T> Optional<T>  getElementSecure(String json, TypeReference<T> type, String... keys) {
+    public static <T> Optional<T>  getElementSecure(final String json, final TypeReference<T> type, final String... keys) {
         try {
             return Optional.of(getElement(json, type, keys));
         } catch (
@@ -71,7 +71,7 @@ public final class SerializationUtils {
 
     }
 
-    public static <T> T getElement(String json, TypeReference<T> type, String... keys) throws JsonProcessingException {
+    public static <T> T getElement(final String json, final TypeReference<T> type, final String... keys) throws JsonProcessingException {
         JsonNode root = jsonMapper.readTree(json);
         for (String key : keys) {
             root = root.get(key);
@@ -85,7 +85,7 @@ public final class SerializationUtils {
     //  Secure parsing
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static <T> Optional<T> parseXmlSecure(String xml, Class<T> type) {
+    public static <T> Optional<T> parseXmlSecure(final String xml, final Class<T> type) {
         try {
             var value = xmlMapper.readValue(xml, type);
             return Optional.of(value);
@@ -94,7 +94,7 @@ public final class SerializationUtils {
         }
     }
 
-    public static <T> Optional<T> parseXmlSecure(String xml, TypeReference<T> type) {
+    public static <T> Optional<T> parseXmlSecure(final String xml, final TypeReference<T> type) {
         try {
             var value = xmlMapper.readValue(xml, type);
             return Optional.of(value);
@@ -104,7 +104,7 @@ public final class SerializationUtils {
     }
 
 
-    public static <T> Optional<T> parseJsonSecure(String json, Class<T> type) {
+    public static <T> Optional<T> parseJsonSecure(final String json, final Class<T> type) {
         try {
             return Optional.of(jsonMapper.readValue(json, type));
         } catch (JsonProcessingException ex) {
@@ -112,7 +112,7 @@ public final class SerializationUtils {
         }
     }
 
-    public static <T> Optional<T> parseJsonSecure(String json, TypeReference<T> type) {
+    public static <T> Optional<T> parseJsonSecure(final String json, final TypeReference<T> type) {
         try {
             return Optional.of(jsonMapper.readValue(json, type));
         } catch (JsonProcessingException ex) {
@@ -125,7 +125,7 @@ public final class SerializationUtils {
     //  Export
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static Optional<String> exportXml(Object data) {
+    public static Optional<String> exportXml(final Object data) {
         try {
             final String result = xmlMapper.writeValueAsString(data);
             return Optional.of(result);
@@ -134,7 +134,7 @@ public final class SerializationUtils {
         }
     }
 
-    public static Optional<String> exportJson(Object data) {
+    public static Optional<String> exportJson(final Object data) {
         try {
             final String result = jsonMapper.writeValueAsString(data);
             return Optional.of(result);

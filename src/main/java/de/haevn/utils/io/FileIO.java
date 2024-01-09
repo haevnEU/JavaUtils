@@ -29,19 +29,19 @@ public final class FileIO {
     //  Meta information
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static String getFileName(String path) {
+    public static String getFileName(final String path) {
         return path.substring(path.lastIndexOf("\\") + 1);
     }
 
-    public static String getFileNameWithoutExtension(String path) {
+    public static String getFileNameWithoutExtension(final String path) {
         return getFileName(path).substring(0, getFileName(path).lastIndexOf("."));
     }
 
-    public static String getExtension(String path) {
+    public static String getExtension(final String path) {
         return getFileName(path).substring(getFileName(path).lastIndexOf(".") + 1);
     }
 
-    public static String getDirectory(String path) {
+    public static String getDirectory(final String path) {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
@@ -50,11 +50,11 @@ public final class FileIO {
     //  File access methods
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static BasicFileAttributes getInfo(File file) {
+    public static BasicFileAttributes getInfo(final File file) {
         return getInfo(file.toPath());
     }
 
-    public static BasicFileAttributes getInfo(Path file) {
+    public static BasicFileAttributes getInfo(final Path file) {
         try {
             return Files.readAttributes(file, BasicFileAttributes.class);
         } catch (IOException e) {
@@ -107,19 +107,19 @@ public final class FileIO {
         }
     }
 
-    public static LocalDateTime getCreationTime(File file) {
+    public static LocalDateTime getCreationTime(final File file) {
         return getCreationTime(file.toPath());
     }
 
-    public static LocalDateTime getCreationTime(Path file) {
+    public static LocalDateTime getCreationTime(final Path file) {
         return LocalDateTime.ofInstant(getInfo(file).creationTime().toInstant(), java.time.ZoneId.systemDefault());
     }
 
-    public static LocalDateTime getLastModifiedTime(File file) {
+    public static LocalDateTime getLastModifiedTime(final File file) {
         return getLastModifiedTime(file.toPath());
     }
 
-    public static LocalDateTime getLastModifiedTime(Path file) {
+    public static LocalDateTime getLastModifiedTime(final Path file) {
         return LocalDateTime.ofInstant(getInfo(file).lastModifiedTime().toInstant(), java.time.ZoneId.systemDefault());
     }
 
@@ -148,11 +148,11 @@ public final class FileIO {
         }
     }
 
-    public static void store(String path, String data) {
+    public static void store(final String path, final String data) {
         store(Core.getAppName(), path, data);
     }
 
-    public static void store(final String appName, String path, String data) {
+    public static void store(final String appName, final String path, final String data) {
         try {
             if(appName.isBlank()){
                 return;
@@ -165,11 +165,11 @@ public final class FileIO {
     }
 
 
-    public static void append(String filename, String data) {
+    public static void append(final String filename, final String data) {
         append(new File(filename), data);
     }
 
-    public static void append(File file, String data) {
+    public static void append(final File file, final String data) {
         try {
             createFileIfNotExists(file);
             Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
@@ -178,7 +178,7 @@ public final class FileIO {
     }
 
 
-    public static void createFileIfNotExists(File file) {
+    public static void createFileIfNotExists(final File file) {
         if (file.exists()) {
             return;
         }
@@ -189,7 +189,7 @@ public final class FileIO {
         }
     }
 
-    public static void createDirectoryIfNotExists(File directory) {
+    public static void createDirectoryIfNotExists(final File directory) {
         if (directory.exists()) {
             return;
         }
@@ -201,11 +201,11 @@ public final class FileIO {
     // Utils methods
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static URL getURI(String path) {
+    public static URL getURI(final String path) {
         return getURL(new File(path));
     }
 
-    public static URL getURL(File file) {
+    public static URL getURL(final File file) {
         try {
             return file.toURI().toURL();
         } catch (MalformedURLException e) {
@@ -230,14 +230,14 @@ public final class FileIO {
         return getRootPath(appName) + File.separator;
     }
 
-    public static void openDefaultApplication(File file) {
+    public static void openDefaultApplication(final File file) {
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException ignored) {
         }
     }
 
-    public static void zip(File outputFile, File... input) {
+    public static void zip(final File outputFile, final File... input) {
         try(final ZipFile zip = new ZipFile(outputFile)) {
             for (File file : input) {
                 try {
@@ -251,11 +251,11 @@ public final class FileIO {
         }
     }
 
-    public static void construct(List<String> directories){
+    public static void construct(final List<String> directories){
         construct(Core.getAppName(), directories);
     }
 
-    public static void construct(String appName, List<String> directories){
+    public static void construct(final String appName, final List<String> directories){
         createDirectoryIfNotExists(new File(getRootPathWithSeparator(appName)));
         for (String directory : directories) {
             createDirectoryIfNotExists(new File(getRootPathWithSeparator(appName) + directory));

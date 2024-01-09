@@ -38,7 +38,7 @@ public final class NetworkInteraction {
      *
      * @param config Configuration file
      */
-    public static void init(File config) {
+    public static void init(final File config) {
         Properties properties = new Properties();
         try (final FileInputStream fs = new FileInputStream(config)){
             properties.load(fs);
@@ -58,7 +58,7 @@ public final class NetworkInteraction {
      * @param url The URL to download the file from
      * @return An {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static Optional<HttpResponse<String>> sendGetRequest(String url) {
+    public static Optional<HttpResponse<String>> sendGetRequest(final String url) {
         return sendRequest(HttpMethod.GET, ContentType.JSON, url, HttpRequest.BodyPublishers.noBody());
     }
 
@@ -68,7 +68,7 @@ public final class NetworkInteraction {
      * @param url The URL to send the request to
      * @return An {@link CompletableFuture} containing and {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendGetRequestAsync(String url) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendGetRequestAsync(final String url) {
         return CompletableFuture.supplyAsync(() -> sendGetRequest(url));
     }
 
@@ -84,7 +84,7 @@ public final class NetworkInteraction {
      * @param message The message to send as body
      * @return An {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static Optional<HttpResponse<String>> sendPostRequest(String url, String message) {
+    public static Optional<HttpResponse<String>> sendPostRequest(final String url, final String message) {
         return sendRequest(HttpMethod.POST, ContentType.JSON, url, message);
     }
 
@@ -95,7 +95,7 @@ public final class NetworkInteraction {
      * @param message The message to send as body
      * @return An {@link CompletableFuture} containing and {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendPostRequestAsync(String url, String message) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendPostRequestAsync(final String url, final String message) {
         return sendRequestAsync(HttpMethod.POST, ContentType.JSON, url, message);
     }
 
@@ -111,7 +111,7 @@ public final class NetworkInteraction {
      * @param message The message to send as body
      * @return An {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static Optional<HttpResponse<String>> sendPutRequest(String url, String message) {
+    public static Optional<HttpResponse<String>> sendPutRequest(final String url, final String message) {
         return sendRequest(HttpMethod.PUT, ContentType.JSON, url, message);
     }
 
@@ -122,7 +122,7 @@ public final class NetworkInteraction {
      * @param message The message to send as body
      * @return An {@link CompletableFuture} containing and {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendPutRequestAsync(String url, String message) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendPutRequestAsync(final String url, final String message) {
         return sendRequestAsync(HttpMethod.PUT, ContentType.JSON, url, message);
     }
 
@@ -139,7 +139,7 @@ public final class NetworkInteraction {
      * @param message The message to send as body
      * @return An {@link Optional} with the response if the request was successful, otherwise an empty optional
      */
-    public static Optional<HttpResponse<String>> sendDeleteRequest(String url, String message) {
+    public static Optional<HttpResponse<String>> sendDeleteRequest(final String url, final String message) {
         return sendRequest(HttpMethod.DELETE, ContentType.JSON, url, message);
     }
 
@@ -151,7 +151,7 @@ public final class NetworkInteraction {
      * @return An {@link CompletableFuture} containing and {@link Optional} with the response if the request was successful, otherwise an empty optional
      * @see #sendRequest(HttpMethod, ContentType, String, String)
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendDeleteRequestAsync(String url, String message) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendDeleteRequestAsync(final String url, final String message) {
         return sendRequestAsync(HttpMethod.DELETE, ContentType.JSON, url, message);
     }
 
@@ -174,7 +174,7 @@ public final class NetworkInteraction {
      * @see #sendRequest(HttpMethod, ContentType, String, String)
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(HttpMethod method, ContentType contentType, String url, String message) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(final HttpMethod method, final ContentType contentType, final String url, final String message) {
         return CompletableFuture.supplyAsync(() -> sendRequest(method, contentType, url, message));
     }
 
@@ -188,7 +188,7 @@ public final class NetworkInteraction {
      * @return An optional containing the response if the request was successful, otherwise an empty optional
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    private static Optional<HttpResponse<String>> sendRequest(HttpMethod method, ContentType contentType, String url, String message) {
+    private static Optional<HttpResponse<String>> sendRequest(final HttpMethod method, final ContentType contentType, final String url, final String message) {
         return sendRequest(method, contentType, url, HttpRequest.BodyPublishers.ofString(message));
     }
 
@@ -206,7 +206,7 @@ public final class NetworkInteraction {
      * @see #sendRequest(HttpMethod, ContentType, String, byte[])
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(HttpMethod method, ContentType contentType, String url, byte[] bytes) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(final HttpMethod method, final ContentType contentType, final String url, final byte[] bytes) {
         return CompletableFuture.supplyAsync(() -> sendRequest(method, contentType, url, bytes));
     }
 
@@ -220,7 +220,7 @@ public final class NetworkInteraction {
      * @return An optional containing the response if the request was successful, otherwise an empty optional
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static Optional<HttpResponse<String>> sendRequest(HttpMethod method, ContentType contentType, String url, byte[] bytes) {
+    public static Optional<HttpResponse<String>> sendRequest(final HttpMethod method, final ContentType contentType, final String url, final byte[] bytes) {
         return sendRequest(method, contentType, url, HttpRequest.BodyPublishers.ofByteArray(bytes));
     }
 
@@ -238,7 +238,7 @@ public final class NetworkInteraction {
      * @see NetworkInteraction#sendRequest(HttpMethod, ContentType, String, Path)
      * @see #sendRequest(HttpMethod method, ContentType contentType, String url, Path file)
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(HttpMethod method, ContentType contentType, String url, Path file) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(final HttpMethod method, final ContentType contentType, final String url, final Path file) {
         return CompletableFuture.supplyAsync(() -> sendRequest(method, contentType, url, file));
     }
 
@@ -252,7 +252,7 @@ public final class NetworkInteraction {
      * @return An optional containing the response if the request was successful, otherwise an empty optional
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static Optional<HttpResponse<String>> sendRequest(HttpMethod method, ContentType contentType, String url, Path file) {
+    public static Optional<HttpResponse<String>> sendRequest(final HttpMethod method, final ContentType contentType, final String url, final Path file) {
         try {
             return sendRequest(method, contentType, url, HttpRequest.BodyPublishers.ofFile(file));
         } catch (FileNotFoundException e) {
@@ -274,7 +274,7 @@ public final class NetworkInteraction {
      * @see #sendRequest(HttpMethod, ContentType, String, Supplier)
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(HttpMethod method, ContentType contentType, String url, Supplier<? extends InputStream> streamSupplier) {
+    public static CompletableFuture<Optional<HttpResponse<String>>> sendRequestAsync(final HttpMethod method, final ContentType contentType, final String url, final Supplier<? extends InputStream> streamSupplier) {
         return CompletableFuture.supplyAsync(() -> sendRequest(method, contentType, url, streamSupplier));
     }
 
@@ -288,7 +288,7 @@ public final class NetworkInteraction {
      * @return An optional containing the response if the request was successful, otherwise an empty optional
      * @see #sendRequest(HttpMethod, ContentType, String, HttpRequest.BodyPublisher)
      */
-    public static Optional<HttpResponse<String>> sendRequest(HttpMethod method, ContentType contentType, String url, Supplier<? extends InputStream> streamSupplier) {
+    public static Optional<HttpResponse<String>> sendRequest(final HttpMethod method, final ContentType contentType, final String url, final Supplier<? extends InputStream> streamSupplier) {
         return sendRequest(method, contentType, url, HttpRequest.BodyPublishers.ofInputStream(streamSupplier));
     }
 
@@ -304,7 +304,7 @@ public final class NetworkInteraction {
      * @param bodyPublisher The {@link HttpRequest.BodyPublisher} to use
      * @return An optional containing the response if the request was successful, otherwise an empty optional
      */
-    private static Optional<HttpResponse<String>> sendRequest(HttpMethod method, ContentType contentType, String url, HttpRequest.BodyPublisher bodyPublisher) {
+    private static Optional<HttpResponse<String>> sendRequest(final HttpMethod method, final ContentType contentType, final String url, final HttpRequest.BodyPublisher bodyPublisher) {
         try {
 
             final HttpRequest request = HttpRequest.newBuilder()
@@ -329,7 +329,7 @@ public final class NetworkInteraction {
      *
      * @param url The URL to open
      */
-    public static void openWebsite(String url) {
+    public static void openWebsite(final String url) {
         if (isUrl(url)) {
             try {
                 Desktop.getDesktop().browse(URI.create(url));

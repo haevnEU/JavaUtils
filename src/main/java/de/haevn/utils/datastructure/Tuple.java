@@ -20,7 +20,7 @@ public class Tuple<K, V> {
      * @param key   The first element.
      * @param value The second element.
      */
-    public Tuple(K key, V value) {
+    public Tuple(final K key,final V value) {
         this.key = key;
         this.value = value;
     }
@@ -39,7 +39,7 @@ public class Tuple<K, V> {
      *
      * @param key The new first element.
      */
-    public void setFirst(K key) {
+    public void setFirst(final K key) {
         this.key = key;
     }
 
@@ -57,7 +57,7 @@ public class Tuple<K, V> {
      *
      * @param value The new second element.
      */
-    public void setSecond(V value) {
+    public void setSecond(final V value) {
         this.value = value;
     }
 }

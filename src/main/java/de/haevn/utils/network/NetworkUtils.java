@@ -27,7 +27,7 @@ public class NetworkUtils {
      * @param code The code to check.
      * @return True if the code is valid, false otherwise.
      */
-    public static boolean operationFailed(int code) {
+    public static boolean operationFailed(final int code) {
         return code < 100 || code > 599;
     }
 
@@ -37,7 +37,7 @@ public class NetworkUtils {
      * @param code The code to check.
      * @return True if the code is a 2xx code, false otherwise.
      */
-    public static boolean is2xx(int code) {
+    public static boolean is2xx(final int code) {
         return code >= 200 && code < 300;
     }
 
@@ -48,7 +48,7 @@ public class NetworkUtils {
      * @return True if the code is not a 2xx code, false otherwise.
      * @see #is2xx(int)
      */
-    public static boolean isNot2xx(int code) {
+    public static boolean isNot2xx(final int code) {
         return !is2xx(code);
     }
 
@@ -58,7 +58,7 @@ public class NetworkUtils {
      * @param code The code to check.
      * @return True if the code is a 3xx code, false otherwise.
      */
-    public static boolean is3xx(int code) {
+    public static boolean is3xx(final int code) {
         return code >= 300 && code < 400;
     }
 
@@ -69,7 +69,7 @@ public class NetworkUtils {
      * @return True if the code is not a 3xx code, false otherwise.
      * @see #is3xx(int)
      */
-    public static boolean isNot3xx(int code) {
+    public static boolean isNot3xx(final    int code) {
         return !is3xx(code);
     }
 
@@ -79,7 +79,7 @@ public class NetworkUtils {
      * @param code The code to check.
      * @return True if the code is a 4xx code, false otherwise.
      */
-    public static boolean is4xx(int code) {
+    public static boolean is4xx(final int code) {
         return code >= 400 && code < 500;
     }
 
@@ -90,7 +90,7 @@ public class NetworkUtils {
      * @return True if the code is not a 4xx code, false otherwise.
      * @see #is4xx(int)
      */
-    public static boolean isNot4xx(int code) {
+    public static boolean isNot4xx(final int code) {
         return !is4xx(code);
     }
 
@@ -100,7 +100,7 @@ public class NetworkUtils {
      * @param code The code to check.
      * @return True if the code is a 5xx code, false otherwise.
      */
-    public static boolean is5xx(int code) {
+    public static boolean is5xx(final int code) {
         return code >= 500 && code < 600;
     }
 
@@ -111,7 +111,7 @@ public class NetworkUtils {
      * @return True if the code is not a 5xx code, false otherwise.
      * @see #is5xx(int)
      */
-    public static boolean isNot5xx(int code) {
+    public static boolean isNot5xx(final int code) {
         return !is5xx(code);
     }
 
@@ -128,7 +128,7 @@ public class NetworkUtils {
      * @param url The string to check.
      * @return True if the string is starts with a valid url schema, false otherwise.
      */
-    public static boolean isUrl(String url) {
+    public static boolean isUrl(final String url) {
         return Stream.of("http", "https", "ftp", "sftp").anyMatch(schema -> url.startsWith(schema + "://"));
 
     }
@@ -175,8 +175,11 @@ public class NetworkUtils {
             final long start = System.currentTimeMillis();
             reachable = address.isReachable(1000);
             ttl = System.currentTimeMillis() - start;
-        } catch (IOException ignored) {}
+            return new PingResult(uri.getHost(), address.getHostAddress(), ttl, reachable);
+        } catch (Exception ignored) {
+            return new PingResult(uri.getHost(), "", ttl, reachable);
+        }
 
-        return new PingResult(uri.getHost(), address.getHostAddress(), ttl, reachable);
     }
+
 }

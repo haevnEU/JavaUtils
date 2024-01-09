@@ -70,7 +70,7 @@ public final class Memory {
             return new File(drive).getTotalSpace();
         }
 
-        public static long getSpaceForDrive(final String drive, BinarySize unit) {
+        public static long getSpaceForDrive(final String drive, final BinarySize unit) {
             return getSpaceForDrive(drive) / unit.getValue();
         }
 
@@ -81,7 +81,7 @@ public final class Memory {
             return new File(drive).getFreeSpace();
         }
 
-        public static long getFreeSpaceForDrive(final String drive, BinarySize unit) {
+        public static long getFreeSpaceForDrive(final String drive, final BinarySize unit) {
             return getFreeSpaceForDrive(drive) / unit.getValue();
         }
 
@@ -92,7 +92,7 @@ public final class Memory {
             return getSpaceForDrive(drive) - getFreeSpaceForDrive(drive);
         }
 
-        public static long getUsedSpaceForDrive(final String drive, BinarySize unit) {
+        public static long getUsedSpaceForDrive(final String drive, final BinarySize unit) {
             return getUsedSpaceForDrive(drive) / unit.getValue();
         }
 
@@ -103,7 +103,7 @@ public final class Memory {
             return (getUsedSpaceForDrive(drive) * 100) / getSpaceForDrive(drive);
         }
 
-        public static long getUsedSpacePercentageForDrive(final String drive, BinarySize unit) {
+        public static long getUsedSpacePercentageForDrive(final String drive, final BinarySize unit) {
             return getUsedSpacePercentageForDrive(drive) / unit.getValue();
         }
     }

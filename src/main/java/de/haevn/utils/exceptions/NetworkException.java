@@ -16,18 +16,18 @@ public class NetworkException extends ApplicationException {
     private final int statusCode;
     private final String content;
 
-    public NetworkException(Throwable other) {
+    public NetworkException(final Throwable other) {
         super(other);
         this.url = "";
         this.statusCode = 0;
         this.content = "";
     }
 
-    public NetworkException(HttpResponse<?> response) {
+    public NetworkException(final HttpResponse<?> response) {
         this(response.statusCode(), response.body().toString(), response.uri().toString());
     }
 
-    public NetworkException(int statusCode, String content, String url) {
+    public NetworkException(final int statusCode, final String content, final String url) {
         super(String.format("NetworkException was thrown with status (%s) from \"%s\" with content \"%s\"", statusCode, url, content));
         this.url = url;
         this.statusCode = statusCode;

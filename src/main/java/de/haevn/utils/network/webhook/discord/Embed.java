@@ -62,7 +62,7 @@ public final class Embed {
 
         public EmbedBuilder timestamp(final Date date) {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             sdf.setTimeZone(TimeZone.getTimeZone("CET"));
             this.timestamp = sdf.format(date);
             return this;

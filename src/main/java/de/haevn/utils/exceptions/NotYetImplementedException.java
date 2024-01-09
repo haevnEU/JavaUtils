@@ -15,12 +15,12 @@ public class NotYetImplementedException extends Error {
         MetaMethodAccessor.getMethod(2).ifPresent(this::initMessage);
     }
 
-    public NotYetImplementedException(String message) {
+    public NotYetImplementedException(final String message) {
         this.message = message;
     }
 
 
-    private void initMessage(MetaMethodAccessor helper) {
+    private void initMessage(final MetaMethodAccessor helper) {
         this.message = "Method \"" + helper.toString() + "\" is not yet implemented.";
     }
 

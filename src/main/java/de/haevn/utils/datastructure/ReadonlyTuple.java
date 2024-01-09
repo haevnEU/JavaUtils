@@ -17,7 +17,7 @@ public class ReadonlyTuple<K, V> extends Tuple<K, V> {
      * @param key   The first element.
      * @param value The second element.
      */
-    public ReadonlyTuple(K key, V value) {
+    public ReadonlyTuple(final K key, final V value) {
         super(key, value);
     }
 
@@ -27,7 +27,7 @@ public class ReadonlyTuple<K, V> extends Tuple<K, V> {
      * @param key ignored
      */
     @Override
-    public void setFirst(K key) {
+    public void setFirst(final K key) {
         // This method ensures read-only access
     }
 
@@ -37,7 +37,7 @@ public class ReadonlyTuple<K, V> extends Tuple<K, V> {
      * @param value ignored
      */
     @Override
-    public void setSecond(V value) {
+    public void setSecond(final V value) {
         // This method ensures read-only access
     }
 }

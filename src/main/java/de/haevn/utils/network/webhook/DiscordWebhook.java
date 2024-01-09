@@ -60,7 +60,7 @@ public class DiscordWebhook implements IWebhook<Embed> {
         }
     }
 
-    private void validateField(List<EmbedField> fields) throws ValidationFailedException {
+    private void validateField(final List<EmbedField> fields) throws ValidationFailedException {
         if (null == fields) {
             return;
         }

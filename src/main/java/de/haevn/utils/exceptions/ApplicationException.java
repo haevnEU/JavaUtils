@@ -8,15 +8,15 @@ package de.haevn.utils.exceptions;
  * @author haevn
  */
 public class ApplicationException extends RuntimeException {
-    public ApplicationException(Throwable other) {
+    public ApplicationException(final Throwable other) {
         this(other.getMessage(), other);
     }
 
-    public ApplicationException(String message) {
+    public ApplicationException(final String message) {
         super(message);
     }
 
-    public ApplicationException(String message, Throwable other) {
+    public ApplicationException(final String message, final Throwable other) {
         super(message, other);
     }
 }

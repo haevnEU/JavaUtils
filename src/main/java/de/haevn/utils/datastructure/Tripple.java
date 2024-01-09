@@ -22,7 +22,7 @@ public class Tripple<K, V, T> {
      * @param second The second element.
      * @param third  The third element.
      */
-    public Tripple(K first, V second, T third) {
+    public Tripple(final K first, final V second, final T third) {
         this.first = first;
         this.second = second;
         this.third = third;
@@ -42,7 +42,7 @@ public class Tripple<K, V, T> {
      *
      * @param value The new first element.
      */
-    public void setFirst(K value) {
+    public void setFirst(final K value) {
         this.first = value;
     }
 
@@ -60,7 +60,7 @@ public class Tripple<K, V, T> {
      *
      * @param value The new second element.
      */
-    public void setSecond(V value) {
+    public void setSecond(final V value) {
         this.second = value;
     }
 
@@ -78,7 +78,7 @@ public class Tripple<K, V, T> {
      *
      * @param value The new third element.
      */
-    public void setThird(T value) {
+    public void setThird(final T value) {
         this.third = value;
     }
 }

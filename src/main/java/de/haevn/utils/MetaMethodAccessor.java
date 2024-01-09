@@ -15,7 +15,7 @@ public class MetaMethodAccessor {
     private final int lineNumber;
     private final String fileName;
 
-    public MetaMethodAccessor(StackWalker.StackFrame frame) {
+    public MetaMethodAccessor(final StackWalker.StackFrame frame) {
         this.className = frame.getClassName();
         this.methodName = frame.getMethodName();
         this.lineNumber = frame.getLineNumber();
@@ -37,7 +37,7 @@ public class MetaMethodAccessor {
      * @param skip The amount of methods to skip.
      * @return The method that is skip methods above this method.
      */
-    public static Optional<MetaMethodAccessor> getMethod(int skip) {
+    public static Optional<MetaMethodAccessor> getMethod(final int skip) {
         StackWalker walker = StackWalker.getInstance();
 
         return walker.walk(stackFrameStream -> stackFrameStream

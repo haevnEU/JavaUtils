@@ -15,11 +15,11 @@ public class Cache <T>{
     private final T value;
     private final long creationTime;
 
-    public Cache(T value){
+    public Cache(final T value){
         this(value, MillisecondTimeUnits.DAYS.getValue());
     }
 
-    public Cache(T value, long creationTime){
+    public Cache(final T value, long creationTime){
         this.value = value;
         this.duration = creationTime;
         this.creationTime = System.currentTimeMillis();

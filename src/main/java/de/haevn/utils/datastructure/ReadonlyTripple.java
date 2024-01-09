@@ -19,7 +19,7 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      * @param second The second element.
      * @param third  The third element.
      */
-    public ReadonlyTripple(K first, V second, T third) {
+    public ReadonlyTripple(final K first, final V second, final T third) {
         super(first, second, third);
     }
 
@@ -29,7 +29,7 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      * @param value ignored
      */
     @Override
-    public void setFirst(K value) {
+    public void setFirst(final K value) {
         // This method ensures read-only access
     }
 
@@ -39,7 +39,7 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      * @param value ignored
      */
     @Override
-    public void setSecond(V value) {
+    public void setSecond(final V value) {
         // This method ensures read-only access
     }
 
@@ -49,7 +49,7 @@ public class ReadonlyTripple<K, V, T> extends Tripple<K, V, T> {
      * @param value ignored
      */
     @Override
-    public void setThird(T value) {
+    public void setThird(final T value) {
         // This method ensures read-only access
     }
 }

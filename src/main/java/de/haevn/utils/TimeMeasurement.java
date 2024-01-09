@@ -62,7 +62,7 @@ public class TimeMeasurement implements AutoCloseable {
      * @param methodName The method name of the code.
      * @param description The description of the code.
      */
-    public void time(Runnable code, Class<?> cl, String methodName, String description) {
+    public void time(final Runnable code, final Class<?> cl, final String methodName, final String description) {
         time(() -> {
             code.run();
             return null;
@@ -78,7 +78,7 @@ public class TimeMeasurement implements AutoCloseable {
      * @return The result of the code.
      * @param <T> The type of the result.
      */
-    public <T> T time(Callable<T> code, Class<?> cl, String methodName, String description) {
+    public <T> T time(final Callable<T> code, final Class<?> cl, final String methodName, final String  description) {
         final long startTime = System.currentTimeMillis();
         try {
             final T result = code.call();
