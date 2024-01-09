@@ -1,13 +1,8 @@
 package de.haevn.utils.network;
 
-import de.haevn.utils.Core;
-import de.haevn.utils.TimeMeasurement;
-
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.util.Timer;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +13,8 @@ import java.util.stream.Stream;
  * @since 1.0
  */
 public class NetworkUtils {
-    private NetworkUtils() {}
+    private NetworkUtils() {
+    }
 
     /**
      * Checks if the given code is a valid HTTP status code.
@@ -69,7 +65,7 @@ public class NetworkUtils {
      * @return True if the code is not a 3xx code, false otherwise.
      * @see #is3xx(int)
      */
-    public static boolean isNot3xx(final    int code) {
+    public static boolean isNot3xx(final int code) {
         return !is3xx(code);
     }
 
@@ -135,39 +131,43 @@ public class NetworkUtils {
 
     /**
      * Pings the given url and returns a {@link PingResult} object.
+     *
      * @param url the url to ping
      * @return a {@link PingResult} object.
      */
-    public static PingResult ping(final String url){
+    public static PingResult ping(final String url) {
         return ping(URI.create(url));
     }
 
     /**
      * Pings the given url and returns a {@link PingResult} object.
-     * @param url the url to ping
+     *
+     * @param url  the url to ping
      * @param port the port to ping
      * @return a {@link PingResult} object.
      */
-    public static PingResult ping(final String url, final int port){
+    public static PingResult ping(final String url, final int port) {
         return ping(URI.create(url), port);
     }
 
     /**
      * Pings the given url and returns a {@link PingResult} object.
+     *
      * @param uri the uri to ping
      * @return a {@link PingResult} object.
      */
-    public static PingResult ping(final URI uri){
+    public static PingResult ping(final URI uri) {
         return ping(uri, 7);
     }
 
     /**
      * Pings the given url and returns a {@link PingResult} object.
-     * @param uri the uri to ping
+     *
+     * @param uri  the uri to ping
      * @param port the port to ping
      * @return a {@link PingResult} object.
      */
-    public static PingResult ping(final URI uri, final int port){
+    public static PingResult ping(final URI uri, final int port) {
         final InetAddress address = new InetSocketAddress(uri.getHost(), port).getAddress();
         boolean reachable = false;
         long ttl = Long.MAX_VALUE;

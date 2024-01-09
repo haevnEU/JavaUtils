@@ -1,6 +1,6 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.Core;
+import de.haevn.utils.AppDefinition;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -125,11 +125,11 @@ public final class FileIO {
 
 
     public static String readFile(final String path){
-        return readFile(Core.getAppName(), path);
+        return readFile(AppDefinition.getAppName(), path);
     }
 
     public static String readFile(final File file){
-        return readFile(Core.getAppName(), file);
+        return readFile(AppDefinition.getAppName(), file);
     }
 
     public static String readFile(final String appName, final File path){
@@ -149,7 +149,7 @@ public final class FileIO {
     }
 
     public static void store(final String path, final String data) {
-        store(Core.getAppName(), path, data);
+        store(AppDefinition.getAppName(), path, data);
     }
 
     public static void store(final String appName, final String path, final String data) {
@@ -215,15 +215,15 @@ public final class FileIO {
 
 
     public static String getRootPath() {
-        return getRootPath(Core.getAppName());
+        return getRootPath(AppDefinition.getAppName());
     }
 
     public static String getRootPath(final String appName) {
-        return System.getProperty("user.home") + File.separator + appName;
+        return java.lang.System.getProperty("user.home") + File.separator + appName;
     }
 
     public static String getRootPathWithSeparator() {
-        return getRootPathWithSeparator(Core.getAppName());
+        return getRootPathWithSeparator(AppDefinition.getAppName());
     }
 
     public static String getRootPathWithSeparator(final String appName) {
@@ -252,7 +252,7 @@ public final class FileIO {
     }
 
     public static void construct(final List<String> directories){
-        construct(Core.getAppName(), directories);
+        construct(AppDefinition.getAppName(), directories);
     }
 
     public static void construct(final String appName, final List<String> directories){

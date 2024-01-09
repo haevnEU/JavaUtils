@@ -1,5 +1,6 @@
 package de.haevn.utils.io;
 
+import de.haevn.utils.AppDefinition;
 import de.haevn.utils.logging.Logger;
 
 import java.io.*;
@@ -23,6 +24,9 @@ public final class PropertyHandler {
     }
 
     public static PropertyHandler getInstance(final String name) {
+        if (AppDefinition.getAppName().isEmpty()) {
+            throw new IllegalStateException("Application name is not set. Please call PropertyHandler.initialize(String applicationName) first.");
+        }
         if (STRING_PROPERTY_HANDLER_HASH_MAP.containsKey(name.toUpperCase())) {
             return STRING_PROPERTY_HANDLER_HASH_MAP.get(name.toUpperCase());
         }
@@ -45,12 +49,11 @@ public final class PropertyHandler {
     }
 
     public void load() {
-
         String property = "config/" + name;
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
         }
-        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator("ProjectLunar") + property)) {
+        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + property)) {
             properties.load(inputStream);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", property).log();
@@ -65,8 +68,9 @@ public final class PropertyHandler {
     public String get(final String key) {
         return get(key, "");
     }
+
     public String get(final String key, String defaultValue) {
-        if(!properties.containsKey(key)){
+        if (!properties.containsKey(key)) {
             properties.setProperty(key, defaultValue);
         }
         return properties.getProperty(key, defaultValue);
@@ -80,7 +84,7 @@ public final class PropertyHandler {
         return Boolean.parseBoolean(get(key, String.valueOf(defaultValue)));
     }
 
-    public int getInt(final String key){
+    public int getInt(final String key) {
         return Integer.parseInt(get(key, "0"));
     }
 
@@ -111,15 +115,15 @@ public final class PropertyHandler {
 
     public void set(final String k, final String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator("ProjectLunar") + "config/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + "config/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
         }
     }
 
-    public void store(){
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator("ProjectLunar") + "config/" + name + EXTENSION)) {
+    public void store() {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + "config/" + name + EXTENSION)) {
             properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();

@@ -18,20 +18,9 @@ import java.util.function.Function;
  * @since 1.0
  */
 public class Core {
-    private static String appName = "";
     private static String appVersion = "";
 
     private Core() {
-    }
-
-    public static String getAppName() {
-        return appName;
-    }
-
-    public static void setAppName(final String appName) {
-        if (Core.appName.isBlank()) {
-            Core.appName = appName;
-        }
     }
 
     public static void copyText(final String text) {
@@ -99,5 +88,4 @@ public class Core {
         final var threads = Thread.getAllStackTraces().keySet();
         return new ArrayList<>(threads);
     }
-
 }
