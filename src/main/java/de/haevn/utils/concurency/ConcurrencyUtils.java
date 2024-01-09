@@ -1,6 +1,5 @@
 package de.haevn.utils.concurency;
 
-import de.haevn.utils.Core;
 import de.haevn.utils.logging.Logger;
 
 import java.util.concurrent.Callable;

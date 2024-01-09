@@ -1,5 +1,13 @@
 package de.haevn.utils.network;
 
+import de.haevn.utils.Core;
+import de.haevn.utils.TimeMeasurement;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.util.Timer;
 import java.util.stream.Stream;
 
 /**
@@ -123,5 +131,52 @@ public class NetworkUtils {
     public static boolean isUrl(String url) {
         return Stream.of("http", "https", "ftp", "sftp").anyMatch(schema -> url.startsWith(schema + "://"));
 
+    }
+
+    /**
+     * Pings the given url and returns a {@link PingResult} object.
+     * @param url the url to ping
+     * @return a {@link PingResult} object.
+     */
+    public static PingResult ping(final String url){
+        return ping(URI.create(url));
+    }
+
+    /**
+     * Pings the given url and returns a {@link PingResult} object.
+     * @param url the url to ping
+     * @param port the port to ping
+     * @return a {@link PingResult} object.
+     */
+    public static PingResult ping(final String url, final int port){
+        return ping(URI.create(url), port);
+    }
+
+    /**
+     * Pings the given url and returns a {@link PingResult} object.
+     * @param uri the uri to ping
+     * @return a {@link PingResult} object.
+     */
+    public static PingResult ping(final URI uri){
+        return ping(uri, 7);
+    }
+
+    /**
+     * Pings the given url and returns a {@link PingResult} object.
+     * @param uri the uri to ping
+     * @param port the port to ping
+     * @return a {@link PingResult} object.
+     */
+    public static PingResult ping(final URI uri, final int port){
+        final InetAddress address = new InetSocketAddress(uri.getHost(), port).getAddress();
+        boolean reachable = false;
+        long ttl = Long.MAX_VALUE;
+        try {
+            final long start = System.currentTimeMillis();
+            reachable = address.isReachable(1000);
+            ttl = System.currentTimeMillis() - start;
+        } catch (IOException ignored) {}
+
+        return new PingResult(uri.getHost(), address.getHostAddress(), ttl, reachable);
     }
 }
