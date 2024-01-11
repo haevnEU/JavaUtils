@@ -39,33 +39,39 @@ package de.haevn.utils.exceptions;
  * @version 1.1
  * @since 1.1
  */
-public class ErrorType {
-    private ErrorType(){}
+public class ErrorCode {
+    public static final long UNKNOWN = getErrorCode(Project.UNKNOWN.value, 0L, 0L);
+
+    private ErrorCode(){}
+
 
 
     /**
      * Contains all projects.
+     * Add new projects here, not that the value 0 to 9 are reserved for the framework.
+     * @version 1.1
+     * @since 1.1
      */
-    public enum Projects{
-        UNKNOWN(0b0000_0000),
-        UTILS(0b0000_0001),
-        JFX_UTILS(0b0000_0010),
+    public enum Project {
+        UNKNOWN(0),
+        UTILS(1),
+        JFX_UTILS(2),
 
         // Projects add new here
-        PROJECT_LUNAR(0b0000_0011);
+        PROJECT_LUNAR(10);
 
 
 
 
 
         final int value;
-        Projects(final int value){
+        Project(final int value){
             this.value = value;
         }
 
     }
 
-    public static boolean isProject(final long errorCode, final Projects project){
+    public static boolean isProject(final long errorCode, final Project project){
         return getProject(errorCode) == project.value;
     }
 
@@ -84,7 +90,7 @@ public class ErrorType {
      * @return True if the given error code is an unknown error
      */
     public static boolean isUnknownError(final long errorCode){
-        return getProject(errorCode) == Projects.UNKNOWN.value;
+        return getProject(errorCode) == Project.UNKNOWN.value;
     }
 
     /**
@@ -93,7 +99,7 @@ public class ErrorType {
      * @return True if the given error code is a JavaUtils error
      */
     public static boolean isJavaUtilsModuleError(final long errorCode){
-        return getProject(errorCode) == Projects.UTILS.value;
+        return getProject(errorCode) == Project.UTILS.value;
     }
 
     /**
@@ -102,7 +108,7 @@ public class ErrorType {
      * @return True if the given error code is a JavaFXUtils error
      */
     public static boolean isJavaFXUtilsError(final long errorCode){
-        return getProject(errorCode) == Projects.JFX_UTILS.value;
+        return getProject(errorCode) == Project.JFX_UTILS.value;
     }
 
     /** Get the project from the given error code.
@@ -144,8 +150,8 @@ public class ErrorType {
      * @param errorCode The error code
      * @return The parts of the error code
      */
-    public static Parts extract(final long errorCode){
-        return new Parts(getProject(errorCode), getModule(errorCode), getError(errorCode));
+    public static ErrorTypes extract(final long errorCode){
+        return new ErrorTypes(getProject(errorCode), getModule(errorCode), getError(errorCode));
     }
 
 
@@ -155,6 +161,6 @@ public class ErrorType {
      * @param module The module
      * @param errorCode The error code
      */
-    public record Parts(long project, long module, long errorCode){ }
+    public record ErrorTypes(long project, long module, long errorCode){ }
 
 }
