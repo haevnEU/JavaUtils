@@ -46,18 +46,27 @@ public class ErrorType {
     /**
      * Contains all projects.
      */
-    public static final class Projects{
-        private Projects(){}
-        public static final int UNKNOWN = 0b0000_0000;
-        public static final int UTILS = 0b0000_0001;
-        public static final int JFX_UTILS = 0b0000_0010;
+    public enum Projects{
+        UNKNOWN(0b0000_0000),
+        UTILS(0b0000_0001),
+        JFX_UTILS(0b0000_0010),
 
-        // Projects
-        public static final int PROJECT_LUNAR = 0b0000_0011;
+        // Projects add new here
+        PROJECT_LUNAR(0b0000_0011);
+
+
+
+
+
+        final int value;
+        Projects(final int value){
+            this.value = value;
+        }
+
     }
 
-    public static boolean isProject(final long errorCode, final int project){
-        return getProject(errorCode) == project;
+    public static boolean isProject(final long errorCode, final Projects project){
+        return getProject(errorCode) == project.value;
     }
 
 
@@ -69,17 +78,13 @@ public class ErrorType {
     private static final long ERROR = 0x0000_FFFFL;
 
 
-    public static boolean isProjectError(final long errorCode, final int project){
-        return getProject(errorCode) == project;
-    }
-
     /**
      * Check if the given error code is an unknown error.
      * @param errorCode The error code
      * @return True if the given error code is an unknown error
      */
     public static boolean isUnknownError(final long errorCode){
-        return getProject(errorCode) == Projects.UNKNOWN;
+        return getProject(errorCode) == Projects.UNKNOWN.value;
     }
 
     /**
@@ -88,7 +93,7 @@ public class ErrorType {
      * @return True if the given error code is a JavaUtils error
      */
     public static boolean isJavaUtilsModuleError(final long errorCode){
-        return getProject(errorCode) == Projects.UTILS;
+        return getProject(errorCode) == Projects.UTILS.value;
     }
 
     /**
@@ -97,7 +102,7 @@ public class ErrorType {
      * @return True if the given error code is a JavaFXUtils error
      */
     public static boolean isJavaFXUtilsError(final long errorCode){
-        return getProject(errorCode) == Projects.JFX_UTILS;
+        return getProject(errorCode) == Projects.JFX_UTILS.value;
     }
 
     /** Get the project from the given error code.
