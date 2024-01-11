@@ -32,6 +32,13 @@ public final class NumberUtils {
         return Integer.toString((int) Math.round(number));
     }
 
+    public static String integerToBinary(final int number) {
+        return Integer.toBinaryString(number);
+    }
+
+    public static String integerToHex(final int number) {
+        return Integer.toHexString(number);
+    }
 
     public static Integer stringToInteger(final String string, final int fallbackNumber) {
         try {
@@ -88,5 +95,13 @@ public final class NumberUtils {
             negative = "-";
         }
         return negative + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
+    }
+
+    public static String longToHex(long errorCode) {
+        return Long.toHexString(errorCode);
+    }
+
+    public static long hexToLong(String hex) {
+        return Long.parseLong(hex, 16);
     }
 }
