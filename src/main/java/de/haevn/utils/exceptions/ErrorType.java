@@ -36,8 +36,8 @@ package de.haevn.utils.exceptions;
  * }
  * </pre>
  *
- * @version 1.0
- * @since 1.0
+ * @version 1.1
+ * @since 1.1
  */
 public class ErrorType {
     private ErrorType(){}
@@ -135,7 +135,7 @@ public class ErrorType {
      * @param error The error
      * @return The error code
      */
-    public static long getErrorCode(final int project, final int module, final int error){
+    public static long getErrorCode(final long project, final long module, final long error){
         return (project << 24) | (module << 16) | error;
     }
 
