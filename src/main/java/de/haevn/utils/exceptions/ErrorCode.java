@@ -69,6 +69,9 @@ public class ErrorCode {
             this.value = value;
         }
 
+        public int getValue() {
+            return value;
+        }
     }
 
     public static boolean isProject(final long errorCode, final Project project){
