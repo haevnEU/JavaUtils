@@ -219,7 +219,7 @@ public final class FileIO {
     }
 
     public static String getRootPath(final String appName) {
-        return java.lang.System.getProperty("user.home") + File.separator + appName;
+        return java.lang.System.getProperty("user.home") + File.separator + "haevn" + File.separator + appName;
     }
 
     public static String getRootPathWithSeparator() {

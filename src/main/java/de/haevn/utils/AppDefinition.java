@@ -6,10 +6,6 @@ public class AppDefinition {
     private static String appName = "";
     private static ErrorCode.Project project = ErrorCode.Project.UNKNOWN;
 
-    @Deprecated(since = "1.1", forRemoval = true)
-    public static void initialize(final String appName){
-        initialize(appName, ErrorCode.Project.UNKNOWN);
-    }
 
     /**
      * Initializes the app definition.

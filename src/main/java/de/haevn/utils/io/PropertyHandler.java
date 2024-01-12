@@ -15,11 +15,17 @@ public final class PropertyHandler {
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;
     private final String name;
-
+    private final String configPath;
 
     private PropertyHandler(final String propertyName) {
         properties = new Properties();
         this.name = propertyName;
+
+        String configPathBuilder = "config/" + name;
+        if (!configPathBuilder.endsWith(EXTENSION)) {
+            configPathBuilder += EXTENSION;
+        }
+        this.configPath = configPathBuilder;
         load();
     }
 
@@ -49,14 +55,10 @@ public final class PropertyHandler {
     }
 
     public void load() {
-        String property = "config/" + name;
-        if (!property.endsWith(EXTENSION)) {
-            property += EXTENSION;
-        }
-        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + property)) {
+        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", property).log();
+            LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", configPath).log();
         }
     }
 
@@ -115,7 +117,7 @@ public final class PropertyHandler {
 
     public void set(final String k, final String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + "config/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
@@ -123,7 +125,7 @@ public final class PropertyHandler {
     }
 
     public void store() {
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + "config/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
             properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();

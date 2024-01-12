@@ -10,7 +10,7 @@ package de.haevn.utils.datastructure;
  * @since 1.0
  */
 public class Tuple<K, V> {
-
+    public static final Tuple<?, ?> EMPTY = new Tuple<>(null, null);
     private K key;
     private V value;
 
@@ -59,5 +59,9 @@ public class Tuple<K, V> {
      */
     public void setSecond(final V value) {
         this.value = value;
+    }
+
+    public boolean isEmpty() {
+        return this == EMPTY;
     }
 }
