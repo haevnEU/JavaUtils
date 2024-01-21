@@ -88,4 +88,30 @@ public class Core {
         final var threads = Thread.getAllStackTraces().keySet();
         return new ArrayList<>(threads);
     }
+
+    /**
+     * Exit the application with code 0.
+     *
+     * @version 1.1
+     * @see #exitApplication(int)
+     * @since 1.1
+     */
+    public static void exitApplication() {
+        exitApplication(0);
+    }
+
+    /**
+     * Exit the application with the given code.
+     *
+     * @param code The exit code.
+     * @version 1.1
+     * @see #exitApplication()
+     * @since 1.1
+     */
+    public static void exitApplication(final int code) {
+        if (AppDefinition.isDebugMode()) {
+            MetaMethodAccessor.getMethod(2).ifPresent(method -> System.err.println("Exit with code " + code + " in " + method));
+        }
+        System.exit(code);
+    }
 }
