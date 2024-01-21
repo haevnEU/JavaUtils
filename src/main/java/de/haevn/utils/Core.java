@@ -114,4 +114,11 @@ public class Core {
         }
         System.exit(code);
     }
+
+    public static String fitStringLeft(final String string, final int length) {
+        return String.format("%" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
+    }
+    public static String fitString(final String string, final int length) {
+        return String.format("%-" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
+    }
 }

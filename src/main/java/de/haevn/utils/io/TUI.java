@@ -1,25 +1,47 @@
 package de.haevn.utils.io;
 
-import java.io.OutputStream;
+import de.haevn.utils.Core;
+
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public final class TUI implements AutoCloseable {
     private final Scanner in;
     private final PrintStream out;
     private final List<TuiEntry> entries = new ArrayList<>();
+    private final List<TuiEntry> shortCuts = new ArrayList<>();
     private final String title;
     private final String exitWord;
-    public TUI(final String title, final String exitWord, final TuiEntry ... entries){
+
+    public TUI(final String title, final String exitWord, final TuiEntry... entries) {
         this.title = title;
         this.exitWord = exitWord;
         Collections.addAll(this.entries, entries);
 
         in = new Scanner(System.in);
         out = System.out;
+    }
+
+    public Scanner getIn() {
+        return in;
+    }
+
+    public PrintStream getOut() {
+        return out;
+    }
+
+    /**
+     * Sets the shortcuts for the TUI.<br>
+     * <b>Note</b><br>
+     * - Calling this method twice will override the previous shortcuts<br>
+     * - The shortcuts are only available if the command starts with "!"<br>
+     * @param entries List of all shortcuts
+     * @return The TUI instance
+     */
+    public TUI setShortCuts(final TuiEntry... entries) {
+        shortCuts.clear();
+        shortCuts.addAll(Arrays.stream(entries).map(entry -> new TuiEntry(entry.name(), entry.command().replace("!", ""), entry.description, entry.action())).toList());
+        return this;
     }
 
     public void show() {
@@ -34,10 +56,7 @@ public final class TUI implements AutoCloseable {
                 in.nextLine();
                 return;
             } else if (input.equalsIgnoreCase("help") || input.equalsIgnoreCase("?")) {
-                out.println("Available commands:");
-                out.println("help / ? - Show this help");
-                out.println(exitWord + " - Exit");
-                entries.forEach(entry -> out.println(entry.name + ": " + entry.command));
+                help();
             } else if (input.equalsIgnoreCase("clear")) {
                 clear();
 
@@ -48,25 +67,39 @@ public final class TUI implements AutoCloseable {
         } while (true);
     }
 
-    private String getInput(final Scanner in){
+    private void help(){
+
+        out.println(Core.fitString("Command", 10) + " | " + Core.fitString("Name", 10) + " | Description");
+        out.println(Core.fitString("Command", 10) + " | " + Core.fitString("Name", 10) + " | Description");
+        out.println("-".repeat(60));
+        out.println(Core.fitString(exitWord, 10) + " | " + Core.fitString("Exit", 10)+ " | Exit the application");
+        out.println(Core.fitString("help", 10) + " | " + Core.fitString("Help", 10)+ " | Show this help");
+        out.println(Core.fitString("?", 10) + " | " + Core.fitString("Help", 10)+ " | Show this help");
+        out.println(Core.fitString("clear", 10) + " | " + Core.fitString("clear", 10)+ " | Clear the screen");
+        entries.forEach(entry -> {
+            out.println(Core.fitString(entry.command, 10) + " | " + Core.fitString(entry.name, 10) + " | " + entry.description);
+        });
+    }
+
+    private String getInput(final Scanner in) {
         try {
             out.print("> ");
             return in.nextLine();
-        }catch (final Exception e){
+        } catch (final Exception e) {
             return "";
         }
     }
 
-    private void clear(){
+    private void clear() {
         out.print("\033[H\033[2J");
         out.flush();
     }
 
-    private void printHeader(final String header){
+    private void printHeader(final String header) {
 
         String headerOut = header.length() > 58 ? header.substring(0, 58) : header;
 
-        final int half = (int)(headerOut.length() * 0.5);
+        final int half = (int) (headerOut.length() * 0.5);
         final int firstHalf = half;
         final int secondHalf = half % 2 == 0 ? (half + 1) : half;
         out.println("+" + "-".repeat(60) + "+");
@@ -74,7 +107,10 @@ public final class TUI implements AutoCloseable {
         out.println("+" + "-".repeat(60) + "+");
     }
 
-    private Runnable getAction(final String command){
+    private Runnable getAction(final String command) {
+        if (command.startsWith("!")) {
+            return shortCuts.stream().filter(entry -> entry.command.equalsIgnoreCase(command.substring(1))).findFirst().orElse(TuiEntry.EMPTY_ENTRY).action;
+        }
         return entries.stream().filter(entry -> entry.command.equalsIgnoreCase(command)).findFirst().orElse(TuiEntry.EMPTY_ENTRY).action;
     }
 
@@ -88,7 +124,8 @@ public final class TUI implements AutoCloseable {
     }
 
 
-    public record TuiEntry(String name, String command, Runnable action) {
-        public static final TuiEntry EMPTY_ENTRY = new TuiEntry("", "", () -> {});
+    public record TuiEntry(String name, String command, String description, Runnable action) {
+        public static final TuiEntry EMPTY_ENTRY = new TuiEntry("", "", "", () -> {
+        });
     }
 }
