@@ -121,4 +121,8 @@ public class Core {
     public static String fitString(final String string, final int length) {
         return String.format("%-" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
     }
+
+    public static String trimStringTo(final String input, final int length){
+        return input.length() > length ? input.substring(0, length) : input;
+    }
 }

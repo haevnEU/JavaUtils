@@ -21,6 +21,9 @@ public final class ExceptionUtils {
      * @return The stack trace of the given {@link Throwable} as a string.
      */
     public static String getStackTrace(final Throwable throwable) {
+        if(null == throwable){
+            return "";
+        }
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
         throwable.printStackTrace(pw);

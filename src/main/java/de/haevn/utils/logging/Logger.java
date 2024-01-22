@@ -7,9 +7,7 @@ import de.haevn.utils.io.SerializationUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -154,7 +152,6 @@ public final class Logger {
         synchronized (logEntries) {
 
             logEntries.forEach(entry -> {
-
                 final PrintStream consoleOutput = config.getConsoleOutput();
                 final PrintStream fileOutput = config.getFileOutput();
 
@@ -162,37 +159,9 @@ public final class Logger {
                     if (null == stream) {
                         return;
                     }
-
-                    final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
-                    final Date resultdate = new Date(entry.getTimestamp());
-
-                    StringBuilder sb = new StringBuilder();
-
-                    sb.append("[").append(sdf.format(resultdate)).append("]");
-                    sb.append("[").append(entry.getLevel().name()).append("]");
-
-
-                    if (null != entry.getHelper()) {
-                        sb.append("[").append(entry.getHelper().getFileName()).append(":").append(entry.getHelper().getLineNumber()).append("]");
-                        sb.append("[").append(entry.getHelper().getClassName()).append("#").append(entry.getHelper().getMethodName()).append("]");
-                    }
-
-                    if (entry.getThreadName().isBlank()) {
-                        sb.append("[").append(entry.getThreadName()).append("]");
-                    }
-
-                    sb.append("[").append(entry.getMessage()).append("]");
-
-                    if (null != entry.getObj()) {
-                        SerializationUtils.exportJson(entry.getObj())
-                                .ifPresent(json -> sb.append("\n[").append(json).append("]"));
-                    }
-
-                    if (null != entry.getThrowable()) {
-                        entry.getThrowable().printStackTrace(stream);
-                    }
-                    stream.println(sb);
-
+                    SerializationUtils.disablePretty();
+                    SerializationUtils.exportJson(SanitizedLogEntry.getFromLogEntry(entry)).ifPresent(stream::println);
+                    SerializationUtils.enablePretty();
                 };
 
                 consumer.accept(consoleOutput);

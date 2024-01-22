@@ -142,4 +142,26 @@ public final class SerializationUtils {
             return Optional.empty();
         }
     }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static void disablePretty() {
+        jsonMapper.disable(SerializationFeature.INDENT_OUTPUT);
+        xmlMapper.disable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    public static void enablePretty() {
+        jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    public static void disableUnknownProperties() {
+        jsonMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    }
+
+    public static void enableUnknownProperties() {
+        jsonMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        xmlMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    }
 }
