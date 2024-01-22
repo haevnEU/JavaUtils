@@ -9,10 +9,15 @@ import de.haevn.utils.debug.MethodTools;
  * @author haevn
  */
 public class NotYetImplementedException extends Error {
-    private String message;
+    private final String message;
 
     public NotYetImplementedException() {
-        MethodTools.getMethod(2).ifPresent(this::initMessage);
+       final var method = MethodTools.getMethod(2);
+       if(method.isPresent()) {
+           this.message = "Method \"" + method + "\" is not yet implemented.";
+       }else {
+           this.message = "Method is not yet implemented.";
+       }
     }
 
     public NotYetImplementedException(final String message) {
@@ -20,9 +25,6 @@ public class NotYetImplementedException extends Error {
     }
 
 
-    private void initMessage(final MethodTools helper) {
-        this.message = "Method \"" + helper.toString() + "\" is not yet implemented.";
-    }
 
     @Override
     public String getMessage() {

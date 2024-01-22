@@ -21,7 +21,7 @@ public enum MicroTimeUnits {
 
     private final long value;
 
-    private MicroTimeUnits(final long value) {
+    MicroTimeUnits(final long value) {
         this.value = value;
     }
 

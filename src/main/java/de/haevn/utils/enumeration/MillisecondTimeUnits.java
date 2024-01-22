@@ -18,7 +18,7 @@ public enum MillisecondTimeUnits {
 
     private final long value;
 
-    private MillisecondTimeUnits(final long value) {
+    MillisecondTimeUnits(final long value) {
         this.value = value;
     }
 

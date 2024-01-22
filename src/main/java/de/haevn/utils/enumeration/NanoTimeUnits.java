@@ -20,7 +20,7 @@ public enum NanoTimeUnits {
 
     private final long value;
 
-    private NanoTimeUnits(final long value) {
+    NanoTimeUnits(final long value) {
         this.value = value;
     }
 

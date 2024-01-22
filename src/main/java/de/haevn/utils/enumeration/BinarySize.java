@@ -18,7 +18,7 @@ public enum BinarySize {
     YOTTABYTE(ZETTABYTE.getValue() * 1024);
 
     private final long value;
-    private BinarySize(final long value){
+    BinarySize(final long value){
         this.value = value;
     }
 
