@@ -1,7 +1,7 @@
 package de.haevn.utils.logging;
 
+import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.io.FileIO;
-import de.haevn.utils.MetaMethodAccessor;
 import de.haevn.utils.io.SerializationUtils;
 
 import java.io.File;
@@ -213,7 +213,7 @@ public final class Logger {
          * @return The EntryBuilder
          */
         public EntryBuilder forEnclosingMethod() {
-            MetaMethodAccessor.getMethod(2).ifPresent(entry::setHelper);
+            MethodTools.getMethod(2).ifPresent(entry::setHelper);
             return this;
         }
 
@@ -223,7 +223,7 @@ public final class Logger {
          * @return The EntryBuilder
          */
         private EntryBuilder forEnclosingMethod(int skip) {
-            MetaMethodAccessor.getMethod(skip).ifPresent(entry::setHelper);
+            MethodTools.getMethod(skip).ifPresent(entry::setHelper);
             return this;
         }
 

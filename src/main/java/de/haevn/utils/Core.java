@@ -1,11 +1,12 @@
 package de.haevn.utils;
 
 
+import de.haevn.utils.debug.ThreadTools;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -18,7 +19,6 @@ import java.util.function.Function;
  * @since 1.0
  */
 public class Core {
-    private static String appVersion = "";
 
     private Core() {
     }
@@ -47,22 +47,6 @@ public class Core {
         }
     }
 
-    public static void executeSecure(final Runnable run) {
-        try {
-            run.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void setVersion(final String version) {
-        appVersion = version;
-    }
-
-    public static String getAppVersion() {
-        return appVersion;
-    }
-
 
     public static String getCurrentTime() {
         return getCurrentDateWithFormat("HH:mm:ss");
@@ -85,34 +69,7 @@ public class Core {
     }
 
     public static List<Thread> getRunningThreads() {
-        final var threads = Thread.getAllStackTraces().keySet();
-        return new ArrayList<>(threads);
-    }
-
-    /**
-     * Exit the application with code 0.
-     *
-     * @version 1.1
-     * @see #exitApplication(int)
-     * @since 1.1
-     */
-    public static void exitApplication() {
-        exitApplication(0);
-    }
-
-    /**
-     * Exit the application with the given code.
-     *
-     * @param code The exit code.
-     * @version 1.1
-     * @see #exitApplication()
-     * @since 1.1
-     */
-    public static void exitApplication(final int code) {
-        if (AppDefinition.isDebugMode()) {
-            MetaMethodAccessor.getMethod(2).ifPresent(method -> System.err.println("Exit with code " + code + " in " + method));
-        }
-        System.exit(code);
+        return ThreadTools.getThreads();
     }
 
     public static String fitStringLeft(final String string, final int length) {

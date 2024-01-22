@@ -1,6 +1,6 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.AppDefinition;
+import de.haevn.utils.AppLauncher;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -45,6 +45,13 @@ public final class FileIO {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
+    public static String getUserHome(){
+        return java.lang.System.getProperty("user.home");
+    }
+
+    public static String getUserHomeWithSeparator(){
+        return getUserHome() + File.separator;
+    }
 
     //----------------------------------------------------------------------------------------------------------------------
     //  File access methods
@@ -125,11 +132,11 @@ public final class FileIO {
 
 
     public static String readFile(final String path){
-        return readFile(AppDefinition.getAppName(), path);
+        return readFile(AppLauncher.getAppName(), path);
     }
 
     public static String readFile(final File file){
-        return readFile(AppDefinition.getAppName(), file);
+        return readFile(AppLauncher.getAppName(), file);
     }
 
     public static String readFile(final String appName, final File path){
@@ -149,7 +156,7 @@ public final class FileIO {
     }
 
     public static void store(final String path, final String data) {
-        store(AppDefinition.getAppName(), path, data);
+        store(AppLauncher.getAppName(), path, data);
     }
 
     public static void store(final String appName, final String path, final String data) {
@@ -215,7 +222,7 @@ public final class FileIO {
 
 
     public static String getRootPath() {
-        return getRootPath(AppDefinition.getAppName());
+        return getRootPath(AppLauncher.getAppName());
     }
 
     public static String getRootPath(final String appName) {
@@ -223,7 +230,7 @@ public final class FileIO {
     }
 
     public static String getRootPathWithSeparator() {
-        return getRootPathWithSeparator(AppDefinition.getAppName());
+        return getRootPathWithSeparator(AppLauncher.getAppName());
     }
 
     public static String getRootPathWithSeparator(final String appName) {
@@ -252,7 +259,7 @@ public final class FileIO {
     }
 
     public static void construct(final List<String> directories){
-        construct(AppDefinition.getAppName(), directories);
+        construct(AppLauncher.getAppName(), directories);
     }
 
     public static void construct(final String appName, final List<String> directories){

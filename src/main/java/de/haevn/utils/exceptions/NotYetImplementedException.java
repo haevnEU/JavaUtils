@@ -1,6 +1,6 @@
 package de.haevn.utils.exceptions;
 
-import de.haevn.utils.MetaMethodAccessor;
+import de.haevn.utils.debug.MethodTools;
 
 /**
  * Indicates that the method is not yet implemented.
@@ -12,7 +12,7 @@ public class NotYetImplementedException extends Error {
     private String message;
 
     public NotYetImplementedException() {
-        MetaMethodAccessor.getMethod(2).ifPresent(this::initMessage);
+        MethodTools.getMethod(2).ifPresent(this::initMessage);
     }
 
     public NotYetImplementedException(final String message) {
@@ -20,7 +20,7 @@ public class NotYetImplementedException extends Error {
     }
 
 
-    private void initMessage(final MetaMethodAccessor helper) {
+    private void initMessage(final MethodTools helper) {
         this.message = "Method \"" + helper.toString() + "\" is not yet implemented.";
     }
 

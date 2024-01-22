@@ -26,7 +26,7 @@ public class AnnotationUtils {
      * @param packageName The package name.
      * @return A list of classes.
      */
-    public static List<Class<?>> collectBy(final String packageName, Class<? extends Annotation> annotation) {
+    public static List<Class<?>> collectBy(final String packageName, final Class<? extends Annotation> annotation) {
         return getClasses(packageName).stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).toList();
     }
 
@@ -38,14 +38,14 @@ public class AnnotationUtils {
      * @param FeatureType The feature type.
      * @return A list of classes.
      */
-    public static List<Class<?>> collectBy(final String packageName, Class<? extends Annotation> annotation, FeatureType ... features) {
+    public static List<Class<?>> collectBy(final String packageName, final Class<? extends Annotation> annotation, final FeatureType ... features) {
         return getClasses(packageName).stream()
                 .filter(clazz -> clazz.isAnnotationPresent(annotation))
                 .filter(clazz -> isFeaturePresent(clazz, features))
                 .toList();
     }
 
-    private static boolean isFeaturePresent(final Class<?> annotation, final  FeatureType ... features) {
+    private static boolean isFeaturePresent(final Class<?> annotation, final FeatureType ... features) {
         return annotation.getAnnotation(AutoCollect.class).feature().has(features);
     }
 

@@ -1,5 +1,6 @@
-package de.haevn.utils;
+package de.haevn.utils.debug;
 
+import de.haevn.utils.datastructure.ReadonlyTuple;
 import lombok.NonNull;
 
 import java.io.PrintStream;
@@ -36,14 +37,14 @@ import java.util.concurrent.Callable;
  * @since 1.0
  * @author haevn
  */
-public class TimeMeasurement implements AutoCloseable {
+public class TimeMeasurementTools implements AutoCloseable, IDebugTools {
     private static final List<String> RUN_TIME_STACK = new ArrayList<>();
     private final PrintStream out;
 
     /**
      * Create a new TimeMeasurement with System.out as default output stream.
      */
-    public TimeMeasurement() {
+    public TimeMeasurementTools() {
         this(System.out);
     }
 
@@ -51,7 +52,7 @@ public class TimeMeasurement implements AutoCloseable {
      * Create a new TimeMeasurement with the given output stream.
      * @param out The output stream where the result should be printed.
      */
-    public TimeMeasurement(@NonNull final PrintStream out) {
+    public TimeMeasurementTools(@NonNull final PrintStream out) {
         this.out = out;
     }
 
@@ -126,5 +127,42 @@ public class TimeMeasurement implements AutoCloseable {
     @Override
     public void close() throws Exception {
         stop();
+    }
+
+
+
+
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Static methods
+    //----------------------------------------------------------------------------------------------------------------------
+
+
+
+    /**
+     * Measure the time of the given code.
+     * @param code The code to measure.
+     * @return The execution time in milliseconds.
+     */
+    public static long measure(final Runnable code){
+        final long startTime = System.currentTimeMillis();
+        code.run();
+        return System.currentTimeMillis() - startTime;
+    }
+
+    /**
+     * Measure the time of the given code.
+     * @param code The code to measure.
+     * @param <T> The type of the result.
+     * @return The result and the execution time in milliseconds.
+     */
+    public static <T>ReadonlyTuple<T, Long> measure(final Callable<T> code){
+        final long startTime = System.currentTimeMillis();
+        try {
+            final T result = code.call();
+            return new ReadonlyTuple<>(result, System.currentTimeMillis() - startTime);
+        } catch (Exception e) {
+            return new ReadonlyTuple<>(null, System.currentTimeMillis() - startTime);
+        }
     }
 }

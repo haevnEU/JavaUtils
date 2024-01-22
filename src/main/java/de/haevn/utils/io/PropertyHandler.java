@@ -1,6 +1,6 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.AppDefinition;
+import de.haevn.utils.AppLauncher;
 import de.haevn.utils.logging.Logger;
 
 import java.io.*;
@@ -30,7 +30,7 @@ public final class PropertyHandler {
     }
 
     public static PropertyHandler getInstance(final String name) {
-        if (AppDefinition.getAppName().isEmpty()) {
+        if (AppLauncher.getAppName().isEmpty()) {
             throw new IllegalStateException("Application name is not set. Please call PropertyHandler.initialize(String applicationName) first.");
         }
         if (STRING_PROPERTY_HANDLER_HASH_MAP.containsKey(name.toUpperCase())) {
@@ -55,7 +55,7 @@ public final class PropertyHandler {
     }
 
     public void load() {
-        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
+        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.load(inputStream);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", configPath).log();
@@ -117,7 +117,7 @@ public final class PropertyHandler {
 
     public void set(final String k, final String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
@@ -125,7 +125,7 @@ public final class PropertyHandler {
     }
 
     public void store() {
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppDefinition.getAppName()) + configPath)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();

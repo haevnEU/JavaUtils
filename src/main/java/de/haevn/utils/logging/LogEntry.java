@@ -1,6 +1,6 @@
 package de.haevn.utils.logging;
 
-import de.haevn.utils.MetaMethodAccessor;
+import de.haevn.utils.debug.MethodTools;
 
 /**
  * Represents a log entry.
@@ -11,7 +11,7 @@ import de.haevn.utils.MetaMethodAccessor;
  */
 public final class LogEntry {
     private Level level = Level.UNKNOWN;
-    private MetaMethodAccessor helper = null;
+    private MethodTools helper = null;
 
     private String message = "";
     private Throwable throwable = null;
@@ -41,7 +41,7 @@ public final class LogEntry {
      *
      * @return The helper.
      */
-    public MetaMethodAccessor getHelper() {
+    public MethodTools getHelper() {
         return helper;
     }
 
@@ -50,7 +50,7 @@ public final class LogEntry {
      *
      * @param helper The helper.
      */
-    public void setHelper(MetaMethodAccessor helper) {
+    public void setHelper(MethodTools helper) {
         this.helper = helper;
     }
 
