@@ -19,7 +19,6 @@ public abstract class AppLauncher {
     private static boolean debugMode = false;
     private static String appName = "";
     private static ErrorCode.Project project = ErrorCode.Project.UNKNOWN;
-    protected static final Logger LOGGER = new Logger(AppLauncher.class);
     private boolean launched = false;
 
     protected AppLauncher(final String name, final String... args) {
@@ -30,7 +29,6 @@ public abstract class AppLauncher {
         AppLauncher.appName = name;
         AppLauncher.project = project;
 
-        LOGGER.atInfo().withMessage("Start application").log();
         setup();
         launched = true;
         Runtime.getRuntime().addShutdownHook(new Thread(this::onShutdown));
@@ -77,7 +75,7 @@ public abstract class AppLauncher {
      * @return true if the integrity check succeeded.
      */
     public boolean integrityCheck() {
-        LOGGER.atDebug().withMessage("Not implemented integrity check is called").log();
+
         return true;
     }
 
@@ -86,7 +84,7 @@ public abstract class AppLauncher {
      * default implementation does nothing.
      */
     public void repair() {
-        LOGGER.atDebug().withMessage("Not implemented repair is called").log();
+
     }
 
     /**
