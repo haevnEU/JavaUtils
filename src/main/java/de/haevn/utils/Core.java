@@ -3,11 +3,6 @@ package de.haevn.utils;
 
 import de.haevn.utils.debug.ThreadTools;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -17,69 +12,93 @@ import java.util.function.Function;
  * @author haevn
  * @version 1.0
  * @since 1.0
+ * @deprecated This class is deprecated and will be removed in version 1.1, use {@link System} {@link StringUtils} {@Link RecordUtils} and {@link ThreadTools} instead
  */
+@Deprecated(forRemoval = true, since = "1.2")
 public class Core {
 
     private Core() {
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static void copyText(final String text) {
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(new StringSelection(text), null);
+        StringUtils.copyText(text);
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static <R, T> R map(final T value, final Function<? super T, ? extends R> mapper) {
-        return mapper.apply(value);
+        return System.map(value, mapper);
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static <T> T mapRecord(final T value, final Function<? super T, ? extends T> mapper) {
-        return mapper.apply(value);
+        return RecordUtils.mapRecord(value, mapper);
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static void sleepSecond(final long seconds) {
-        sleepMillis(seconds * 1000);
+        TimeUtils.sleepSecond(seconds);
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static void sleepMillis(final long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ignored) {
-        }
+        TimeUtils.sleepMillis(millis);
     }
 
-
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String getCurrentTime() {
-        return getCurrentDateWithFormat("HH:mm:ss");
+        return TimeUtils.getCurrentTime();
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String getCurrentDate() {
-        return getCurrentDateWithFormat("dd/MM/yyyy");
+        return TimeUtils.getCurrentDate();
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String getCurrentDateAndTime() {
-        return getCurrentDateWithFormat("dd/MM/yyyy HH:mm:ss");
+        return TimeUtils.getCurrentDateAndTime();
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String getCurrentDateWithFormat(final String format) {
-        return new SimpleDateFormat(format).format(new Date());
+        return TimeUtils.getCurrentDateWithFormat(format);
     }
 
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String[] getKeyValue(final String key, final String value) {
-        return new String[]{key, value};
+        return System.property(key, value);
     }
 
+
+    @Deprecated(forRemoval = true, since = "1.1")
     public static List<Thread> getRunningThreads() {
         return ThreadTools.getThreads();
     }
 
+
+    @Deprecated(forRemoval = true, since = "1.1")
     public static String fitStringLeft(final String string, final int length) {
-        return String.format("%" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
-    }
-    public static String fitString(final String string, final int length) {
-        return String.format("%-" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
+        return StringUtils.fitStringLeft(string, length);
     }
 
-    public static String trimStringTo(final String input, final int length){
-        return input.length() > length ? input.substring(0, length) : input;
+    @Deprecated(forRemoval = true, since = "1.1")
+    public static String fitString(final String string, final int length) {
+        return StringUtils.fitString(string, length);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.1")
+    public static String trimStringTo(final String input, final int length) {
+        return StringUtils.trimStringTo(input, length);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.1")
+    public static String splitSecure(final String input, final char delimiter) {
+        return StringUtils.splitSecure(input, 0, delimiter);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.1")
+    public static String splitSecure(final String input, final char delimiter, final String defaultValue) {
+        return StringUtils.splitSecure(input, delimiter, 0, defaultValue);
     }
 }

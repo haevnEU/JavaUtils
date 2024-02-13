@@ -1,4 +1,4 @@
-package de.haevn.utils.secure;
+package de.haevn.utils.crypto;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,9 +23,10 @@ import java.util.Base64;
  * final String decoded = Base64Util.Decoder.decode(new FileInputStream(new File("./home/test.txt")));
  * }
  * </pre>
- * @since 1.1
- * @version 1.1
+ *
  * @author haevn
+ * @version 1.1
+ * @since 1.1
  */
 public final class Base64Util {
 
@@ -42,6 +43,7 @@ public final class Base64Util {
 
         /**
          * Encodes the given text.
+         *
          * @param text The text to encode
          * @return The encoded text
          */
@@ -51,6 +53,7 @@ public final class Base64Util {
 
         /**
          * Encodes the given bytes.
+         *
          * @param bytes The bytes to encode
          * @return The encoded bytes
          */
@@ -60,6 +63,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and encodes it.
+         *
          * @param file The file to encode
          * @return The encoded content of the file
          * @throws IOException If an I/O error occurs
@@ -70,6 +74,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and encodes it.
+         *
          * @param fileInputStream The file to encode
          * @return The encoded content of the file
          * @throws IOException If an I/O error occurs
@@ -81,6 +86,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and encodes it.
+         *
          * @param inputStream The file to encode
          * @return The encoded content of the file
          * @throws IOException If an I/O error occurs
@@ -100,6 +106,7 @@ public final class Base64Util {
 
         /**
          * Decodes the given text.
+         *
          * @param text The text to decode
          * @return The decoded text
          */
@@ -109,6 +116,7 @@ public final class Base64Util {
 
         /**
          * Decodes the given bytes.
+         *
          * @param bytes The bytes to decode
          * @return The decoded bytes
          */
@@ -118,6 +126,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and decodes it.
+         *
          * @param file The file to decode
          * @return The decoded content of the file
          * @throws IOException If an I/O error occurs
@@ -128,6 +137,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and decodes it.
+         *
          * @param fileInputStream The file to decode
          * @return The decoded content of the file
          * @throws IOException If an I/O error occurs
@@ -139,6 +149,7 @@ public final class Base64Util {
 
         /**
          * Reads the content of the given file and decodes it.
+         *
          * @param inputStream The file to decode
          * @return The decoded content of the file
          * @throws IOException If an I/O error occurs
