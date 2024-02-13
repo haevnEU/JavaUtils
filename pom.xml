@@ -134,8 +134,8 @@
                     <source>${build.version}</source>
                     <target>${build.version}</target>
                     <excludes>
-                        <exclude>**/RunnableModuleTest.java</exclude>
-                        <exclude>**/RunnableModuleTest.java</exclude>
+                        <exclude>**/Playground.java</exclude>
+                        <exclude>**/Playground.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

@@ -34,23 +34,6 @@ public class Document {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        Document document = new Document();
-        document.getHeader().setTitle("Test");
-        document.getHeader().setCharset("UTF-8");
-        document.getHeader().setViewport("width=device-width, initial-scale=1.0");
-        document.getHeader().addStyle("style.css");
-        document.getHeader().addScript("script.js");
-        document.getFooter().addElement("Test");
-        document.getFooter().addElement("Test2");
-        document.getFooter().addElement("Test3");
-        document.getBody().addElement("<h1>Test</h1>");
-        document.getBody().addElement("<p>Test</p>");
-
-        document.export("D:\\repos\\JavaUtils\\target", "test.html");
-        System.out.println(document.export("D:\\repos\\JavaUtils\\target\\sub", "test.html", true));
-    }
-
 
     public Path export(final String path, final String name) throws IOException {
         return export(path, name, false);
