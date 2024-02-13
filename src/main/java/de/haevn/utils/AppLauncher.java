@@ -2,7 +2,6 @@ package de.haevn.utils;
 
 import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ErrorCode;
-import de.haevn.utils.logging.Logger;
 
 import java.util.Arrays;
 
@@ -36,6 +35,48 @@ public abstract class AppLauncher {
         start(args);
     }
 
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public static String getAppName() {
+        return appName;
+    }
+
+    public static ErrorCode.Project getProject() {
+        return project;
+    }
+
+    public static String getVersion() {
+        return VERSION;
+    }
+
+    /**
+     * Exit the application with code 0.
+     *
+     * @version 1.1
+     * @see #exitApplication(int)
+     * @since 1.1
+     */
+    public static void exitApplication() {
+        exitApplication(0);
+    }
+
+    /**
+     * Exit the application with the given code.
+     *
+     * @param code The exit code.
+     * @version 1.1
+     * @see #exitApplication()
+     * @since 1.1
+     */
+    public static void exitApplication(final int code) {
+        if (isDebugMode()) {
+            MethodTools.getMethod(2).ifPresent(method -> java.lang.System.err.println("Exit with code " + code + " in " + method));
+        }
+        java.lang.System.exit(code);
+    }
+
     /**
      * Starts the application.
      *
@@ -56,7 +97,6 @@ public abstract class AppLauncher {
     public boolean isLaunched() {
         return launched;
     }
-
 
     /**
      * Called when the application is starting up.
@@ -96,51 +136,8 @@ public abstract class AppLauncher {
         return appName;
     }
 
-    public static boolean isDebugMode() {
-        return debugMode;
-    }
-
-    public static String getAppName() {
-        return appName;
-    }
-
-    public static ErrorCode.Project getProject() {
-        return project;
-    }
-
-    public static String getVersion() {
-        return VERSION;
-    }
-
-    protected void enableDebug(){
+    protected void enableDebug() {
         AppLauncher.debugMode = true;
-    }
-
-
-    /**
-     * Exit the application with code 0.
-     *
-     * @version 1.1
-     * @see #exitApplication(int)
-     * @since 1.1
-     */
-    public static void exitApplication() {
-        exitApplication(0);
-    }
-
-    /**
-     * Exit the application with the given code.
-     *
-     * @param code The exit code.
-     * @version 1.1
-     * @see #exitApplication()
-     * @since 1.1
-     */
-    public static void exitApplication(final int code) {
-        if (isDebugMode()) {
-            MethodTools.getMethod(2).ifPresent(method -> System.err.println("Exit with code " + code + " in " + method));
-        }
-        System.exit(code);
     }
 
 

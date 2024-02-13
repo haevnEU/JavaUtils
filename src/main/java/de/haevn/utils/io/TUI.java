@@ -1,6 +1,7 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.Core;
+
+import de.haevn.utils.StringUtils;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -69,15 +70,15 @@ public final class TUI implements AutoCloseable {
 
     private void help(){
 
-        out.println(Core.fitString("Command", 10) + " | " + Core.fitString("Name", 10) + " | Description");
-        out.println(Core.fitString("Command", 10) + " | " + Core.fitString("Name", 10) + " | Description");
+        out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
+        out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
         out.println("-".repeat(60));
-        out.println(Core.fitString(exitWord, 10) + " | " + Core.fitString("Exit", 10)+ " | Exit the application");
-        out.println(Core.fitString("help", 10) + " | " + Core.fitString("Help", 10)+ " | Show this help");
-        out.println(Core.fitString("?", 10) + " | " + Core.fitString("Help", 10)+ " | Show this help");
-        out.println(Core.fitString("clear", 10) + " | " + Core.fitString("clear", 10)+ " | Clear the screen");
+        out.println(StringUtils.fitString(exitWord, 10) + " | " + StringUtils.fitString("Exit", 10)+ " | Exit the application");
+        out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
+        out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
+        out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10)+ " | Clear the screen");
         entries.forEach(entry -> {
-            out.println(Core.fitString(entry.command, 10) + " | " + Core.fitString(entry.name, 10) + " | " + entry.description);
+            out.println(StringUtils.fitString(entry.command, 10) + " | " + StringUtils.fitString(entry.name, 10) + " | " + entry.description);
         });
     }
 

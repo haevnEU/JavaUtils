@@ -102,11 +102,6 @@ public class ObjectGroup<T> {
         return this;
     }
 
-
-    public T[] toArray() {
-        return (T[]) elements.toArray();
-    }
-
     public Stream<T> stream() {
         return elements.stream();
     }
