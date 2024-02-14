@@ -23,7 +23,7 @@ public final class ListOperation {
      * @param <T>        Type of the list.
      * @return True if the content is equal, false otherwise.
      */
-    public static <T> boolean isContentEqual(List<T> first, List<T> second, Comparator<T> comparator) {
+    public static <T> boolean isContentEqual(final List<T> first, final List<T> second, Comparator<T> comparator) {
         return isContentEqual(first, second, comparator, 4);
     }
 
@@ -37,7 +37,7 @@ public final class ListOperation {
      * @param <T>        Type of the list.
      * @return True if the content is equal, false otherwise.
      */
-    public static <T> boolean isContentEqual(List<T> first, List<T> second, Comparator<T> comparator, int tolerance) {
+    public static <T> boolean isContentEqual(final List<T> first, final List<T> second, Comparator<T> comparator, final int tolerance) {
 
         if (null == first || null == second || first.size() != second.size()) {
             return false;
@@ -50,6 +50,7 @@ public final class ListOperation {
             }
         }
 
+        // BUG this is a potential bug, the tolerance comparison should be in range of the tolerance
         return idMatch == tolerance;
     }
 }

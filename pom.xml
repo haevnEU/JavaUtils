@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.haevn</groupId>
-    <artifactId>${app.name}</artifactId>
-    <version>${app.version}</version>
-    <description>${app.description}</description>
-    <url>${app.url}</url>
+    <artifactId>Utility</artifactId>
+    <version>1.1.1</version>
+    <description>Utility Library for other projects</description>
+    <url>https://github.com/nimile/JavaUtils</url>
 
     <contributors>
         <contributor>
@@ -33,35 +33,17 @@
 
     <properties>
         <!-- app.data -->
-        <app.name>Utility</app.name>
-        <app.description>Utility Library for other projects</app.description>
-        <app.url></app.url>
-        <app.version>0.0.0.1</app.version>
         <app.build>DEV</app.build>
         <app.preview>false</app.preview>
 
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!--Versions for project-->
-        <version.commons-io>2.11.0</version.commons-io>
-        <version.commons-lang3>3.12.0</version.commons-lang3>
-        <version.fx.controls>11.1.2</version.fx.controls>
-        <version.fx.validator>0.4.0</version.fx.validator>
-        <version.fx.bootstrap>0.4.0</version.fx.bootstrap>
-        <version.fx.tiles>17.1.17</version.fx.tiles>
-        <version.jackson>2.14.2</version.jackson>
-        <version.javafx>19.0.2.1</version.javafx>
-        <version.jetbrains.annotations>24.0.1</version.jetbrains.annotations>
-        <version.junit>5.9.2</version.junit>
-        <version.lombok>1.18.26</version.lombok>
-        <version.zip4j>2.11.5</version.zip4j>
-
         <!-- Build information -->
-        <build.version>17</build.version>
-        <build.mainClass></build.mainClass>
-        <build.version.maven.compiler>3.10.1</build.version.maven.compiler>
-        <build.version.jfx.plugin>0.0.8</build.version.jfx.plugin>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <build.version.own.move>1.0.1-SNAPSHOT</build.version.own.move>
+        <build.version>21</build.version>
     </properties>
 
     <dependencies>
@@ -70,111 +52,59 @@
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
-            <version>${version.zip4j}</version>
+            <version>2.11.5</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${version.lombok}</version>
+            <version>1.18.30</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${version.jackson}</version>
+            <version>2.16.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${version.jackson}</version>
+            <version>2.16.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-            <version>${version.jackson}</version>
+            <version>2.16.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${version.commons-io}</version>
+            <version>2.15.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${version.commons-lang3}</version>
+            <version>3.14.0</version>
         </dependency>
-
-        <!-- javaFX -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${version.javafx}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${version.javafx}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>${version.javafx}</version>
-        </dependency>
-
-        <!-- Custom javaFX libraries -->
-        <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
-            <version>${version.fx.controls}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.synedra</groupId>
-            <artifactId>validatorfx</artifactId>
-            <version>${version.fx.validator}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.kordamp.bootstrapfx</groupId>
-            <artifactId>bootstrapfx-core</artifactId>
-            <version>${version.fx.bootstrap}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.hansolo</groupId>
-            <artifactId>tilesfx</artifactId>
-            <version>${version.fx.tiles}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${version.junit}</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${version.junit}</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -182,7 +112,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>${version.jetbrains.annotations}</version>
+            <version>23.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -190,35 +120,27 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>de.haevn</groupId>
+                <artifactId>library-move-maven-plugin</artifactId>
+                <version>${build.version.own.move}</version>
+            </plugin>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${build.version.maven.compiler}</version>
+                <version>3.12.1</version>
                 <configuration>
                     <source>${build.version}</source>
                     <target>${build.version}</target>
+                    <excludes>
+                        <exclude>**/Playground.java</exclude>
+                        <exclude>**/Playground.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>${build.version.jfx.plugin}</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>${build.mainClass}</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 </project>
