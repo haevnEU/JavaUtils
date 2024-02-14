@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * @version 1.0
+ * @since 1.1
+ * @author haevn
+ */
 public class Document {
     private final String lang;
     private final String title;
