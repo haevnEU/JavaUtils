@@ -6,18 +6,20 @@ import java.nio.file.Path;
 
 public class Document {
     private final String lang;
+    private final String title;
     private final Header header = new Header();
 
     private final Footer footer = new Footer();
 
     private final Body body = new Body();
 
-    public Document() {
-        this("en");
+    public Document(final String title) {
+        this(title, "en");
     }
 
-    public Document(String lang) {
+    public Document(final String title, final String lang) {
         this.lang = lang;
+        this.title = title;
     }
 
     public Header getHeader() {
@@ -68,7 +70,7 @@ public class Document {
         return compile(false);
     }
     private String compile(final boolean minified) {
-        String document = "<!DOCTYPE html>\n<html lang=\""+lang+"\">\n" + header.build() + "\n" + body.build() + "\n" + footer.build() + "\n</html>";
+        String document = "<!DOCTYPE html>\n<html title=\"" + title + "\" lang=\""+lang+"\">\n" + header.build() + "\n" + body.build() + "\n" + footer.build() + "\n</html>";
         return minified ? document.replace("\n", "").replace("\t", "") : document;
     }
 }

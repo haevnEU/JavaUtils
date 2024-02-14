@@ -8,10 +8,10 @@ public class Body {
     private String style;
     private final List<String> script = new ArrayList<>();
     private final List<String> styleClass = new ArrayList<>();
-    private final List<String> elements = new ArrayList<>();
+    private final List<AbstractElement> elements = new ArrayList<>();
 
 
-    public Body addElement(String element) {
+    public Body addElement(AbstractElement element) {
         elements.add(element);
         return this;
     }
@@ -35,7 +35,7 @@ public class Body {
         return "<body"
                 + (!styleClass.isEmpty() ? " class=\"" + String.join(" ", styleClass) + "\" " : "")
                 + (style != null ? " style=\"" + style + "\" " : "") + ">\n"
-                + String.join("\n", elements)
+                + String.join("\n", elements.stream().map(AbstractElement::code).toList())
                 + (!script.isEmpty() ? String.join("\n", "<script>\n" +  script + "\n<script>") : "")
                 + "\n</body>";
     }

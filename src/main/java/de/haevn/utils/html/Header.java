@@ -7,10 +7,6 @@ import java.util.Map;
 
 public class Header {
     private final Map<String, String> elements = new HashMap<>();
-    public Header setTitle(String title) {
-        elements.put("title", "<title>" + title + "</title>");
-        return this;
-    }
 
     public Header addMeta(String name, String content) {
         elements.put(name, "<meta name=\"" + name + "\" content=\"" + content + "\">");
