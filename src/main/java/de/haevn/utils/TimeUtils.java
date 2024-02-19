@@ -42,4 +42,18 @@ public class TimeUtils {
         return new SimpleDateFormat(format).format(new Date());
     }
 
+    public static String timestampToTime() {
+        return timestampToTime(java.lang.System.currentTimeMillis());
+    }
+
+    public static String timestampToTime(final long timestamp) {
+        return timestampToTime(timestamp, getCurrentDateAndTime());
+    }
+
+
+    public static String timestampToTime(final long timestamp, final String format) {
+        return new SimpleDateFormat(format).format(new Date(timestamp));
+    }
+
+
 }

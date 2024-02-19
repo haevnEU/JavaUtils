@@ -60,6 +60,18 @@ public class StringUtils {
     }
 
     /**
+     * Trim string to string.
+     *
+     * @param input  the input
+     * @param length the length
+     * @param indicator the indicator
+     * @return the trimmed string
+     */
+    public static String trimStringTo(final String input, final int length, final String indicator) {
+        return input.length() > length ? input.substring(0, (length - indicator.length())) + indicator : input ;
+    }
+
+    /**
      * Split secure string.
      *
      * @param input     the input
