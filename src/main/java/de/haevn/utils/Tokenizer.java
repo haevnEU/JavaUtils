@@ -1,4 +1,4 @@
-package de.haevn.utils.specification;
+package de.haevn.utils;
 
 import de.haevn.utils.datastructure.Tuple;
 

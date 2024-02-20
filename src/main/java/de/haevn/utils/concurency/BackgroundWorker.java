@@ -65,7 +65,7 @@ public class BackgroundWorker {
     /**
      * Creates a new BackgroundWorker with 70% of the available processors
      */
-    public BackgroundWorker() {
+    private BackgroundWorker() {
         this((int)(Runtime.getRuntime().availableProcessors() * 0.7));
     }
 
@@ -73,8 +73,10 @@ public class BackgroundWorker {
      * Creates a new BackgroundWorker with the given amount of threads
      * @param amountThreads the amount of threads
      */
-    public BackgroundWorker(final int amountThreads) {
+    private BackgroundWorker(final int amountThreads) {
+        LOGGER.atWarning().withMessage("Creating new BackgroundWorker with %s threads.", amountThreads).log();
         executor = Executors.newScheduledThreadPool(amountThreads);
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     private static final Logger LOGGER = new Logger(BackgroundWorker.class);
