@@ -1,4 +1,4 @@
-package de.haevn.utils.system;
+package de.haevn.utils.specification;
 
 import com.sun.management.OperatingSystemMXBean;
 

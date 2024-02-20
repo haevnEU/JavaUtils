@@ -96,6 +96,28 @@ public class BackgroundWorker {
      * Submits a task to the background worker.
      * @param runnable the task
      * @param name the name of the task
+     * @return a {@link ScheduledFuture} representing pending completion of the task
+     */
+    public ScheduledFuture<?> submitOnce(final Runnable runnable, final String name){
+        return submitOnce(runnable, name, 0);
+    }
+
+    /**
+     * Submits a task to the background worker.
+     * @param runnable the task
+     * @param name the name of the task
+     * @param delay the delay before the task should be executed
+     * @return a {@link ScheduledFuture} representing pending completion of the task
+     */
+    public ScheduledFuture<?> submitOnce(final Runnable runnable, final String name, final long delay){
+        LOGGER.atInfo().withMessage("Submitting %s to background worker", name).log();
+        return executor.schedule(runnable, delay, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Submits a task to the background worker.
+     * @param runnable the task
+     * @param name the name of the task
      * @param delay the delay before the task should be executed
      * @param interval the interval in which the task should be executed
      * @param unit the unit of the interval

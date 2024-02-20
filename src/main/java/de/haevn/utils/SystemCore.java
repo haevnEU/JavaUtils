@@ -7,15 +7,15 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * A simple class for System information.
+ * A simple class for SystemCore information.
  *
  * @author haevn
  * @version 1.0
  * @since 1.1
  */
-public class System {
+public class SystemCore {
 
-    private System() {
+    private SystemCore() {
     }
 
     public static <R, T> R map(final T value, final Function<? super T, ? extends R> mapper) {
