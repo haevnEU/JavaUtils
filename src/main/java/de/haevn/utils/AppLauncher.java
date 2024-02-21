@@ -4,6 +4,7 @@ import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ErrorCode;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * The AppLauncher class is used to launch an application.
@@ -17,6 +18,8 @@ public abstract class AppLauncher {
     private static final String VERSION = "1.1";
     private static boolean debugMode = false;
     private static String appName = "";
+    private static String supportUrl = "";
+    private static String projectUrl = "";
     private static ErrorCode.Project project = ErrorCode.Project.UNKNOWN;
     private boolean launched = false;
 
@@ -140,5 +143,27 @@ public abstract class AppLauncher {
         AppLauncher.debugMode = true;
     }
 
+
+    protected static void setSupportUrl(final String url) {
+        AppLauncher.supportUrl = url;
+    }
+
+    public static Optional<String> getSupportUrl() {
+        if (supportUrl.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(supportUrl);
+    }
+
+    protected static void setProjectUrl(final String url) {
+        AppLauncher.projectUrl = url;
+    }
+
+    public static Optional<String> getProjectUrl() {
+        if (projectUrl.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(projectUrl);
+    }
 
 }

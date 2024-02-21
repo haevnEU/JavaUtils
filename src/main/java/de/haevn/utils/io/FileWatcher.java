@@ -4,13 +4,14 @@ import de.haevn.utils.concurency.BackgroundWorker;
 import de.haevn.utils.logging.Logger;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class FileWatcher implements AutoCloseable{
+public class FileWatcher implements AutoCloseable {
     private static final FileWatcher INSTANCE = new FileWatcher();
     private final Logger LOGGER = new Logger(FileWatcher.class);
     private final BackgroundWorker backgroundWorker = BackgroundWorker.getInstance();
+
     public static synchronized FileWatcher getInstance() {
         return INSTANCE;
     }
@@ -25,7 +26,7 @@ public class FileWatcher implements AutoCloseable{
     public void watch(final String path, final int interval, TimeUnit unit, final Runnable callback) {
         LOGGER.atInfo().forEnclosingMethod().withMessage("Start watching").log();
         final File file = new File(path);
-        AtomicLong lastModified = new AtomicLong(file.lastModified());
+        final AtomicLong lastModified = new AtomicLong(file.lastModified());
         backgroundWorker.submit(() -> {
             if (file.lastModified() != lastModified.get()) {
                 LOGGER.atInfo().forEnclosingMethod().withMessage("File %s has changed", file.getName()).log();
