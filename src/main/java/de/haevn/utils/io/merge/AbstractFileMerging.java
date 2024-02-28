@@ -1,7 +1,5 @@
 package de.haevn.utils.io.merge;
 
-import de.haevn.utils.logging.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,21 +8,12 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
+import static de.haevn.utils.AppLauncher.LOGGER;
+
 /**
  * This class provides methods to merge files.
  */
 public abstract class AbstractFileMerging implements IFileMerging {
-    private static final Logger LOGGER = new Logger(SimpleFileMerging.class);
-
-
-    /**
-     * Merges the given files into the output file.
-     *
-     * @param output the output file
-     * @param input  the input files
-     * @throws IOException if an error occurs while merging the files
-     */
-    public abstract void mergeFiles(final File output, final List<File> input);
 
     /**
      * Merges the given files into the output file.

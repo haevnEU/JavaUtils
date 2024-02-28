@@ -2,7 +2,6 @@ package de.haevn.utils.network.webhook;
 
 import de.haevn.utils.exceptions.ValidationFailedException;
 import de.haevn.utils.io.SerializationUtils;
-import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;
 import de.haevn.utils.network.webhook.discord.Embed;
@@ -11,6 +10,8 @@ import de.haevn.utils.network.webhook.discord.embed.EmbedField;
 import de.haevn.utils.network.webhook.discord.embed.EmbedFooter;
 
 import java.util.List;
+
+import static de.haevn.utils.AppLauncher.LOGGER;
 
 /**
  * This class is used to send embeds to discord webhooks
@@ -29,7 +30,6 @@ import java.util.List;
  * @since 1.1
  */
 public class DiscordWebhook implements IWebhook<Embed> {
-    private static final Logger LOGGER = new Logger(DiscordWebhook.class);
     private final String url;
 
     public DiscordWebhook(final String url) {

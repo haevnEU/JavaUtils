@@ -1,8 +1,8 @@
 package de.haevn.utils.logging;
 
 import de.haevn.utils.debug.MethodTools;
-import de.haevn.utils.io.FileIO;
 import de.haevn.utils.io.SerializationUtils;
+import de.haevn.utils.io.file.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +41,7 @@ public final class Logger {
         this.config = config;
         if(null == this.config.getFileOutput()){
             try {
-                final var logFile = new File(FileIO.getRootPathWithSeparator() + "logs" + File.separatorChar + this.name + ".log");
+                final var logFile = new File(FileUtils.getApplicationRootWithSeparator() + "logs" + File.separatorChar + this.name + ".log");
                 if(!logFile.exists()){
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();

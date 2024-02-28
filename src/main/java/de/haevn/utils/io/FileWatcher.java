@@ -1,15 +1,15 @@
 package de.haevn.utils.io;
 
 import de.haevn.utils.concurency.BackgroundWorker;
-import de.haevn.utils.logging.Logger;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static de.haevn.utils.AppLauncher.LOGGER;
+
 public class FileWatcher implements AutoCloseable {
     private static final FileWatcher INSTANCE = new FileWatcher();
-    private final Logger LOGGER = new Logger(FileWatcher.class);
     private final BackgroundWorker backgroundWorker = BackgroundWorker.getInstance();
 
     public static synchronized FileWatcher getInstance() {
