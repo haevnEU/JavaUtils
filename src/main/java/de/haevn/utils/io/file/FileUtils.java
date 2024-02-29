@@ -1,6 +1,8 @@
 package de.haevn.utils.io.file;
 
 import de.haevn.utils.AppLauncher;
+import de.haevn.utils.crypto.Base64Util;
+import de.haevn.utils.crypto.HashUtil;
 
 import java.awt.*;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
@@ -88,11 +91,11 @@ public class FileUtils {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
-    public static String getUserHome(){
+    public static String getUserHome() {
         return java.lang.System.getProperty("user.home");
     }
 
-    public static String getUserHomeWithSeparator(){
+    public static String getUserHomeWithSeparator() {
         return getUserHome() + File.separator;
     }
 
@@ -124,6 +127,29 @@ public class FileUtils {
         return LocalDateTime.ofInstant(getInfo(file).lastModifiedTime().toInstant(), java.time.ZoneId.systemDefault());
     }
 
+    public static byte[] hash(final File file) {
+        return hash(file.toPath());
+    }
+
+    public static byte[] hash(final Path file) {
+        try {
+            return HashUtil.getInstance(HashUtil.HashType.MD5)
+                    .hash(file.toFile())
+                    .getResult().bytes();
+        } catch (IOException | NoSuchAlgorithmException e) {
+            LOGGER.atWarning().withException(e).withMessage("Failed to hash %s", file.getFileName()).log();
+            return new byte[0];
+        }
+    }
+
+    public static Optional<String> base64(final File file) {
+        try {
+            return Optional.of(Base64Util.Encoder.encode(file));
+        } catch (IOException e) {
+            LOGGER.atWarning().withException(e).withMessage("Failed to encode %s", file.getName()).log();
+            return Optional.empty();
+        }
+    }
 
 
     public static class SimpleFileAttributes implements BasicFileAttributes {

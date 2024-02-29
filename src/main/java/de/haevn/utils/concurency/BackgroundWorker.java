@@ -7,8 +7,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-// Todo implement own Threadpool with logging
-
 /**
  * This class provides a simple way to execute tasks in the background.
  * It uses a {@link ScheduledExecutorService} to execute the tasks.
@@ -81,6 +79,7 @@ public class BackgroundWorker {
     private BackgroundWorker(final int amountThreads) {
         LOGGER.atInfo().withMessage("Creating new BackgroundWorker with %s threads.", amountThreads).log();
         executor = new BackgroundWorkerThreadService(amountThreads);
+
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -159,19 +158,23 @@ public class BackgroundWorker {
     private static class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
         public BackgroundWorkerThreadService(int corePoolSize) {
             super(corePoolSize);
+            setThreadFactory(runnable -> Thread.ofVirtual().uncaughtExceptionHandler(this::exceptionHandler).unstarted(runnable));
+        }
+
+        private void exceptionHandler(Thread thread, Throwable throwable) {
+            LOGGER.atError().withException(throwable).withMessage("Uncaught exception in %s", thread.getName()).log();
         }
 
         @Override
-        protected void beforeExecute(Thread t, Runnable r) {
-            super.beforeExecute(t, r);
-            LOGGER.atInfo().withMessage("Executing %s", t.getName()).withObject(t).log();
+        protected void beforeExecute(Thread thread, Runnable runnablee) {
+            super.beforeExecute(thread, runnablee);
+            LOGGER.atInfo().withMessage("Executing %s", thread.getName()).withObject(thread).log();
         }
 
         @Override
-        protected void afterExecute(Runnable r, Throwable t) {
-            super.afterExecute(r, t);
-
-            LOGGER.atInfo().withMessage("Finished").withException(t).log();
+        protected void afterExecute(Runnable runnable, Throwable throwable) {
+            super.afterExecute(runnable, throwable);
+            LOGGER.atInfo().withMessage("Finished").withException(throwable).log();
         }
 
     }

@@ -18,6 +18,7 @@ import java.util.Optional;
 public abstract class AppLauncher {
     private static final String VERSION = "1.1";
     private static boolean debugMode = false;
+    private static boolean initialized = false;
     private static String appName = "";
     private static String supportUrl = "";
     private static String projectUrl = "";
@@ -33,6 +34,7 @@ public abstract class AppLauncher {
         AppLauncher.project = project;
 
         setup();
+        initialized = true;
         launched = true;
         Runtime.getRuntime().addShutdownHook(new Thread(this::onShutdown));
 
@@ -53,6 +55,10 @@ public abstract class AppLauncher {
 
     public static String getVersion() {
         return VERSION;
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     /**

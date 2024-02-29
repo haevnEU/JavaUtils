@@ -27,6 +27,7 @@ public class FileWatcher implements AutoCloseable {
         LOGGER.atInfo().forEnclosingMethod().withMessage("Start watching").log();
         final File file = new File(path);
         final AtomicLong lastModified = new AtomicLong(file.lastModified());
+
         backgroundWorker.submit(() -> {
             if (file.lastModified() != lastModified.get()) {
                 LOGGER.atInfo().forEnclosingMethod().withMessage("File %s has changed", file.getName()).log();

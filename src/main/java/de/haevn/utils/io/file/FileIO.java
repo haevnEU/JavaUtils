@@ -3,6 +3,7 @@ package de.haevn.utils.io.file;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 import static de.haevn.utils.AppLauncher.LOGGER;
@@ -27,12 +28,13 @@ public class FileIO {
      * Store the content to the file at the given path.
      * if the file does not exist, it will be created.
      *
-     * @param path    the path to the file
+     * @param file    the path to the file
      * @param content the content to store
      */
     public static boolean store(final File file, final byte[] content) {
         try {
             if (!file.exists()) {
+                file.getParentFile().mkdirs();
                 file.createNewFile();
             }
             Files.write(file.toPath(), content);
@@ -59,19 +61,30 @@ public class FileIO {
      * Append the content to the file at the given path.
      * if the file does not exist, it will be created.
      *
-     * @param path    the path to the file
+     * @param file    the path to the file
      * @param content the content to append
      */
     public static void append(final File file, final byte[] content) {
         try {
             if (!file.exists()) {
+                file.getParentFile().mkdirs();
                 file.createNewFile();
             }
-            Files.write(file.toPath(), content);
+            Files.write(file.toPath(), content, StandardOpenOption.APPEND);
         } catch (IOException e) {
             LOGGER.atError().withException(e).withMessage("Failed to append content to %s", file).log();
         }
     }
+
+    public static void appendLn(final File file, final String content) {
+        append(file, (System.lineSeparator() + content).getBytes());
+    }
+
+    public static void appendLn(final File file, final byte[] content) {
+        append(file, (System.lineSeparator()).getBytes());
+        append(file, content);
+    }
+
 
     /**
      * Read the content from the file at the given path.
@@ -80,7 +93,7 @@ public class FileIO {
      * @return the content of the file or an empty optional if the file does not exist
      */
     public static Optional<String> read(final String path) {
-        return read(path);
+        return read(new File(path));
     }
 
     /**
@@ -125,9 +138,20 @@ public class FileIO {
         }
     }
 
+    public static void delete(final File file) {
+        try {
+            Files.delete(file.toPath());
+        } catch (IOException e) {
+            LOGGER.atError().withException(e).withMessage("Failed to delete file %s", file.getPath()).log();
+        }
+    }
+
 
     public static void createFileIfNotExists(final String path) {
-        final File file = new File(path);
+        createFileIfNotExists(new File(path));
+    }
+
+    public static void createFileIfNotExists(final File file) {
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -135,7 +159,7 @@ public class FileIO {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                LOGGER.atError().withException(e).withMessage("Failed to create file %s", path).log();
+                LOGGER.atError().withException(e).withMessage("Failed to create file %s", file.getAbsolutePath()).log();
             }
         }
     }
