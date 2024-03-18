@@ -2,6 +2,7 @@ package de.haevn.utils.io.file;
 
 import de.haevn.utils.concurency.BackgroundWorker;
 import de.haevn.utils.datastructure.Observable;
+import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;
 
@@ -10,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public class FileRepair {
+    private static final Logger LOGGER = new Logger(FileRepair.class);
+
     final Observable<Status> status = new Observable<>(Status.NOT_STARTED);
 
     public static RepairPipeline openPipeline() {

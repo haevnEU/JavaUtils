@@ -2,7 +2,6 @@ package de.haevn.utils;
 
 import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ErrorCode;
-import de.haevn.utils.logging.Logger;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -146,7 +145,6 @@ public abstract class AppLauncher {
         return appName;
     }
 
-    public static final Logger LOGGER = new Logger(AppLauncher.class);
 
     protected void enableDebug() {
         AppLauncher.debugMode = true;

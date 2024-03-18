@@ -1,14 +1,16 @@
 package de.haevn.utils.io.merge;
 
+import de.haevn.utils.logging.Logger;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public class PdfMerge extends AbstractFileMerging {
+    private static final Logger LOGGER = new Logger(PdfMerge.class);
+
     private static final PdfMerge INSTANCE = new PdfMerge();
 
     public static synchronized PdfMerge getInstance() {

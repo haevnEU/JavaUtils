@@ -1,11 +1,12 @@
 package de.haevn.utils.io.merge;
 
+import de.haevn.utils.logging.Logger;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 /**
  * This class provides methods to merge basic files. Extends {@link AbstractFileMerging}
@@ -15,6 +16,8 @@ import static de.haevn.utils.AppLauncher.LOGGER;
  * @since 1.1
  */
 public final class SimpleFileMerging extends AbstractFileMerging {
+    private static final Logger LOGGER = new Logger(SimpleFileMerging.class);
+
     private static final SimpleFileMerging INSTANCE = new SimpleFileMerging();
 
     public static synchronized SimpleFileMerging getInstance() {

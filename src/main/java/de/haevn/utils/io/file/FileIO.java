@@ -1,14 +1,17 @@
 package de.haevn.utils.io.file;
 
+import de.haevn.utils.logging.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public class FileIO {
+    private static final Logger LOGGER = new Logger(FileIO.class);
+
     private FileIO() {
     }
 

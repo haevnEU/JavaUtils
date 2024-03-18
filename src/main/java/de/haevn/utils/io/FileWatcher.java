@@ -1,17 +1,16 @@
 package de.haevn.utils.io;
 
 import de.haevn.utils.concurency.BackgroundWorker;
+import de.haevn.utils.logging.Logger;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public class FileWatcher implements AutoCloseable {
+    private static final Logger LOGGER = new Logger(FileWatcher.class);
+
     private final AtomicLong watchingFiles = new AtomicLong(0);
     private final AtomicLong maxFiles = new AtomicLong(5);
     private static final FileWatcher INSTANCE = new FileWatcher();
@@ -21,7 +20,7 @@ public class FileWatcher implements AutoCloseable {
         return INSTANCE;
     }
 
-    public static synchronized void setLimit(final int limit){
+    public static synchronized void setLimit(final int limit) {
         INSTANCE.maxFiles.set(limit);
     }
 
@@ -30,7 +29,7 @@ public class FileWatcher implements AutoCloseable {
     }
 
     public void watch(final String path, final int interval, TimeUnit unit, final Runnable callback) {
-        if(maxFiles.get() < watchingFiles.get()) {
+        if (maxFiles.get() < watchingFiles.get()) {
             LOGGER.atError().forEnclosingMethod().withMessage("Max files reached, current limit is %s/%s", watchingFiles.get(), maxFiles).log();
             return;
         }

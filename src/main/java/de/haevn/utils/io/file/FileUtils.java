@@ -3,6 +3,7 @@ package de.haevn.utils.io.file;
 import de.haevn.utils.AppLauncher;
 import de.haevn.utils.crypto.Base64Util;
 import de.haevn.utils.crypto.HashUtil;
+import de.haevn.utils.logging.Logger;
 
 import java.awt.*;
 import java.io.File;
@@ -15,10 +16,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 /**
  * This class provides utility methods for file operations.
@@ -28,6 +30,8 @@ import static de.haevn.utils.AppLauncher.LOGGER;
  * @since 1.2
  */
 public class FileUtils {
+    private static final Logger LOGGER = new Logger(FileUtils.class);
+
     private FileUtils() {
     }
 
@@ -149,6 +153,26 @@ public class FileUtils {
             LOGGER.atWarning().withException(e).withMessage("Failed to encode %s", file.getName()).log();
             return Optional.empty();
         }
+    }
+
+    public static List<File> listAllFiles(final File directory) {
+        if (directory.isFile()) {
+            return List.of();
+        }
+
+        final var result = new ArrayList<File>();
+        final var files = directory.listFiles();
+        if (files == null) {
+            return result;
+        }
+        for (File file : files) {
+            if (file.isDirectory()) {
+                result.addAll(listAllFiles(file));
+            } else {
+                result.add(file);
+            }
+        }
+        return result;
     }
 
 

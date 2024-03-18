@@ -1,10 +1,13 @@
 package de.haevn.utils.concurency;
 
+import de.haevn.utils.logging.Logger;
+
 import java.util.concurrent.Callable;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public final class ConcurrencyUtils {
+
+    private static final Logger LOGGER = new Logger(ConcurrencyUtils.class);
 
     private ConcurrencyUtils() {
     }

@@ -9,6 +9,7 @@ import java.util.*;
 public final class TUI implements AutoCloseable {
     private final Scanner in;
     private final PrintStream out;
+    private final PrintStream err;
     private final List<TuiEntry> entries = new ArrayList<>();
     private final List<TuiEntry> shortCuts = new ArrayList<>();
     private final String title;
@@ -21,6 +22,7 @@ public final class TUI implements AutoCloseable {
 
         in = new Scanner(System.in);
         out = System.out;
+        err = System.err;
     }
 
     public Scanner getIn() {
@@ -31,11 +33,16 @@ public final class TUI implements AutoCloseable {
         return out;
     }
 
+    public PrintStream getErr() {
+        return err;
+    }
+
     /**
      * Sets the shortcuts for the TUI.<br>
      * <b>Note</b><br>
      * - Calling this method twice will override the previous shortcuts<br>
      * - The shortcuts are only available if the command starts with "!"<br>
+     *
      * @param entries List of all shortcuts
      * @return The TUI instance
      */
@@ -68,15 +75,15 @@ public final class TUI implements AutoCloseable {
         } while (true);
     }
 
-    private void help(){
+    private void help() {
 
         out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
         out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
         out.println("-".repeat(60));
-        out.println(StringUtils.fitString(exitWord, 10) + " | " + StringUtils.fitString("Exit", 10)+ " | Exit the application");
-        out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
-        out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
-        out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10)+ " | Clear the screen");
+        out.println(StringUtils.fitString(exitWord, 10) + " | " + StringUtils.fitString("Exit", 10) + " | Exit the application");
+        out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10) + " | Show this help");
+        out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10) + " | Show this help");
+        out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10) + " | Clear the screen");
         entries.forEach(entry -> {
             out.println(StringUtils.fitString(entry.command, 10) + " | " + StringUtils.fitString(entry.name, 10) + " | " + entry.description);
         });

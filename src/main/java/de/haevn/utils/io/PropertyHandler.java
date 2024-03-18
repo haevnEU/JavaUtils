@@ -2,6 +2,7 @@ package de.haevn.utils.io;
 
 import de.haevn.utils.AppLauncher;
 import de.haevn.utils.io.file.FileUtils;
+import de.haevn.utils.logging.Logger;
 
 import java.io.*;
 import java.util.HashMap;
@@ -9,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static de.haevn.utils.AppLauncher.LOGGER;
 
 public final class PropertyHandler {
+    private static final Logger LOGGER = new Logger(PropertyHandler.class);
     private static final String EXTENSION = ".property";
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;
