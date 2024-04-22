@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.haevn</groupId>
+    <artifactId>inclusion</artifactId>
+    <packaging>pom</packaging>
+    <version>${versions.haevn}</version>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <versions.haevn>1.0</versions.haevn>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>datastructure</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>debug</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>enumeration</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>errorHandling</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>utils</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>logger</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>io</artifactId>
+            <version>${versions.haevn}</version>
+        </dependency>
+    </dependencies>
+</project>
