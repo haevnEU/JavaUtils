@@ -1,7 +1,7 @@
 package de.haevn.utils.network.webhook;
 
 import de.haevn.utils.exceptions.ValidationFailedException;
-import de.haevn.utils.io.SerializationUtils;
+import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;

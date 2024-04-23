@@ -3,32 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>de.haevn</groupId>
     <artifactId>debug</artifactId>
-    <version>1.0</version>
-
-    <contributors>
-        <contributor>
-            <name>Haevn</name>
-            <url>https://github.com/nimile/</url>
-            <roles>
-                <role>Developer</role>
-                <role>Owner</role>
-            </roles>
-        </contributor>
-    </contributors>
-    <developers>
-        <developer>
-            <name>Haevn</name>
-            <url>https://github.com/nimile/</url>
-            <roles>
-                <role>Developer</role>
-                <role>Owner</role>
-            </roles>
-        </developer>
-    </developers>
-
+    <parent>
+        <groupId>de.haevn</groupId>
+        <artifactId>Utility</artifactId>
+        <version>2.0</version>
+    </parent>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -39,7 +19,7 @@
         <dependency>
             <groupId>de.haevn</groupId>
             <artifactId>datastructure</artifactId>
-            <version>1.0</version>
+            <version>${app.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>io</artifactId>
+    <artifactId>system</artifactId>
     <parent>
         <groupId>de.haevn</groupId>
         <artifactId>Utility</artifactId>
@@ -15,23 +15,16 @@
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>de.haevn</groupId>
-            <artifactId>logger</artifactId>
+            <artifactId>datastructure</artifactId>
             <version>${app.version}</version>
         </dependency>
         <dependency>
             <groupId>de.haevn</groupId>
-            <artifactId>utils</artifactId>
-            <version>${app.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.haevn</groupId>
-            <artifactId>exceptions</artifactId>
+            <artifactId>enumeration</artifactId>
             <version>${app.version}</version>
         </dependency>
     </dependencies>
-
 </project>

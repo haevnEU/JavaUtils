@@ -3,92 +3,36 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>de.haevn</groupId>
     <artifactId>network</artifactId>
-    <version>1.0</version>
-    <contributors>
-        <contributor>
-            <name>Haevn</name>
-            <url>https://github.com/nimile/</url>
-            <roles>
-                <role>Developer</role>
-                <role>Owner</role>
-            </roles>
-        </contributor>
-    </contributors>
-    <developers>
-        <developer>
-            <name>Haevn</name>
-            <url>https://github.com/nimile/</url>
-            <roles>
-                <role>Developer</role>
-                <role>Owner</role>
-            </roles>
-        </developer>
-    </developers>
+    <parent>
+        <groupId>de.haevn</groupId>
+        <artifactId>Utility</artifactId>
+        <version>2.0</version>
+    </parent>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-<dependencies>
-    <dependency>
-        <groupId>de.haevn</groupId>
-        <artifactId>logger</artifactId>
-        <version>1.0</version>
-    </dependency>
-    <dependency>
-        <groupId>de.haevn</groupId>
-        <artifactId>io</artifactId>
-        <version>1.0</version>
-    </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.18.32</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>io</artifactId>
+            <version>${app.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>debug</artifactId>
+            <version>${app.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>exceptions</artifactId>
+            <version>${app.version}</version>
+        </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.17.0</version>
-    </dependency>
+    </dependencies>
 
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.17.0</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
-        <artifactId>jackson-dataformat-xml</artifactId>
-        <version>2.17.0</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.16.1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-    <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.14.0</version>
-    </dependency>
-
-    <dependency>
-        <groupId>de.haevn</groupId>
-        <artifactId>errorHandling</artifactId>
-        <version>1.0</version>
-    </dependency>
-</dependencies>
 </project>
