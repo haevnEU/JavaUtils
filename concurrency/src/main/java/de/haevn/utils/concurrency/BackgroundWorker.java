@@ -1,4 +1,4 @@
-package de.haevn.concurency;
+package de.haevn.utils.concurrency;
 
 import de.haevn.utils.logging.Logger;
 

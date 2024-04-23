@@ -46,6 +46,12 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j -->
         <dependency>
