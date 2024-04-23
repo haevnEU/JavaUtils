@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>de.haevn</groupId>
-            <artifactId>datastructure</artifactId>
+            <artifactId>datastructures</artifactId>
             <version>${app.version}</version>
         </dependency>
         <dependency>

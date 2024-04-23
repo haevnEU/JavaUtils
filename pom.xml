@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.haevn</groupId>
@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <description>Utility Library for other projects</description>
     <url>https://github.com/nimile/JavaUtils</url>
-
     <contributors>
         <contributor>
             <name>Haevn</name>
@@ -21,21 +20,6 @@
             </roles>
         </contributor>
     </contributors>
-    <modules>
-        <module>html</module>
-        <module>system</module>
-        <module>annotations</module>
-        <module>concurency</module>
-        <module>crypto</module>
-        <module>datastructure</module>
-        <module>debug</module>
-        <module>enumeration</module>
-        <module>exceptions</module>
-        <module>io</module>
-        <module>logger</module>
-        <module>network</module>
-        <module>utils</module>
-    </modules>
     <developers>
         <developer>
             <name>Haevn</name>
@@ -53,12 +37,11 @@
         <app.preview>false</app.preview>
         <app.version>2.0</app.version>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Build information -->
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
-        <build.version.own.move>1.0.1-SNAPSHOT</build.version.own.move>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <build.version>22</build.version>
     </properties>
 
@@ -84,18 +67,25 @@
             <artifactId>jackson-core</artifactId>
             <version>2.17.0</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.17.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.17.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.17.0</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
@@ -103,49 +93,51 @@
             <artifactId>commons-io</artifactId>
             <version>2.16.1</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.14.0</version>
         </dependency>
+
         <!-- Testing -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.1</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.1</version>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Annotations for Intellij IDEA -->
+        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.1.0</version>
-            <scope>compile</scope>
+            <version>24.1.0</version>
         </dependency>
-    </dependencies>
 
+    </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>de.haevn</groupId>
-                <artifactId>library-move-maven-plugin</artifactId>
-                <version>${build.version.own.move}</version>
-            </plugin>
-
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${build.version}</source>
                     <target>${build.version}</target>
@@ -159,4 +151,20 @@
 
         </plugins>
     </build>
+
+    <modules>
+        <module>html</module>
+        <module>system</module>
+        <module>annotations</module>
+        <module>concurrency</module>
+        <module>crypto</module>
+        <module>datastructures</module>
+        <module>debug</module>
+        <module>enumeration</module>
+        <module>exceptions</module>
+        <module>io</module>
+        <module>logger</module>
+        <module>network</module>
+        <module>utils</module>
+    </modules>
 </project>
