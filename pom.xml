@@ -172,5 +172,6 @@
         <module>logger</module>
         <module>network</module>
         <module>utils</module>
+        <module>playground</module>
     </modules>
 </project>

@@ -1,11 +1,10 @@
 package de.haevn.annotations;
 
-import de.haevn.utils.enumeration.FeatureType;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Arrays;
 
 /**
  * Auto collect annotation.
@@ -30,4 +29,29 @@ public @interface AutoCollect {
     int order() default 10;
 
     FeatureType feature() default FeatureType.ENABLED;
+
+    enum FeatureType {
+
+        ENABLED("enabled"),
+        DISABLED("disabled"),
+        HIDDEN("hidden"),
+        PREVIEW("preview"),
+        EXPERIMENTAL("experimental"),
+        DEPRECATED("deprecated"),
+        UNKNOWN("unknown");
+        private final String name;
+
+        FeatureType(final String name) {
+            this.name = name;
+        }
+
+        public boolean has(final FeatureType... features) {
+            return Arrays.stream(features).anyMatch(feature -> feature == this);
+        }
+
+        public static FeatureType fromString(final String name) {
+            return Arrays.stream(FeatureType.values()).filter(featureType -> featureType.name.equalsIgnoreCase(name)).findFirst().orElse(UNKNOWN);
+        }
+
+    }
 }
