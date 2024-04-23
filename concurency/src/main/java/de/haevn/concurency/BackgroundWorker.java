@@ -2,12 +2,7 @@ package de.haevn.concurency;
 
 import de.haevn.utils.logging.Logger;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
-// Todo implement own Threadpool with logging
+import java.util.concurrent.*;
 
 /**
  * This class provides a simple way to execute tasks in the background.
@@ -75,7 +70,7 @@ public class BackgroundWorker {
      * @param amountThreads the amount of threads
      */
     public BackgroundWorker(final int amountThreads) {
-        executor = Executors.newScheduledThreadPool(amountThreads);
+        executor = new BackgroundWorkerThreadService(amountThreads);
     }
 
     private static final Logger LOGGER = new Logger(BackgroundWorker.class);
@@ -108,6 +103,30 @@ public class BackgroundWorker {
     }
 
     /**
+     * Submits a task to the background worker.
+     *
+     * @param runnable the task
+     * @param name     the name of the task
+     * @return a {@link ScheduledFuture} representing pending completion of the task
+     */
+    public ScheduledFuture<?> submitOnce(final Runnable runnable, final String name) {
+        return submitOnce(runnable, name, 0);
+    }
+
+    /**
+     * Submits a task to the background worker.
+     *
+     * @param runnable the task
+     * @param name     the name of the task
+     * @param delay    the delay before the task should be executed
+     * @return a {@link ScheduledFuture} representing pending completion of the task
+     */
+    public ScheduledFuture<?> submitOnce(final Runnable runnable, final String name, final long delay) {
+        LOGGER.atInfo().withMessage("Submitting %s to background worker", name).log();
+        return executor.schedule(runnable, delay, TimeUnit.SECONDS);
+    }
+
+    /**
      * Shuts down the background worker.
      */
     public void shutdown() {
@@ -123,4 +142,27 @@ public class BackgroundWorker {
         }
     }
 
+    private static final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
+        public BackgroundWorkerThreadService(int corePoolSize) {
+            super(corePoolSize);
+            setThreadFactory(runnable -> Thread.ofVirtual().uncaughtExceptionHandler(this::exceptionHandler).unstarted(runnable));
+        }
+
+        private void exceptionHandler(Thread thread, Throwable throwable) {
+            LOGGER.atError().withException(throwable).withMessage("Uncaught exception in %s", thread.getName()).log();
+        }
+
+        @Override
+        protected void beforeExecute(Thread thread, Runnable runnablee) {
+            super.beforeExecute(thread, runnablee);
+            LOGGER.atInfo().withMessage("Executing %s", thread.getName()).withObject(thread).log();
+        }
+
+        @Override
+        protected void afterExecute(Runnable runnable, Throwable throwable) {
+            super.afterExecute(runnable, throwable);
+            LOGGER.atInfo().withMessage("Finished").withException(throwable).log();
+        }
+
+    }
 }

@@ -4,24 +4,15 @@ import de.haevn.utils.datastructure.Tuple;
 
 import java.util.List;
 
-public class Tokenizer {
-    private static final Tokenizer INSTANCE = new Tokenizer();
-    private String splitter = "";
+public final class Tokenizer {
+    private final String splitter;
 
-    private Tokenizer() {
+    public Tokenizer() {
+        this("=");
     }
 
-    public static synchronized Tokenizer getInstance() {
-        return getInstance("=");
-    }
-
-    public static synchronized Tokenizer getInstance(String splitter) {
-        return INSTANCE.setSplitter(splitter);
-    }
-
-    private Tokenizer setSplitter(String splitter) {
+    public Tokenizer(String splitter) {
         this.splitter = splitter;
-        return this;
     }
 
     public Tuple<String, String> tokenize(final String input) {

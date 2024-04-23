@@ -39,13 +39,13 @@ public final class Logger {
      *
      * @param config The configuration to use
      */
-    public <T>Logger(final Class<?> cl, final LoggerConfig config, final File rootPath) {
+    public <T>Logger(final Class<?> cl, final LoggerConfig config, File rootPath) {
         this.name = (null == cl) ? "Logger" : cl.getSimpleName();
-        final File rootPath_ = (null == rootPath) ? new File("./logs") : rootPath;
+        rootPath = (null == rootPath) ? new File("./logs") : rootPath;
         this.config = config;
         if(null == this.config.getFileOutput()){
             try {
-                final var logFile = new File(rootPath_, File.separatorChar + this.name + ".log");
+                final var logFile = new File(rootPath, File.separatorChar + this.name + ".log");
                 if(!logFile.exists()){
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
