@@ -167,7 +167,7 @@ public class NetworkUtils {
      * @param port the port to ping
      * @return a {@link PingResult} object.
      */
-    public static PingResult    ping(final URI uri, final int port) {
+    public static PingResult ping(final URI uri, final int port) {
         final InetAddress address = new InetSocketAddress(uri.getHost(), port).getAddress();
         boolean reachable = false;
         long ttl = Long.MAX_VALUE;
