@@ -10,7 +10,8 @@ import java.util.Optional;
      * @version 1.0
      * @since 1.0
      */
-    public class MethodTools implements IDebugTools{
+    @DebugTool(name = "MethodTools", description = "Provides some useful methods for methods.")
+    public class MethodTools {
         private final MethodDetails methodDetails;
         private MethodTools(final StackWalker.StackFrame frame) {
             this.methodDetails = new MethodDetails(frame.getClassName(), frame.getMethodName(), frame.getLineNumber(), frame.getFileName());

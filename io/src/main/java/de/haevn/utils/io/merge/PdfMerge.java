@@ -11,16 +11,13 @@ import java.util.List;
 public class PdfMerge extends AbstractFileMerging {
     private static final Logger LOGGER = new Logger(PdfMerge.class);
 
-    private static final PdfMerge INSTANCE = new PdfMerge();
 
-    public static synchronized PdfMerge getInstance() {
-        return INSTANCE;
-    }
-
-    private PdfMerge() {
-    }
-
-
+    /**
+     * Merges the given files into the output file.
+     *
+     * @param output the output file
+     * @param input  the input files
+     */
     @Override
     public void mergeFiles(final File output, final List<File> input) {
         if (input.isEmpty()) {

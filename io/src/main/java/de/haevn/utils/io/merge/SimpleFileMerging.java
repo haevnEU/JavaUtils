@@ -18,16 +18,14 @@ import java.util.List;
 public final class SimpleFileMerging extends AbstractFileMerging {
     private static final Logger LOGGER = new Logger(SimpleFileMerging.class);
 
-    private static final SimpleFileMerging INSTANCE = new SimpleFileMerging();
 
-    public static synchronized SimpleFileMerging getInstance() {
-        return INSTANCE;
-    }
-
-    private SimpleFileMerging() {
-    }
-
-
+    /**
+     * Merges the given files into the output file.
+     *
+     * @param output the output file
+     * @param input  the input files
+     */
+    @Override
     public void mergeFiles(final File output, final List<File> input) {
         if (input.isEmpty()) {
             LOGGER.atInfo().forEnclosingMethod().withMessage("No files to merge").log();

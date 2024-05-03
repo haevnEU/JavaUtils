@@ -10,7 +10,9 @@ import java.util.Arrays;
  * @author haevn
  * @version 1.0
  * @since 1.1
+ * @deprecated This class is deprecated and will be removed in a future release.
  */
+@Deprecated(since = "1.1", forRemoval = true)
 public abstract class AppLauncher {
     private static final String VERSION = "1.1";
     private static boolean debugMode = false;

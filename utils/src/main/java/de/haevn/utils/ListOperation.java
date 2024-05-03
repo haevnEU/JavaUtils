@@ -16,7 +16,7 @@ public final class ListOperation {
 
     /**
      * Checks if the content of two lists is equal.
-     *
+     * <b>Requirement: </b> Both lists must have the same size.
      * @param first      First list.
      * @param second     Second list.
      * @param comparator {@link Comparator} to compare the content of the lists.
@@ -24,16 +24,16 @@ public final class ListOperation {
      * @return True if the content is equal, false otherwise.
      */
     public static <T> boolean isContentEqual(final List<T> first, final List<T> second, Comparator<T> comparator) {
-        return isContentEqual(first, second, comparator, 4);
+        return isContentEqual(first, second, comparator, 0);
     }
 
     /**
      * Checks if the content of two lists is equal.
-     *
+     * <b>Requirement: </b> Both lists must have the same size.
      * @param first      First list.
      * @param second     Second list.
      * @param comparator {@link Comparator} to compare the content of the lists.
-     * @param tolerance  Describes the amount of missmatched entities
+     * @param tolerance  Describes the amount of allowed mismatched entities
      * @param <T>        Type of the list.
      * @return True if the content is equal, false otherwise.
      */
@@ -43,14 +43,18 @@ public final class ListOperation {
             return false;
         }
 
+        final List<T> tmpFirst = List.copyOf(first).stream().sorted().toList();
+        final List<T> tmpSecond = List.copyOf(second).stream().sorted().toList();
+
+        final int size = first.size();
+
         int idMatch = 0;
-        for (int i = 0; i < first.size(); i++) {
-            if (comparator.compare(first.get(i), second.get(i)) == 0) {
+        for (int i = 0; i < size; i++) {
+            if (comparator.compare(tmpFirst.get(i), tmpSecond.get(i)) == 0) {
                 idMatch++;
             }
         }
 
-        // BUG this is a potential bug, the tolerance comparison should be in range of the tolerance
-        return idMatch == tolerance;
+        return idMatch >= (size - tolerance) && idMatch <= (size + tolerance);
     }
 }

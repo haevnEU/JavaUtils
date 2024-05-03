@@ -36,7 +36,8 @@ import java.util.concurrent.Callable;
  * @since 1.0
  * @author haevn
  */
-public class TimeMeasurementTools implements AutoCloseable, IDebugTools {
+@DebugTool(name = "TimeMeasurementTools", description = "This class can be used to measure the time of a code.")
+public class TimeMeasurementTools implements AutoCloseable {
     private static final List<String> RUN_TIME_STACK = new ArrayList<>();
     private final PrintStream out;
 

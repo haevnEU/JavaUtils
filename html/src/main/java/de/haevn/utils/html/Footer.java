@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Footer {
-    private final List<String> elements = new ArrayList<>();
+    private final List<AbstractElement> elements = new ArrayList<>();
 
 
-    public Footer addElement(String element) {
+    public Footer addElement(final AbstractElement element) {
         elements.add(element);
         return this;
     }
 
     public String build() {
-        return "<footer>\n\t" + String.join("\n\t", elements) + "\n</footer>";
+
+        return "<footer>\n\t"
+                + String.join("\n", elements.stream().map(AbstractElement::code).toList())
+                + "\n</footer>";
     }
 
 }

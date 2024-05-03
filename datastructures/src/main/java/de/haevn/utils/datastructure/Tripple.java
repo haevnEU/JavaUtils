@@ -10,9 +10,7 @@ package de.haevn.utils.datastructure;
  * @version 1.0
  * @since 1.0
  */
-public class Tripple<K, V, T> {
-    private K first;
-    private V second;
+public class Tripple<K, V, T> extends Tuple<K, V>{
     private T third;
 
     /**
@@ -23,45 +21,8 @@ public class Tripple<K, V, T> {
      * @param third  The third element.
      */
     public Tripple(final K first, final V second, final T third) {
-        this.first = first;
-        this.second = second;
+        super(first, second);
         this.third = third;
-    }
-
-    /**
-     * Returns the first element.
-     *
-     * @return The first element.
-     */
-    public K getFirst() {
-        return first;
-    }
-
-    /**
-     * Sets the first element.
-     *
-     * @param value The new first element.
-     */
-    public void setFirst(final K value) {
-        this.first = value;
-    }
-
-    /**
-     * Returns the second element.
-     *
-     * @return The second element.
-     */
-    public V getSecond() {
-        return second;
-    }
-
-    /**
-     * Sets the second element.
-     *
-     * @param value The new second element.
-     */
-    public void setSecond(final V value) {
-        this.second = value;
     }
 
     /**

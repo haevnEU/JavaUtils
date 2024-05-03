@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ThreadTools implements IDebugTools{
+/**
+ * This class provides some useful methods for threads.
+ *
+ * @author haevn
+ * @version 1.0
+ * @since 1.0
+ */
+@DebugTool(name = "ThreadTools", description = "Provides some useful methods for threads.")
+public class ThreadTools {
     private ThreadTools() {}
 
     public static List<Thread> getThreads() {

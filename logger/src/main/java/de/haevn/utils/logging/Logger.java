@@ -226,7 +226,7 @@ public final class Logger {
          *
          * @return The EntryBuilder
          */
-        private EntryBuilder forEnclosingMethod(int skip) {
+        private EntryBuilder forEnclosingMethod(final int skip) {
             MethodTools.getMethod(skip).ifPresent(entry::setHelper);
             return this;
         }
@@ -237,7 +237,7 @@ public final class Logger {
          * @param throwable The throwable to append
          * @return The EntryBuilder
          */
-        public EntryBuilder withException(Throwable throwable) {
+        public EntryBuilder withException(final Throwable throwable) {
             entry.setThrowable(throwable);
             return this;
         }
@@ -253,7 +253,7 @@ public final class Logger {
          * @param message The message to set
          * @return The EntryBuilder
          */
-        public EntryBuilder withMessage(String message) {
+        public EntryBuilder withMessage(final String message) {
             entry.setMessage(message);
             return this;
         }
@@ -265,12 +265,12 @@ public final class Logger {
          * @param args    The arguments to use
          * @return The EntryBuilder
          */
-        public EntryBuilder withMessage(String message, Object... args) {
+        public EntryBuilder withMessage(final String message, final Object... args) {
             entry.setMessage(String.format(message, args));
             return this;
         }
 
-        public EntryBuilder withObject(Object obj){
+        public EntryBuilder withObject(final Object obj){
             entry.setObj(obj);
             return this;
         }
