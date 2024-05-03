@@ -55,7 +55,7 @@ public final class PropertyHandler {
     }
 
     public void load() {
-        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        try (final InputStream inputStream = new FileInputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.load(inputStream);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", configPath).log();
@@ -117,7 +117,7 @@ public final class PropertyHandler {
 
     public void set(final String k, final String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        try (final OutputStream os = new FileOutputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
@@ -125,7 +125,7 @@ public final class PropertyHandler {
     }
 
     public void store() {
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        try (final OutputStream os = new FileOutputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
             properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();

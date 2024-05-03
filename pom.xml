@@ -173,5 +173,6 @@
         <module>network</module>
         <module>utils</module>
         <module>playground</module>
+        <module>UtilsCore</module>
     </modules>
 </project>
