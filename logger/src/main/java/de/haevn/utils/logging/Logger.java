@@ -66,6 +66,16 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder at(Level level) {
+        return new EntryBuilder(level).forEnclosingMethod(3);
+    }
+
+    /**
+     * Creates a new EntryBuilder for the given log level
+     *
+     * @param level The log level to use
+     * @return The EntryBuilder
+     */
+    private EntryBuilder atInternal(Level level) {
         return new EntryBuilder(level).forEnclosingMethod(4);
     }
 
@@ -75,7 +85,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atDebug() {
-        return at(Level.DEBUG);
+        return atInternal(Level.DEBUG);
     }
 
     /**
@@ -84,7 +94,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atInfo() {
-        return at(Level.INFO);
+        return atInternal(Level.INFO);
     }
 
     /**
@@ -93,7 +103,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atWarning() {
-        return at(Level.WARNING);
+        return atInternal(Level.WARNING);
     }
 
     /**
@@ -102,7 +112,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atError() {
-        return at(Level.ERROR);
+        return atInternal(Level.ERROR);
     }
 
     /**
@@ -111,7 +121,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atFatal() {
-        return at(Level.FATAL);
+        return atInternal(Level.FATAL);
     }
 
     /**
@@ -120,7 +130,7 @@ public final class Logger {
      * @return The EntryBuilder
      */
     public EntryBuilder atUnknown() {
-        return at(Level.UNKNOWN);
+        return atInternal(Level.UNKNOWN);
     }
 
     /**
