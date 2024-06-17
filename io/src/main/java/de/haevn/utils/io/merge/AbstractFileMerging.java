@@ -1,5 +1,6 @@
 package de.haevn.utils.io.merge;
 
+import de.haevn.utils.exceptions.FileMergeException;
 import de.haevn.utils.logging.Logger;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      * @param input  the input files
      * @throws IOException if an error occurs while merging the files
      */
-    public void mergeFiles(File output, String... input) {
+    public void mergeFiles(File output, String... input) throws FileMergeException {
         mergeFiles(output, Arrays.stream(input).map(File::new).toList());
     }
 
@@ -35,7 +36,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      * @param input  the input files
      * @throws IOException if an error occurs while merging the files
      */
-    public void mergeFiles(File output, File... input) {
+    public void mergeFiles(File output, File... input) throws FileMergeException {
         mergeFiles(output, List.of(input));
     }
 

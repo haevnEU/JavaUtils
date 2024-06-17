@@ -1,5 +1,6 @@
 package de.haevn.utils.io.merge;
 
+import de.haevn.utils.exceptions.FileMergeException;
 import de.haevn.utils.logging.Logger;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
@@ -19,7 +20,7 @@ public class PdfMerge extends AbstractFileMerging {
      * @param input  the input files
      */
     @Override
-    public void mergeFiles(final File output, final List<File> input) {
+    public void mergeFiles(final File output, final List<File> input) throws FileMergeException {
         if (input.isEmpty()) {
             LOGGER.atInfo().forEnclosingMethod().withMessage("No files to merge").log();
             return;
@@ -34,7 +35,7 @@ public class PdfMerge extends AbstractFileMerging {
             merger.mergeDocuments(null);
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Error while merging files").log();
-            throw new RuntimeException(e);
+            throw new FileMergeException(output, input, e);
         }
     }
 }
