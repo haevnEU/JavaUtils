@@ -19,20 +19,14 @@
     <dependencies>
         <dependency>
             <groupId>de.haevn</groupId>
-            <artifactId>io</artifactId>
-            <version>${app.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.haevn</groupId>
-            <artifactId>debug</artifactId>
-            <version>${app.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.haevn</groupId>
             <artifactId>exceptions</artifactId>
             <version>${app.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>de.haevn</groupId>
+            <artifactId>logger</artifactId>
+            <version>${app.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

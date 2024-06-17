@@ -1,92 +1,56 @@
 package de.haevn.annotations;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
- *  Utility class for annotations.
+ * Utility class for annotations.
+ *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
 public class AnnotationUtils {
 
     private AnnotationUtils() {
     }
 
-    /**
-     * Collects all classes inside the given package which are annotated with the specified annotation.
-     *
-     * @param packageName The package name.
-     * @return A list of classes.
-     */
-    public static List<Class<?>> collectBy(final String packageName, final Class<? extends Annotation> annotation) {
-        return getClasses(packageName).stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).toList();
-    }
-
-    /**
-     * Collects all classes inside the given package which are annotated with the specified annotation and feature type.
-     *
-     * @param packageName The package name.
-     * @param annotation The annotation.
-     * @param FeatureType The feature type.
-     * @return A list of classes.
-     */
-    public static List<Class<?>> collectBy(final String packageName, final Class<? extends Annotation> annotation, final AutoCollect.FeatureType... features) {
-        return getClasses(packageName).stream()
-                .filter(clazz -> clazz.isAnnotationPresent(annotation))
-                .filter(clazz -> isFeaturePresent(clazz, features))
-                .toList();
-    }
-
     private static boolean isFeaturePresent(final Class<?> annotation, final AutoCollect.FeatureType... features) {
         return annotation.getAnnotation(AutoCollect.class).feature().has(features);
     }
 
-    /**
-     * Collects all classes in the given package.
-     * <ul>
-     *     <b>Preconditions</b>:
-     *     <li>packageName is not null</li>
-     *     <li>packageName is not empty</li>
-     *     <li>packageName is not blank</li>
-     *
-     *     <b>Actions</b>:
-     *     <li>Iterate over all files</li>
-     *     <li>Check if file is a directory, if yes make a recursive call to this method</li>
-     *     <li>Otherwise check if its a class file and execute following steps</li>
-     *     <li>Get the class name and try to find it</li>
-     *     <li>If the class is found add it to the list</li>
-     * </ul>
-     * @param packageName The package name.
-     * @return A list of classes.
-     */
-    private static List<Class<?>> getClasses(final String packageName) {
-        final List<Class<?>> classes = new ArrayList<>();
-        final String path = packageName.replace('.', '/');
-
-        final URL resource = Thread.currentThread().getContextClassLoader().getResource(path);
-        if (null == resource) return classes;
-
-        final File directory = new File(resource.getFile());
-        if (!directory.exists()) return classes;
-
-        final File[] files = directory.listFiles();
-        if (null == files) return classes;
-
-        Arrays.stream(files).forEach(file -> {
-            if (file.isDirectory()) classes.addAll(getClasses(packageName + "." + file.getName()));
-            else if (file.getName().endsWith(".class")) {
-                final String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
-                try {
-                    classes.add(Class.forName(className));
-                } catch (ClassNotFoundException ignored) { }
-            }
-        });
-        return classes;
+    public static List<Launcher> findLauncher(final String packageName) {
+        return findAnnotation(packageName, Launcher.class).stream()
+                .map(Launcher.class::cast)
+                .toList();
     }
+
+    public static List<? extends Annotation> findAnnotation(final String packageName, final Class<? extends Annotation> annotation) {
+        final InputStream stream = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream(packageName.replaceAll("[.]", "/"));
+        if (stream == null) return new ArrayList<>();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        return reader.lines()
+                .filter(line -> line.endsWith(".class"))
+                .map(line -> getClass(line, packageName))
+                .filter(Objects::nonNull)
+                .filter(clazz -> clazz.isAnnotationPresent(annotation))
+                .map(clazz -> clazz.getAnnotation(annotation))
+                .toList();
+    }
+
+    private static Class<?> getClass(String className, String packageName) {
+        try {
+            return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
+        } catch (ClassNotFoundException ignored) {
+        }
+        return null;
+    }
+
+
 }

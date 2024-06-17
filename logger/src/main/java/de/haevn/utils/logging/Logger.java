@@ -1,7 +1,9 @@
 package de.haevn.utils.logging;
 
-import de.haevn.utils.debug.MethodTools;
+import de.haevn.annotations.AnnotationUtils;
+import de.haevn.annotations.Launcher;
 import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.debug.MethodTools;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,16 +24,12 @@ public final class Logger {
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
 
-    public <T>Logger(){
-        this(null, new LoggerConfig(), null);
+    public <T> Logger() {
+        this(null, new LoggerConfig());
     }
 
-    public <T>Logger(Class<?> cl){
-        this(cl, new LoggerConfig(), null);
-    }
-
-    public <T>Logger(final Class<?> cl, final File rootPath){
-        this(cl, new LoggerConfig(), rootPath);
+    public <T> Logger(Class<?> cl) {
+        this(cl, new LoggerConfig());
     }
 
     /**
@@ -39,14 +37,22 @@ public final class Logger {
      *
      * @param config The configuration to use
      */
-    public <T>Logger(final Class<?> cl, final LoggerConfig config, File rootPath) {
+    public <T> Logger(final Class<?> cl, final LoggerConfig config) {
+
         this.name = (null == cl) ? "Logger" : cl.getSimpleName();
-        rootPath = (null == rootPath) ? new File("./logs") : rootPath;
+
+        final String appName = AnnotationUtils
+                .findLauncher("de.haevn")
+                .stream()
+                .findFirst()
+                .map(Launcher::name).orElse("/UNKNOWN");
+        String rootPath = System.getProperty("user.home") + File.separator + "haevn" + File.separator + appName;
+        final File root = new File(rootPath, "logs");
         this.config = config;
-        if(null == this.config.getFileOutput()){
+        if (null == this.config.getFileOutput()) {
             try {
-                final var logFile = new File(rootPath, File.separatorChar + this.name + ".log");
-                if(!logFile.exists()){
+                final var logFile = new File(root, File.separatorChar + this.name + ".log");
+                if (!logFile.exists()) {
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
                 }
@@ -242,7 +248,7 @@ public final class Logger {
             return this;
         }
 
-        public EntryBuilder withThreadName(){
+        public EntryBuilder withThreadName() {
             entry.setThreadName(Thread.currentThread().getName());
             return this;
         }
@@ -270,7 +276,7 @@ public final class Logger {
             return this;
         }
 
-        public EntryBuilder withObject(final Object obj){
+        public EntryBuilder withObject(final Object obj) {
             entry.setObj(obj);
             return this;
         }

@@ -21,10 +21,5 @@
             <artifactId>datastructures</artifactId>
             <version>${app.version}</version>
         </dependency>
-        <dependency>
-            <groupId>de.haevn</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${app.version}</version>
-        </dependency>
     </dependencies>
 </project>

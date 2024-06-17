@@ -1,6 +1,6 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.AppLauncher;
+import de.haevn.annotations.LauncherUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -91,19 +91,12 @@ public class FileUtils {
 
 
     public static String getRootPath() {
-        return getRootPath(AppLauncher.getAppName());
+        return LauncherUtils.getLauncher().getRootPath();
     }
 
-    public static String getRootPath(final String appName) {
-        return System.getProperty("user.home") + File.separator + "haevn" + File.separator + appName;
-    }
 
     public static String getRootPathWithSeparator() {
-        return getRootPathWithSeparator(AppLauncher.getAppName());
-    }
-
-    public static String getRootPathWithSeparator(final String appName) {
-        return getRootPath(appName) + File.separator;
+        return getRootPath() + File.separator;
     }
 
     public static void openDefaultApplication(final File file) {

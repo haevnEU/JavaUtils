@@ -19,11 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>de.haevn</groupId>
-            <artifactId>datastructures</artifactId>
-            <version>${app.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.haevn</groupId>
             <artifactId>debug</artifactId>
             <version>${app.version}</version>
         </dependency>

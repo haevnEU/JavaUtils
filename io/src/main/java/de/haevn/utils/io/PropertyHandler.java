@@ -1,6 +1,5 @@
 package de.haevn.utils.io;
 
-import de.haevn.utils.AppLauncher;
 import de.haevn.utils.logging.Logger;
 
 import java.io.*;
@@ -10,29 +9,23 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class PropertyHandler {
-    private static final Logger LOGGER = new Logger();
+    private static final Logger LOGGER = new Logger(PropertyHandler.class);
     private static final String EXTENSION = ".property";
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;
     private final String name;
-    private final String configPath;
+
+    private final File configFile;
 
     private PropertyHandler(final String propertyName) {
         properties = new Properties();
         this.name = propertyName;
 
-        String configPathBuilder = "config/" + name;
-        if (!configPathBuilder.endsWith(EXTENSION)) {
-            configPathBuilder += EXTENSION;
-        }
-        this.configPath = configPathBuilder;
+        configFile = new File(FileUtils.getRootPathWithSeparator() + "config", name + EXTENSION);
         load();
     }
 
     public static PropertyHandler getInstance(final String name) {
-        if (AppLauncher.getAppName().isEmpty()) {
-            throw new IllegalStateException("Application name is not set. Please call PropertyHandler.initialize(String applicationName) first.");
-        }
         if (STRING_PROPERTY_HANDLER_HASH_MAP.containsKey(name.toUpperCase())) {
             return STRING_PROPERTY_HANDLER_HASH_MAP.get(name.toUpperCase());
         }
@@ -55,10 +48,13 @@ public final class PropertyHandler {
     }
 
     public void load() {
-        try (final InputStream inputStream = new FileInputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        try (final InputStream inputStream = new FileInputStream(configFile)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not load property file: %s", configPath).log();
+            LOGGER.atError().forEnclosingMethod()
+                    .withException(e)
+                    .withMessage("Could not load property file: %s", configFile)
+                    .log();
         }
     }
 
@@ -117,15 +113,18 @@ public final class PropertyHandler {
 
     public void set(final String k, final String value) {
         properties.setProperty(k, value);
-        try (final OutputStream os = new FileOutputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        try (final OutputStream os = new FileOutputStream(configFile)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
-            LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
+            LOGGER.atError().forEnclosingMethod()
+                    .withException(e)
+                    .withMessage("Could not save property file: %s", name).log();
         }
     }
 
     public void store() {
-        try (final OutputStream os = new FileOutputStream(FileUtils.getRootPathWithSeparator(AppLauncher.getAppName()) + configPath)) {
+        FileUtils.createFileIfNotExists(configFile);
+        try (final OutputStream os = new FileOutputStream(configFile)) {
             properties.store(os, "Flushed properties");
         } catch (IOException e) {
             LOGGER.atError().forEnclosingMethod().withException(e).withMessage("Could not save property file: %s", name).log();
