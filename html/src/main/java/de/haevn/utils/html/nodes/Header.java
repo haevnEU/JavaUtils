@@ -4,7 +4,6 @@ import de.haevn.utils.html.AbstractElement;
 
 public class Header extends AbstractElement {
     private String text;
-    private final int level;
     public static Header ofH1(String text) {
         return new Header(text, 1);
     }
@@ -34,7 +33,6 @@ public class Header extends AbstractElement {
     public Header(String text, int level) {
         super("h" + level);
         this.text = text;
-        this.level = level;
     }
 
     public void setText(String text) {

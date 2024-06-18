@@ -77,9 +77,7 @@ public final class TUI implements AutoCloseable {
         out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
         out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
         out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10)+ " | Clear the screen");
-        entries.forEach(entry -> {
-            out.println(StringUtils.fitString(entry.command, 10) + " | " + StringUtils.fitString(entry.name, 10) + " | " + entry.description);
-        });
+        entries.forEach(entry -> out.println(StringUtils.fitString(entry.command, 10) + " | " + StringUtils.fitString(entry.name, 10) + " | " + entry.description));
     }
 
     private String getInput(final Scanner in) {

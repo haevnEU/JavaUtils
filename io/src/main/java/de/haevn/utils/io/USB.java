@@ -43,6 +43,6 @@ public class USB {
 
     }
 
-    class Device{}
-    class DeviceDescriptor{}
+    public interface Device{}
+    public interface DeviceDescriptor{}
 }

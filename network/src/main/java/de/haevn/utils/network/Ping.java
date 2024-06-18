@@ -44,11 +44,11 @@ public class Ping {
     }
 
     public static final class PingBuilder{
-        private String host;
+        private final String host;
         private int port = 7;
         private int timeout = 1000;
         private int count = 3;
-        private int size;
+
 
         public PingBuilder(String host){
             this.host = host;
@@ -66,11 +66,6 @@ public class Ping {
 
         public PingBuilder count(int count){
             this.count = count;
-            return this;
-        }
-
-        public PingBuilder size(int size){
-            this.size = size;
             return this;
         }
 

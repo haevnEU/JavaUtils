@@ -50,8 +50,8 @@ public abstract class AbstractFileMerging implements IFileMerging {
     protected byte[] readFile(final File file) {
         try (final FileInputStream fis = new FileInputStream(file)) {
             final byte[] bytes = new byte[(int) file.length()];
-            fis.read(bytes);
-            return bytes;
+            final int bytesRead = fis.read(bytes);
+            return bytesRead > 0 ? bytes : new byte[0];
         } catch (IOException e) {
             LOGGER.atWarning().forEnclosingMethod().withMessage("Error while reading file").withException(e).log();
             return new byte[0];
