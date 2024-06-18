@@ -40,7 +40,7 @@ public final class NetworkInteraction {
      */
     public static void init(final File config) {
         Properties properties = new Properties();
-        try (final FileInputStream fs = new FileInputStream(config)){
+        try (final FileInputStream fs = new FileInputStream(config)) {
             properties.load(fs);
             timeout = Integer.parseInt(properties.getProperty("timeout", "10"));
         } catch (IOException ignored) {
@@ -196,7 +196,7 @@ public final class NetworkInteraction {
     // Send from bytes
 
     /**
-     * Sends an asynchronous request with the given method, content type and a array of bytes as body.
+     * Sends an asynchronous request with the given method, content type and an array of bytes as body.
      *
      * @param method      The HTTP method to use
      * @param contentType The content type of the body

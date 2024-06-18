@@ -16,7 +16,7 @@ final class HttpServer {
         server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(config.port), 0);
         server.createContext(config.path, exchange -> {
             final String path = exchange.getRequestURI().getPath();
-            String response = "";
+            String response;
             if (new File(config.rootPath + path).isDirectory()) {
                 exchange.getResponseHeaders().add("Content-Type", "text/html");
                 response = String.join("\n", Arrays.stream(new File(config.rootPath + path).listFiles()).map(File::getName).map(e -> "<a href=\"" + e + "\">" + e + "</a>").toList());

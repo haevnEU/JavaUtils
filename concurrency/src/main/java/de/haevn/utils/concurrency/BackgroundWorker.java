@@ -2,7 +2,10 @@ package de.haevn.utils.concurrency;
 
 import de.haevn.utils.logging.Logger;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class provides a simple way to execute tasks in the background.
@@ -16,9 +19,10 @@ import java.util.concurrent.*;
  * BackgroundWorker.getInstance().submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
  * }
  * </pre>
+ *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
 public class BackgroundWorker {
 
@@ -26,21 +30,23 @@ public class BackgroundWorker {
 
     /**
      * Initialize the singleton instance with the given amount of threads, e.g. 70% of the available processors
+     *
      * @param amountThreads the amount of threads
      * @return the singleton instance
      */
-    public static BackgroundWorker initialize(final int amountThreads){
+    public static BackgroundWorker initialize(final int amountThreads) {
         instance = new BackgroundWorker(amountThreads);
         return instance;
     }
 
     /**
      * Get the singleton instance with the given amount of threads, e.g. 70% of the available processors
+     *
      * @param amountThreads the amount of threads
      * @return the singleton instance
      */
     public static synchronized BackgroundWorker getInstance(final int amountThreads) {
-        if(null == instance){
+        if (null == instance) {
             instance = new BackgroundWorker(amountThreads);
         }
         return instance;
@@ -48,12 +54,12 @@ public class BackgroundWorker {
 
     /**
      * Get the singleton instance with 70% of the available processors
-      * @return the singleton instance
+     *
+     * @return the singleton instance
      */
     public static synchronized BackgroundWorker getInstance() {
-        return getInstance((int)(Runtime.getRuntime().availableProcessors() * 0.7));
+        return getInstance((int) (Runtime.getRuntime().availableProcessors() * 0.7));
     }
-
 
 
     private final ScheduledExecutorService executor;
@@ -62,11 +68,12 @@ public class BackgroundWorker {
      * Creates a new BackgroundWorker with 70% of the available processors
      */
     public BackgroundWorker() {
-        this((int)(Runtime.getRuntime().availableProcessors() * 0.7));
+        this((int) (Runtime.getRuntime().availableProcessors() * 0.7));
     }
 
     /**
      * Creates a new BackgroundWorker with the given amount of threads
+     *
      * @param amountThreads the amount of threads
      */
     public BackgroundWorker(final int amountThreads) {
@@ -77,10 +84,11 @@ public class BackgroundWorker {
 
     /**
      * Submits a task to the background worker.
+     *
      * @param runnable the task
-     * @param name the name of the task
+     * @param name     the name of the task
      * @param interval the interval in which the task should be executed
-     * @param unit the unit of the interval
+     * @param unit     the unit of the interval
      * @return a {@link ScheduledFuture} representing pending completion of the task
      */
     public ScheduledFuture<?> submit(final Runnable runnable, final String name, final int interval, final TimeUnit unit) {
@@ -90,11 +98,12 @@ public class BackgroundWorker {
 
     /**
      * Submits a task to the background worker.
+     *
      * @param runnable the task
-     * @param name the name of the task
-     * @param delay the delay before the task should be executed
+     * @param name     the name of the task
+     * @param delay    the delay before the task should be executed
      * @param interval the interval in which the task should be executed
-     * @param unit the unit of the interval
+     * @param unit     the unit of the interval
      * @return a {@link ScheduledFuture} representing pending completion of the task
      */
     public ScheduledFuture<?> submit(final Runnable runnable, final String name, final int delay, final int interval, final TimeUnit unit) {
@@ -153,8 +162,8 @@ public class BackgroundWorker {
         }
 
         @Override
-        protected void beforeExecute(Thread thread, Runnable runnablee) {
-            super.beforeExecute(thread, runnablee);
+        protected void beforeExecute(Thread thread, Runnable runnable) {
+            super.beforeExecute(thread, runnable);
             LOGGER.atInfo().withMessage("Executing %s", thread.getName()).withObject(thread).log();
         }
 

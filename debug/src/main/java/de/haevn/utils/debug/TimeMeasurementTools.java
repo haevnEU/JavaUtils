@@ -17,7 +17,7 @@ import java.util.concurrent.Callable;
  *     timeMeasurement.time(() -> {
  *     // Code to measure
  *     }, this.getClass(), "methodName", "description");
- * }catch(Excecption ex){}
+ * }catch(Exception ex){}
  * }
  * </pre>
  * <br>
@@ -32,9 +32,9 @@ import java.util.concurrent.Callable;
  * }
  * </pre>
  *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
 @DebugTool(name = "TimeMeasurementTools", description = "This class can be used to measure the time of a code.")
 public class TimeMeasurementTools implements AutoCloseable {
@@ -42,7 +42,7 @@ public class TimeMeasurementTools implements AutoCloseable {
     private final PrintStream out;
 
     /**
-     * Create a new TimeMeasurement with System.out as default output stream.
+     * Create a new TimeMeasurement with {@link System#out} as default output stream.
      */
     public TimeMeasurementTools() {
         this(System.out);
@@ -50,6 +50,7 @@ public class TimeMeasurementTools implements AutoCloseable {
 
     /**
      * Create a new TimeMeasurement with the given output stream.
+     *
      * @param out The output stream where the result should be printed.
      */
     public TimeMeasurementTools(final PrintStream out) {
@@ -58,9 +59,10 @@ public class TimeMeasurementTools implements AutoCloseable {
 
     /**
      * Measure the time of the given code.
-     * @param code The code to measure.
-     * @param cl The class of the code.
-     * @param methodName The method name of the code.
+     *
+     * @param code        The code to measure.
+     * @param cl          The class of the code.
+     * @param methodName  The method name of the code.
      * @param description The description of the code.
      */
     public void time(final Runnable code, final Class<?> cl, final String methodName, final String description) {
@@ -72,14 +74,15 @@ public class TimeMeasurementTools implements AutoCloseable {
 
     /**
      * Measure the time of the given code.
-     * @param code The code to measure.
-     * @param cl The class of the code.
-     * @param methodName The method name of the code.
+     *
+     * @param code        The code to measure.
+     * @param cl          The class of the code.
+     * @param methodName  The method name of the code.
      * @param description The description of the code.
+     * @param <T>         The type of the result.
      * @return The result of the code.
-     * @param <T> The type of the result.
      */
-    public <T> T time(final Callable<T> code, final Class<?> cl, final String methodName, final String  description) {
+    public <T> T time(final Callable<T> code, final Class<?> cl, final String methodName, final String description) {
         final long startTime = System.currentTimeMillis();
         try {
             final T result = code.call();
@@ -130,21 +133,18 @@ public class TimeMeasurementTools implements AutoCloseable {
     }
 
 
-
-
-
     //----------------------------------------------------------------------------------------------------------------------
     //  Static methods
     //----------------------------------------------------------------------------------------------------------------------
 
 
-
     /**
      * Measure the time of the given code.
+     *
      * @param code The code to measure.
      * @return The execution time in milliseconds.
      */
-    public static long measure(final Runnable code){
+    public static long measure(final Runnable code) {
         final long startTime = System.currentTimeMillis();
         code.run();
         return System.currentTimeMillis() - startTime;
@@ -152,11 +152,12 @@ public class TimeMeasurementTools implements AutoCloseable {
 
     /**
      * Measure the time of the given code.
+     *
      * @param code The code to measure.
-     * @param <T> The type of the result.
+     * @param <T>  The type of the result.
      * @return The result and the execution time in milliseconds.
      */
-    public static <T>ReadonlyTuple<T, Long> measure(final Callable<T> code){
+    public static <T> ReadonlyTuple<T, Long> measure(final Callable<T> code) {
         final long startTime = System.currentTimeMillis();
         try {
             final T result = code.call();

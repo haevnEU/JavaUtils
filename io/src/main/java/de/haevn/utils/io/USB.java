@@ -5,9 +5,9 @@ import de.haevn.utils.exceptions.NotYetImplementedException;
 import java.util.List;
 
 /**
- * This class provides an interface to find and interact with USB devices.
- *
+ * <p>This class provides an interface to find and interact with USB devices.</p>
  * <b>THIS FEATURE WILL BE IMPLEMENTED WITH VERSION 1.2</b>
+ *
  * @version 1.2
  * @since 1.1
  */
@@ -18,19 +18,19 @@ public class USB {
         return INSTANCE;
     }
 
-    private List<DeviceDescriptor> findDevices(){
+    private List<DeviceDescriptor> findDevices() {
         return List.of();
     }
 
-    public List<Device> list(){
+    public List<Device> list() {
         throw new NotYetImplementedException();
     }
 
-    public List<Device> list(final short vendorId){
+    public List<Device> list(final short vendorId) {
         throw new NotYetImplementedException();
     }
 
-    public List<Device> list(final short vendorId, final short productId){
+    public List<Device> list(final short vendorId, final short productId) {
         throw new NotYetImplementedException();
     }
 
@@ -39,10 +39,13 @@ public class USB {
     }
 
 
-    private void shutdown(){
+    private void shutdown() {
 
     }
 
-    public interface Device{}
-    public interface DeviceDescriptor{}
+    public interface Device {
+    }
+
+    public interface DeviceDescriptor {
+    }
 }

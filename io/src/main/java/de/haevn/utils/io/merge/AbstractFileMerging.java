@@ -23,7 +23,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      *
      * @param output the output file
      * @param input  the input files
-     * @throws IOException if an error occurs while merging the files
+     * @throws FileMergeException if an error occurs while merging the files
      */
     public void mergeFiles(File output, String... input) throws FileMergeException {
         mergeFiles(output, Arrays.stream(input).map(File::new).toList());
@@ -34,7 +34,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      *
      * @param output the output file
      * @param input  the input files
-     * @throws IOException if an error occurs while merging the files
+     * @throws FileMergeException if an error occurs while merging the files
      */
     public void mergeFiles(File output, File... input) throws FileMergeException {
         mergeFiles(output, List.of(input));

@@ -45,7 +45,7 @@ public class StringUtils {
      * @return the padded string
      */
     public static String fitString(final String string, final int length) {
-        return String.format("%-" + length + "." + length + "s", string.substring(0, length < string.length() ? length : string.length()));
+        return String.format("%-" + length + "." + length + "s", string.substring(0, Math.min(length, string.length())));
     }
 
     /**

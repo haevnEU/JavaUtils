@@ -36,6 +36,7 @@ public final class TUI implements AutoCloseable {
      * <b>Note</b><br>
      * - Calling this method twice will override the previous shortcuts<br>
      * - The shortcuts are only available if the command starts with "!"<br>
+     *
      * @param entries List of all shortcuts
      * @return The TUI instance
      */
@@ -68,15 +69,15 @@ public final class TUI implements AutoCloseable {
         } while (true);
     }
 
-    private void help(){
+    private void help() {
 
         out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
         out.println(StringUtils.fitString("Command", 10) + " | " + StringUtils.fitString("Name", 10) + " | Description");
         out.println("-".repeat(60));
-        out.println(StringUtils.fitString(exitWord, 10) + " | " + StringUtils.fitString("Exit", 10)+ " | Exit the application");
-        out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
-        out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10)+ " | Show this help");
-        out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10)+ " | Clear the screen");
+        out.println(StringUtils.fitString(exitWord, 10) + " | " + StringUtils.fitString("Exit", 10) + " | Exit the application");
+        out.println(StringUtils.fitString("help", 10) + " | " + StringUtils.fitString("Help", 10) + " | Show this help");
+        out.println(StringUtils.fitString("?", 10) + " | " + StringUtils.fitString("Help", 10) + " | Show this help");
+        out.println(StringUtils.fitString("clear", 10) + " | " + StringUtils.fitString("clear", 10) + " | Clear the screen");
         entries.forEach(entry -> out.println(StringUtils.fitString(entry.command, 10) + " | " + StringUtils.fitString(entry.name, 10) + " | " + entry.description));
     }
 
@@ -99,10 +100,9 @@ public final class TUI implements AutoCloseable {
         String headerOut = header.length() > 58 ? header.substring(0, 58) : header;
 
         final int half = (int) (headerOut.length() * 0.5);
-        final int firstHalf = half;
         final int secondHalf = half % 2 == 0 ? (half + 1) : half;
         out.println("+" + "-".repeat(60) + "+");
-        out.println("|" + " ".repeat(30 - firstHalf) + headerOut + " ".repeat(30 - secondHalf) + "|");
+        out.println("|" + " ".repeat(30 - half) + headerOut + " ".repeat(30 - secondHalf) + "|");
         out.println("+" + "-".repeat(60) + "+");
     }
 
