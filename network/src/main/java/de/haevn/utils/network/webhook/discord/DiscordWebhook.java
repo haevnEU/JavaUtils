@@ -1,14 +1,11 @@
-package de.haevn.utils.network.webhook;
+package de.haevn.utils.network.webhook.discord;
 
 import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.exceptions.ValidationFailedException;
 import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
 import de.haevn.utils.network.NetworkUtils;
-import de.haevn.utils.network.webhook.discord.Embed;
-import de.haevn.utils.network.webhook.discord.internal.EmbedAuthor;
-import de.haevn.utils.network.webhook.discord.internal.EmbedField;
-import de.haevn.utils.network.webhook.discord.internal.EmbedFooter;
+import de.haevn.utils.network.webhook.IWebhook;
 
 import java.util.List;
 
@@ -52,7 +49,7 @@ public class DiscordWebhook implements IWebhook<Embed> {
     }
 
     private void validateMeta(final Embed embed) throws ValidationFailedException {
-        if (embed.getTitle() != null && embed.getTitle().length() > 256) {
+        if (embed.getThumbnail() != null && embed.getTitle().length() > 256) {
             throw new ValidationFailedException("Title is too long");
         }
         if (embed.getDescription() != null && embed.getDescription().length() > 4096) {

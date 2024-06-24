@@ -5,7 +5,6 @@ module de.haevn.utils.network {
     requires jdk.httpserver;
 
     requires com.fasterxml.jackson.annotation;
-    requires static lombok;
 
     requires de.haevn.utils.exceptions;
     requires de.haevn.utils.logger;

@@ -1,5 +1,4 @@
 module de.haevn.utils.logger {
-    requires lombok;
 
     requires de.haevn.utils.annotations;
     requires de.haevn.utils.debug;

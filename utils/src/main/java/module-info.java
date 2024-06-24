@@ -1,7 +1,6 @@
 module de.haevn.utils.utils {
     requires java.desktop;
 
-    requires lombok;
     requires java.datatransfer;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;

@@ -60,12 +60,6 @@
             <version>2.11.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
@@ -151,13 +145,6 @@
                         <exclude>**/Playground.java</exclude>
                         <exclude>**/Playground.java</exclude>
                     </excludes>
-                    <annotationProcessorPaths>
-                        <annotationProcessorPath>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.32</version>
-                        </annotationProcessorPath>
-                    </annotationProcessorPaths>
                 </configuration>
 
             </plugin>
