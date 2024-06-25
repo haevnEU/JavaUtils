@@ -86,16 +86,17 @@ public final class OneTimePassword {
         secretField.setEditable(false);
 
         JFrame frame = new JFrame();
+        Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+
+        frame.add(label, BorderLayout.CENTER);
+        frame.add(secretField, BorderLayout.NORTH);
+        frame.add(otp, BorderLayout.SOUTH);
+
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(label, BorderLayout.CENTER);
-        frame.getContentPane().add(secretField, BorderLayout.NORTH);
-        frame.getContentPane().add(otp, BorderLayout.SOUTH);
-
-        frame.pack();
-        frame.setLocation(200, 200);
         frame.setVisible(true);
-
+        frame.pack();
+        frame.setSize(450, 300);
 
         while(true){
             String totp = generateTOTP(secret);
