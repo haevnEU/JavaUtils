@@ -169,6 +169,7 @@
         </plugins>
     </build>
 
+
     <modules>
         <module>html</module>
         <module>system</module>
@@ -183,6 +184,5 @@
         <module>logger</module>
         <module>network</module>
         <module>utils</module>
-        <module>playground</module>
     </modules>
 </project>

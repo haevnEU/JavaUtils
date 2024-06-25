@@ -92,6 +92,7 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     /**
      * Stops the service and waits 5 seconds for all tasks to finish
      */
+    @Override
     public void shutdown() {
         LOGGER.atInfo().withMessage("Shutting down background worker").log();
         super.shutdown();

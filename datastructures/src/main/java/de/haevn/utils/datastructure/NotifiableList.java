@@ -56,7 +56,6 @@ public class NotifiableList<T> extends ArrayList<T> {
         super.clear();
     }
 
-
     public static interface IListUpdateConsumer<T> {
         void changed(final T object, final boolean added);
     }
