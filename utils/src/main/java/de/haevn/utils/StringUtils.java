@@ -88,4 +88,13 @@ public class StringUtils {
         }
         return input;
     }
+
+    public static String str2Hex(final String in){
+        char[] chars = in.toCharArray();
+        StringBuilder hex = new StringBuilder();
+        for (char ch : chars) {
+            hex.append(Integer.toHexString((int) ch));
+        }
+        return hex.toString();
+    }
 }
