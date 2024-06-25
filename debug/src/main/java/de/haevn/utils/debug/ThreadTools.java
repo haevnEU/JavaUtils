@@ -2,6 +2,7 @@ package de.haevn.utils.debug;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 /**
@@ -34,5 +35,17 @@ public class ThreadTools {
 
     public static List<String> getRunningThreadNames() {
         return getThreads().stream().map(Thread::getName).toList();
+    }
+
+    public static void waitFor(final AtomicBoolean condition) {
+        try {
+            Thread.ofVirtual().start(() -> {
+                while(!condition.get()) {
+                    Thread.onSpinWait();
+                }
+            }).join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

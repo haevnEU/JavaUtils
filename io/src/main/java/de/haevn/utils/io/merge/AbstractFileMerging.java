@@ -25,7 +25,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      * @param input  the input files
      * @throws FileMergeException if an error occurs while merging the files
      */
-    public void mergeFiles(File output, String... input) throws FileMergeException {
+    public void mergeFiles(final File output, final String... input) throws FileMergeException {
         mergeFiles(output, Arrays.stream(input).map(File::new).toList());
     }
 
@@ -36,7 +36,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      * @param input  the input files
      * @throws FileMergeException if an error occurs while merging the files
      */
-    public void mergeFiles(File output, File... input) throws FileMergeException {
+    public void mergeFiles(final File output, final File... input) throws FileMergeException {
         mergeFiles(output, List.of(input));
     }
 
@@ -77,7 +77,7 @@ public abstract class AbstractFileMerging implements IFileMerging {
      * @param deleteOnExist if the file should be deleted if it already exists
      * @throws IOException if an error occurs while storing the bytes
      */
-    protected void storeFile(final File file, final byte[] bytes, boolean deleteOnExist) throws IOException {
+    protected void storeFile(final File file, final byte[] bytes, final boolean deleteOnExist) throws IOException {
         if (file.exists() && deleteOnExist) {
             Files.delete(file.toPath());
         }

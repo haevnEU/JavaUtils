@@ -17,12 +17,7 @@ public class System {
 
     private System() {
     }
-
-    public static <R, T> R map(final T value, final Function<? super T, ? extends R> mapper) {
-        return mapper.apply(value);
-    }
-
-
+    
     public static String[] getKeyValue(final String key, final String value) {
         return new String[]{key, value};
     }
@@ -31,31 +26,5 @@ public class System {
         return getKeyValue(key, value);
     }
 
-    public static List<Integer> randomNumber(final int amount) {
-        List<Integer> numbers = new java.util.ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            Random random = new Random(java.lang.System.currentTimeMillis());
-            numbers.add(random.nextInt());
-        }
 
-        return numbers;
-    }
-
-    public static Stream<Integer> randomNumberStream(final int amount) {
-        return randomNumber(amount).stream();
-    }
-
-    public static List<Double> randomDouble(final int amount) {
-        List<Double> numbers = new java.util.ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            Random random = new Random(java.lang.System.currentTimeMillis());
-            numbers.add(random.nextDouble());
-        }
-
-        return numbers;
-    }
-
-    public static Stream<Double> randomDoubleStream(final int amount) {
-        return randomDouble(amount).stream();
-    }
 }

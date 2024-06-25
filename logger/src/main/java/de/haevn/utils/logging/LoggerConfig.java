@@ -17,7 +17,7 @@ public final class LoggerConfig {
         return fileOutput;
     }
 
-    public void setFileOutput(PrintStream fileOutput) {
+    public void setFileOutput(final PrintStream fileOutput) {
         this.fileOutput = fileOutput;
     }
 
@@ -25,7 +25,7 @@ public final class LoggerConfig {
         return consoleOutput;
     }
 
-    public void setConsoleOutput(PrintStream consoleOutput) {
+    public void setConsoleOutput(final PrintStream consoleOutput) {
         this.consoleOutput = consoleOutput;
     }
 
@@ -33,7 +33,7 @@ public final class LoggerConfig {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(final Level level) {
         this.level = level;
     }
 
@@ -41,7 +41,7 @@ public final class LoggerConfig {
         return autoFlush;
     }
 
-    public void setAutoFlush(boolean autoFlush) {
+    public void setAutoFlush(final boolean autoFlush) {
         this.autoFlush = autoFlush;
     }
 
@@ -49,7 +49,7 @@ public final class LoggerConfig {
         return useShutdownHook;
     }
 
-    public void setUseShutdownHook(boolean useShutdownHook) {
+    public void setUseShutdownHook(final boolean useShutdownHook) {
         this.useShutdownHook = useShutdownHook;
     }
 
@@ -57,7 +57,7 @@ public final class LoggerConfig {
         return logSize;
     }
 
-    public void setLogSize(int logSize) {
+    public void setLogSize(final int logSize) {
         this.logSize = logSize;
     }
 
@@ -74,7 +74,7 @@ public final class LoggerConfig {
      *
      * @param logFile The output stream.
      */
-    public void setOutput(String logFile) throws FileNotFoundException {
+    public void setOutput(final String logFile) throws FileNotFoundException {
         setOutput(new File(logFile + System.currentTimeMillis() + ".log"));
     }
 
@@ -83,7 +83,7 @@ public final class LoggerConfig {
      *
      * @param logFile The output stream.
      */
-    public void setOutput(File logFile) throws FileNotFoundException {
+    public void setOutput(final File logFile) throws FileNotFoundException {
         this.fileOutput = new PrintStream(new FileOutputStream(logFile, true));
     }
 }

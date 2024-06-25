@@ -62,6 +62,18 @@ public class Tuple<K, V> {
     }
 
     public boolean isEmpty() {
-        return this == EMPTY;
+        return this.equals(EMPTY);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Tuple<?, ?> tuple = (Tuple<?, ?>) obj;
+        return key.equals(tuple.key) && value.equals(tuple.value);
     }
 }

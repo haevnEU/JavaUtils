@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Ping {
 
-    public static PingBuilder open(String host){
+    public static PingBuilder open(final String host){
         return new PingBuilder(host);
     }
 
@@ -50,21 +50,21 @@ public class Ping {
         private int count = 3;
 
 
-        public PingBuilder(String host){
+        public PingBuilder(final String host){
             this.host = host;
         }
 
-        public PingBuilder port(int port){
+        public PingBuilder port(final int port){
             this.port = port;
             return this;
         }
 
-        public PingBuilder timeout(int timeout){
+        public PingBuilder timeout(final int timeout){
             this.timeout = timeout;
             return this;
         }
 
-        public PingBuilder count(int count){
+        public PingBuilder count(final int count){
             this.count = count;
             return this;
         }

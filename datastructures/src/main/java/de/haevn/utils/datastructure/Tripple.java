@@ -11,6 +11,7 @@ package de.haevn.utils.datastructure;
  * @since 1.0
  */
 public class Tripple<K, V, T> extends Tuple<K, V>{
+    public static final Tripple<?, ?, ?> EMPTY = new Tripple<>(null, null, null);
     private T third;
 
     /**
@@ -41,5 +42,22 @@ public class Tripple<K, V, T> extends Tuple<K, V>{
      */
     public void setThird(final T value) {
         this.third = value;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.equals(EMPTY);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Tripple<?, ?, ?> tripple = (Tripple<?, ?, ?>) obj;
+        return getFirst().equals(tripple.getFirst()) && getSecond().equals(tripple.getSecond()) && third.equals(tripple.third);
     }
 }

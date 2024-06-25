@@ -8,6 +8,7 @@ public final class Base32Util {
     private static final String PADDING = "=";
     private static final int MASK = 0x1F;
 
+    private Base32Util() {}
 
     public static String encode(final String data) {
         return encode(data.getBytes());

@@ -28,7 +28,7 @@ public interface IFileMerging {
      * @param input  the input files
      * @throws FileMergeException if an error occurs while merging the files
      */
-    void mergeFiles(File output, String... input) throws FileMergeException;
+    void mergeFiles(final File output, final String... input) throws FileMergeException;
 
     /**
      * Merges the given files into the output file.
@@ -37,6 +37,6 @@ public interface IFileMerging {
      * @param input  the input files
      * @throws FileMergeException if an error occurs while merging the files
      */
-    void mergeFiles(File output, File... input) throws FileMergeException;
+    void mergeFiles(final File output, final File... input) throws FileMergeException;
 
 }

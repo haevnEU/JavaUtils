@@ -27,7 +27,7 @@ public final class OneTimePassword {
     private static final long TIME_STEP = 30_000L;
     private static final int SECRET_KEY_LENGTH = 20;
 
-    public static String generateTOTP(String secret) {
+    public static String generateTOTP(final String secret) {
         byte[] key = Base32Util.decode(secret);
         final long time = (Instant.now().toEpochMilli() / TIME_STEP);
 
@@ -47,7 +47,7 @@ public final class OneTimePassword {
         return String.format("%06d", otp);
     }
 
-    private static byte[] hmacSha1(byte[] key, byte[] data) {
+    private static byte[] hmacSha1(final byte[] key, final byte[] data) {
         try {
             final SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA1");
             final Mac mac = Mac.getInstance("HmacSHA1");
@@ -98,6 +98,7 @@ public final class OneTimePassword {
         frame.add(label, BorderLayout.CENTER);
         frame.add(secretField, BorderLayout.NORTH);
         frame.add(otp, BorderLayout.SOUTH);
+
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();

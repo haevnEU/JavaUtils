@@ -31,17 +31,17 @@ public class ProcessUtils {
             args.add(name);
         }
 
-        public Builder addArg(String arg) {
+        public Builder addArg(final String arg) {
             args.add(arg);
             return this;
         }
 
-        public Builder directory(String directory) {
+        public Builder directory(final String directory) {
             this.directory = directory;
             return this;
         }
 
-        public Builder inheritIO(boolean inheritIO) {
+        public Builder inheritIO(final boolean inheritIO) {
             this.inheritIO = inheritIO;
             return this;
         }

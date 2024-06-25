@@ -93,7 +93,8 @@ public class StringUtils {
         char[] chars = in.toCharArray();
         StringBuilder hex = new StringBuilder();
         for (char ch : chars) {
-            hex.append(Integer.toHexString((int) ch));
+            hex.append(Integer.toHexString(ch));
+            hex.append(Integer.toHexString(ch));
         }
         return hex.toString();
     }

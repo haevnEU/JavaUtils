@@ -139,7 +139,7 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
      * @param runnable the task that will be executed
      */
     @Override
-    protected void beforeExecute(Thread thread, Runnable runnable) {
+    protected void beforeExecute(final Thread thread, final Runnable runnable) {
         super.beforeExecute(thread, runnable);
         LOGGER.atInfo().withMessage("Executing %s", thread.getName()).withObject(thread).log();
     }
@@ -151,7 +151,7 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
      * @param throwable the exception that has been thrown
      */
     @Override
-    protected void afterExecute(Runnable runnable, Throwable throwable) {
+    protected void afterExecute(final Runnable runnable, final Throwable throwable) {
         super.afterExecute(runnable, throwable);
         LOGGER.atInfo().withMessage("Finished").withException(throwable).log();
     }

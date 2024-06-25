@@ -1,6 +1,9 @@
 package de.haevn.utils;
 
 import java.text.NumberFormat;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * A simple class for number information.
@@ -103,5 +106,33 @@ public final class NumberUtils {
 
     public static long hexToLong(String hex) {
         return Long.parseLong(hex, 16);
+    }
+
+    public static List<Integer> randomNumber(final int amount) {
+        List<Integer> numbers = new java.util.ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            Random random = new Random(java.lang.System.currentTimeMillis());
+            numbers.add(random.nextInt());
+        }
+
+        return numbers;
+    }
+
+    public static Stream<Integer> randomNumberStream(final int amount) {
+        return randomNumber(amount).stream();
+    }
+
+    public static List<Double> randomDouble(final int amount) {
+        List<Double> numbers = new java.util.ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            Random random = new Random(java.lang.System.currentTimeMillis());
+            numbers.add(random.nextDouble());
+        }
+
+        return numbers;
+    }
+
+    public static Stream<Double> randomDoubleStream(final int amount) {
+        return randomDouble(amount).stream();
     }
 }

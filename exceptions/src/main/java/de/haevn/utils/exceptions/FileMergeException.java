@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 public class FileMergeException extends Exception{
-public FileMergeException(File output, List<File> files) {
+public FileMergeException(final File output, List<File> files) {
         super(buildMessage(output, files));
     }
 

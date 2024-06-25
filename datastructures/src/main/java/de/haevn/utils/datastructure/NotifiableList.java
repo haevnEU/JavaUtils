@@ -7,11 +7,11 @@ import java.util.List;
 public class NotifiableList<T> extends ArrayList<T> {
     final List<IListUpdateConsumer<T>> consumers = new ArrayList<>();
 
-    public void subscribe(IListUpdateConsumer<T> consumer) {
+    public void subscribe(final IListUpdateConsumer<T> consumer) {
         consumers.add(consumer);
     }
 
-    public void unsubscribe(IListUpdateConsumer<T> consumer) {
+    public void unsubscribe(final IListUpdateConsumer<T> consumer) {
         consumers.remove(consumer);
     }
 

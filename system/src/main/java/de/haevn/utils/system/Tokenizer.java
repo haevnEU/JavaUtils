@@ -11,7 +11,7 @@ public final class Tokenizer {
         this("=");
     }
 
-    public Tokenizer(String splitter) {
+    public Tokenizer(final String splitter) {
         this.splitter = splitter;
     }
 

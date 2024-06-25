@@ -7,7 +7,7 @@ public class Observable<T> {
     private T value;
     private final List<IObserver<T>> observers = new ArrayList<>();
 
-    public Observable(T value) {
+    public Observable(final T value) {
         this.value = value;
     }
 
@@ -15,7 +15,7 @@ public class Observable<T> {
         return value;
     }
 
-    public void set(T value) {
+    public void set(final T value) {
         synchronized (this) {
             this.value = value;
         }

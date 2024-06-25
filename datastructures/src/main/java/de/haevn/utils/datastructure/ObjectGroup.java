@@ -24,26 +24,26 @@ public class ObjectGroup<T> {
     }
 
     @SafeVarargs
-    public ObjectGroup(T... elements) {
+    public ObjectGroup(final T... elements) {
         this(List.of(elements));
     }
 
-    public ObjectGroup(List<T> elements) {
+    public ObjectGroup(final List<T> elements) {
         this.elements = elements;
     }
 
-    public ObjectGroup<T> add(T element) {
+    public ObjectGroup<T> add(final T element) {
         elements.add(element);
         return this;
     }
 
     @SafeVarargs
-    public final ObjectGroup<T> addAll(T... elements) {
+    public final ObjectGroup<T> addAll(final T... elements) {
         this.elements.addAll(List.of(elements));
         return this;
     }
 
-    public ObjectGroup<T> remove(T element) {
+    public ObjectGroup<T> remove(final T element) {
         elements.remove(element);
         return this;
     }
@@ -65,31 +65,31 @@ public class ObjectGroup<T> {
         return elements.isEmpty();
     }
 
-    public boolean contains(T element) {
+    public boolean contains(final T element) {
         return elements.contains(element);
     }
 
-    public T get(int index) {
+    public T get(final int index) {
         return elements.get(index);
     }
 
-    public List<T> filter(Predicate<? super T> predicate) {
+    public List<T> filter(final Predicate<? super T> predicate) {
         return elements.stream().filter(predicate).toList();
     }
 
-    public Optional<T> findFirst(Predicate<? super T> predicate) {
+    public Optional<T> findFirst(final Predicate<? super T> predicate) {
         return elements.stream().filter(predicate).findFirst();
     }
 
-    public Optional<T> findAny(Predicate<? super T> predicate) {
+    public Optional<T> findAny(final Predicate<? super T> predicate) {
         return elements.stream().filter(predicate).findAny();
     }
 
-    public boolean allMatch(Predicate<? super T> predicate) {
+    public boolean allMatch(final Predicate<? super T> predicate) {
         return elements.stream().allMatch(predicate);
     }
 
-    public boolean anyMatch(Predicate<? super T> predicate) {
+    public boolean anyMatch(final Predicate<? super T> predicate) {
         return elements.stream().anyMatch(predicate);
     }
 
@@ -97,7 +97,7 @@ public class ObjectGroup<T> {
         return elements.stream().noneMatch(predicate);
     }
 
-    public ObjectGroup<T> forEach(Consumer<? super T> action) {
+    public ObjectGroup<T> forEach(final Consumer<? super T> action) {
         elements.forEach(action);
         return this;
     }

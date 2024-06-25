@@ -41,7 +41,7 @@ public final class Embed {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -49,7 +49,7 @@ public final class Embed {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -57,7 +57,7 @@ public final class Embed {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -65,7 +65,7 @@ public final class Embed {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -89,7 +89,7 @@ public final class Embed {
         return color;
     }
 
-    public void setColor(long color) {
+    public void setColor(final long color) {
         this.color = color;
     }
 
@@ -97,7 +97,7 @@ public final class Embed {
         return footer;
     }
 
-    public void setFooter(EmbedFooter footer) {
+    public void setFooter(final EmbedFooter footer) {
         this.footer = footer;
     }
 
@@ -105,7 +105,7 @@ public final class Embed {
         return image;
     }
 
-    public void setImage(EmbedImage image) {
+    public void setImage(final EmbedImage image) {
         this.image = image;
     }
 
@@ -113,7 +113,7 @@ public final class Embed {
         return thumbnail;
     }
 
-    public void setThumbnail(EmbedThumbnail thumbnail) {
+    public void setThumbnail(final EmbedThumbnail thumbnail) {
         this.thumbnail = thumbnail;
     }
 
@@ -121,7 +121,7 @@ public final class Embed {
         return video;
     }
 
-    public void setVideo(EmbedVideo video) {
+    public void setVideo(final EmbedVideo video) {
         this.video = video;
     }
 
@@ -129,7 +129,7 @@ public final class Embed {
         return provider;
     }
 
-    public void setProvider(EmbedProvider provider) {
+    public void setProvider(final EmbedProvider provider) {
         this.provider = provider;
     }
 
@@ -150,7 +150,7 @@ public final class Embed {
         return fields;
     }
 
-    public void setFields(List<EmbedField> fields) {
+    public void setFields(final List<EmbedField> fields) {
         this.fields = fields;
     }
 

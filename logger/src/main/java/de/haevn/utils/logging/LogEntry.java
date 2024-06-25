@@ -32,7 +32,7 @@ final class LogEntry {
      *
      * @param level The log level.
      */
-    public void setLevel(Level level) {
+    public void setLevel(final Level level) {
         this.level = level;
     }
 
@@ -50,7 +50,7 @@ final class LogEntry {
      *
      * @param helper The helper.
      */
-    public void setHelper(MethodTools helper) {
+    public void setHelper(final MethodTools helper) {
         this.helper = helper;
     }
 
@@ -68,7 +68,7 @@ final class LogEntry {
      *
      * @param message The message.
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
@@ -87,7 +87,7 @@ final class LogEntry {
      *
      * @param throwable The throwable.
      */
-    public void setThrowable(Throwable throwable) {
+    public void setThrowable(final Throwable throwable) {
         this.throwable = throwable;
     }
 
@@ -105,7 +105,7 @@ final class LogEntry {
      *
      * @param timestamp The timestamp.
      */
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(final long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -116,7 +116,7 @@ final class LogEntry {
         return obj;
     }
 
-    public void setObj(Object obj) {
+    public void setObj(final Object obj) {
         this.obj = obj;
     }
 
@@ -124,7 +124,7 @@ final class LogEntry {
         return threadName;
     }
 
-    public void setThreadName(String name) {
+    public void setThreadName(final String name) {
         this.threadName = name;
     }
 }

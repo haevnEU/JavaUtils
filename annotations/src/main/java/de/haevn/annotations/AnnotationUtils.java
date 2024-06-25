@@ -44,7 +44,7 @@ public class AnnotationUtils {
                 .toList();
     }
 
-    private static Class<?> getClass(String className, String packageName) {
+    private static Class<?> getClass(final String className, final String packageName) {
         try {
             return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
         } catch (ClassNotFoundException ignored) {
