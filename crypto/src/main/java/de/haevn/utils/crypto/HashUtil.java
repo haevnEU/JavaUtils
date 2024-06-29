@@ -70,7 +70,7 @@ public class HashUtil {
      *
      * @param input byte array
      * @return HashUtil instance
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException if the algorithm is not supported
      */
     public HashUtil hash(final byte[] input) throws NoSuchAlgorithmException {
         final MessageDigest md = MessageDigest.getInstance(type.algorithm);
@@ -93,7 +93,7 @@ public class HashUtil {
      *
      * @param input string
      * @return HashUtil instance
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException if the algorithm is not supported
      */
     public HashUtil hash(final String input) throws NoSuchAlgorithmException {
         return hash(input.getBytes());
@@ -113,8 +113,8 @@ public class HashUtil {
      *
      * @param file file
      * @return HashUtil instance
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
+     * @throws IOException if an I/O error occurs
+     * @throws NoSuchAlgorithmException if the algorithm is not supported
      */
     public HashUtil hash(final File file) throws IOException, NoSuchAlgorithmException {
         return hash(Files.readAllBytes(file.toPath()));

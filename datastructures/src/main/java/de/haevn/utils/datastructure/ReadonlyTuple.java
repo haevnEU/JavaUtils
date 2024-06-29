@@ -1,7 +1,18 @@
 package de.haevn.utils.datastructure;
 
 /**
- * A simple tuple class.
+ * <h1>ReadonlyTuple</h1>
+ * <br>
+ * <p>This class provides a read-only version of the {@link Tuple} class.</p>
+ * <p>It overrides the setter methods to ensure read-only access.</p>
+ * <h3>Example</h3>
+ * <pre>
+ * {@code
+ *     final ReadonlyTuple<String, Integer> tuple = new ReadonlyTuple<>("Hello", 42);
+ *     System.out.println(tuple.getFirst());
+ *     System.out.println(tuple.getSecond());
+ * }
+ * </pre>
  *
  * @param <K> The type of the first element.
  * @param <V> The type of the second element.
@@ -12,18 +23,19 @@ package de.haevn.utils.datastructure;
 public class ReadonlyTuple<K, V> extends Tuple<K, V> {
 
     /**
-     * Creates a new tuple.
+     * <h2>ReadonlyTuple(K, V)</h2>
+     * <p>Creates a new read-only tuple with the given elements.</p>
      *
-     * @param key   The first element.
-     * @param value The second element.
+     * @param key   The key.
+     * @param value The value.
      */
     public ReadonlyTuple(final K key, final V value) {
         super(key, value);
     }
 
     /**
-     * Does nothing.
-     *
+     * <h2>setFirst(K)</h2>
+     * <p>Does nothing</p>
      * @param key ignored
      */
     @Override
@@ -32,8 +44,8 @@ public class ReadonlyTuple<K, V> extends Tuple<K, V> {
     }
 
     /**
-     * Does nothing.
-     *
+     * <h2>setSecond(V)</h2>
+     * <p>Does nothing</p>
      * @param value ignored
      */
     @Override

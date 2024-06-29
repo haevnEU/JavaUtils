@@ -95,6 +95,7 @@ public class AnnotationUtils {
      *     findAnnotation("de.haevn.annotations", AutoCollect.class); // Returns a list with Example.class
      *     }
      * </pre>
+     *
      * @param packageName The package to search in
      * @param annotation  The annotation to search for
      * @return A list of all found {@link Annotation}
@@ -124,9 +125,10 @@ public class AnnotationUtils {
      *     getClass("Example.class", "de.haevn); // Returns Example.class
      *     }
      * </pre>
-     * @param className
-     * @param packageName
-     * @return
+     *
+     * @param className   The name of the class
+     * @param packageName The package name
+     * @return The class or null if not found
      */
     private static Class<?> getClass(final String className, final String packageName) {
         try {

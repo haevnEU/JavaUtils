@@ -1,5 +1,7 @@
 package de.haevn.utils.crypto;
 
+import de.haevn.utils.TimeUtils;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
@@ -228,11 +230,7 @@ public final class OneTimePassword {
         Thread.ofVirtual().start(() -> {
             while (frame.isVisible()) {
                 otp.setText(generateTOTP(secret));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                TimeUtils.sleepSecond(1);
             }
         });
         return totp;
