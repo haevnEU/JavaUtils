@@ -1,5 +1,6 @@
 package de.haevn.utils.concurrency;
 
+import de.haevn.annotations.Draft;
 import de.haevn.utils.datastructure.Tuple;
 
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
+@Draft(description = "This class should be used to start processes in a more convenient way",
+        todo = {"Add javadoc", "Refactor pipe"})
 public class ProcessUtils {
 
 

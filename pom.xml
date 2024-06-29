@@ -185,5 +185,6 @@
         <module>network</module>
         <module>utils</module>
         <module>swing</module>
+        <module>tools</module>
     </modules>
 </project>
