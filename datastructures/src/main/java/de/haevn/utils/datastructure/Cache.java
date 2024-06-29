@@ -3,8 +3,8 @@ package de.haevn.utils.datastructure;
 import de.haevn.utils.enumeration.MillisecondTimeUnits;
 
 /**
- * A simple cache class.
- *
+ * This is a simple cache class that can be used to cache values for a certain amount of time.<br>
+ * The default duration is 1 day.<br>
  * @param <T> The type of the cached value.
  * @version 1.0
  * @since 1.0
@@ -19,9 +19,9 @@ public class Cache <T>{
         this(value, MillisecondTimeUnits.DAYS.getValue());
     }
 
-    public Cache(final T value, long creationTime){
+    public Cache(final T value, long duration){
         this.value = value;
-        this.duration = creationTime;
+        this.duration = duration;
         this.creationTime = System.currentTimeMillis();
     }
 

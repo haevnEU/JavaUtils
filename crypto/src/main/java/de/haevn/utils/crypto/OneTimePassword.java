@@ -6,15 +6,10 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -114,11 +109,5 @@ public final class OneTimePassword {
             }
         });
         return totp;
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        generateCodeAndShow("TEST");
-
     }
 }

@@ -54,7 +54,7 @@ public class ProcessUtils {
 
         public Tuple<CompletableFuture<Integer>, Procc> startAsync() throws IOException {
 
-            ProcessBuilder processBuilder = new ProcessBuilder(args);
+            final ProcessBuilder processBuilder = new ProcessBuilder(args);
             if (!directory.isBlank()) processBuilder.directory(Path.of(directory).toFile());
             if (inheritIO) processBuilder.inheritIO();
 
