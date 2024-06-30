@@ -9,6 +9,7 @@ module de.haevn.utils.network {
     requires de.haevn.utils.exceptions;
     requires de.haevn.utils.logger;
     requires de.haevn.utils.utils;
+    requires de.haevn.utils.annotations;
 
     exports de.haevn.utils.network;
     exports de.haevn.utils.network.webhook;
