@@ -1,9 +1,12 @@
 package de.haevn.utils.exceptions;
 
 /**
- * This class contains codes and method for every used error code
+ * <h1>ErrorCode</h1>
  * <br>
- * <b>Structure</b>
+ * <p>This class provides an error code system that can be used to identify errors in the application.</p>
+ * <p>It provides a way to create error codes based on the project, module and error.</p>
+ * <p>It also provides a way to check if an error code is an unknown error or an error from a specific project or module.</p>
+ * <h3>Structure</h3>
  * <table>
  *     <tr>
  *         <th></th>
@@ -47,8 +50,11 @@ public class ErrorCode {
 
 
     /**
-     * Contains all projects.
-     * Add new projects here, not that the value 0 to 9 are reserved for the framework.
+     * <h1>Project</h1>
+     * <br>
+     * <p>This enum provides the projects that can be used to create error codes.</p>
+     * <p>It provides a way to identify the project of an error code.</p>
+     * <p><b>Adding new projects requires a new entry in this enum therefore a new issue should be created.</b></p>
      *
      * @version 1.1
      * @since 1.1
@@ -73,48 +79,76 @@ public class ErrorCode {
         }
     }
 
+    /**
+     * <h2>isProject(long, {@link Project})</h2>
+     * <p>Check if the given error code is from the given project.</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     if(ErrorCode.isProject(errorCode, Project.UTILS)){...}
+     * }
+     * </pre>
+     *
+     * @param errorCode The error code
+     * @param project   The project to check
+     * @return True iff the given error code is from the given project
+     */
     public static boolean isProject(final long errorCode, final Project project) {
         return getProject(errorCode) == project.value;
     }
 
-
+    /**
+     * Prject mask
+     */
     private static final long PROJECT = 0xFF00_0000L;
+
+    /**
+     * Module mask
+     */
     private static final long MODULE = 0x00FF_0000L;
+
+    /**
+     * Actual Error mask
+     */
     private static final long ERROR = 0x0000_FFFFL;
 
 
     /**
-     * Check if the given error code is an unknown error.
+     * <h2>isUnknownError(long)</h2>
+     * <p>Check if the given error code is an unknown error.</p>
      *
      * @param errorCode The error code
-     * @return True if the given error code is an unknown error
+     * @return True iff the given error code is an unknown error
      */
     public static boolean isUnknownError(final long errorCode) {
         return getProject(errorCode) == Project.UNKNOWN.value;
     }
 
     /**
-     * Check if the given error code is a JavaUtils error.
+     * <h2>isJavaUtilsModuleError(long)</h2>
+     * <p>Check if the given error code is associated with the JavaUtils module.</p>
      *
      * @param errorCode The error code
-     * @return True if the given error code is a JavaUtils error
+     * @return True iff the given error code is a JavaUtils error
      */
     public static boolean isJavaUtilsModuleError(final long errorCode) {
         return getProject(errorCode) == Project.UTILS.value;
     }
 
     /**
-     * Check if the given error code is a JavaFXUtils error.
+     * <h2>isJavaFXUtilsError(long)</h2>
+     * <p>Check if the given error code is associated with the JavaFXUtils module.</p>
      *
      * @param errorCode The error code
-     * @return True if the given error code is a JavaFXUtils error
+     * @return True iff the given error code is a JavaFXUtils error
      */
     public static boolean isJavaFXUtilsError(final long errorCode) {
         return getProject(errorCode) == Project.JFX_UTILS.value;
     }
 
     /**
-     * Get the project from the given error code.
+     * <h2>getProject(long)</h2>
+     * <p>Get the project from the given error code.</p>
      *
      * @param errorCode The error code
      * @return The project
@@ -124,7 +158,8 @@ public class ErrorCode {
     }
 
     /**
-     * Get the module from the given error code.
+     * <h2>getModule(long)</h2>
+     * <p>Get the module from the given error code.</p>
      *
      * @param errorCode The error code
      * @return The module
@@ -134,7 +169,8 @@ public class ErrorCode {
     }
 
     /**
-     * Get the error code from the given error code.
+     * <h2>getError(long)</h2>
+     * <p>Get the error from the given error code.</p>
      *
      * @param errorCode The error code
      * @return The error code
@@ -144,7 +180,8 @@ public class ErrorCode {
     }
 
     /**
-     * Create an error code from the given parts.
+     * <h2>getErrorCode(long, long, long)</h2>
+     * <p>Construct an error code from the given project, module and error.</p>
      *
      * @param project The project
      * @param module  The module
@@ -156,7 +193,19 @@ public class ErrorCode {
     }
 
     /**
-     * Extract the parts of an error code.
+     * <h2>extract(long)</h2>
+     * <p>Extract the parts of the given error code.</p>
+     * <p>It returns a record with the project, module and error.</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     final long errorCode = ErrorCode.getErrorCode(ErrorCode.Projects.UTILS, ErrorCode.Modules.IO, ErrorCode.IO.FILE_NOT_FOUND);
+     *     final ErrorTypes error = ErrorCode.extract(errorCode);
+     *     System.out.println("Project: " + error.project());
+     *     System.out.println("Module: " + error.module());
+     *     System.out.println("Error: " + error.errorCode());
+     * }
+     * </pre>
      *
      * @param errorCode The error code
      * @return The parts of the error code
@@ -167,7 +216,9 @@ public class ErrorCode {
 
 
     /**
-     * A record for the parts of an error code.
+     * <h1>ErrorTypes</h1>
+     * <br>
+     * <p>This record represents the parts of an error code.</p>
      *
      * @param project   The project
      * @param module    The module

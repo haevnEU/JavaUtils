@@ -13,13 +13,35 @@ import java.util.List;
 
 
 /**
- * This class provides methods to merge files.
+ * <h1>AbstractFileMerging</h1>
+ * <br>
+ * <p>This abstract class implements {@link IFileMerging} and implements some methods of the interface.</p>
+ * <br>
+ * <p>It provides the following methods:</p>
+ * <ul>
+ *     <li>{@link #mergeFiles(File, String...)}: Merges the given files into the output file.</li>
+ *     <li>{@link #mergeFiles(File, File...)}: Merges the given files into the output file.</li>
+ *     <li>{@link #readFile(File)}: Reads a file into memory.</li>
+ *     <li>{@link #storeFile(File, byte[])}: Stores the given bytes into the given file.</li>
+ *     <li>{@link #storeFile(File, byte[], boolean)}: Stores the given bytes into the given file.</li>
+ * </ul>
+ * <br>
+ * <p>It also provides a logger for logging messages.</p>
+ * <br>
+ * <p>It is recommended to extend this class when implementing a file merging class.</p>
  */
 public abstract class AbstractFileMerging implements IFileMerging {
     private static final Logger LOGGER = new Logger(AbstractFileMerging.class);
 
     /**
-     * Merges the given files into the output file.
+     * <h2>mergeFiles({@link File}, String...)</h2>
+     * <br>
+     * <p>Merges the given files into the output file.</p>
+     * <h3>Example:</h3>
+     * <pre>{@code
+     *  final FileMerging fileMerging = new FileMerging();
+     *  fileMerging.mergeFiles(new File("output.txt"), "input1.txt", "input2.txt");
+     * }</pre>
      *
      * @param output the output file
      * @param input  the input files
@@ -30,7 +52,15 @@ public abstract class AbstractFileMerging implements IFileMerging {
     }
 
     /**
-     * Merges the given files into the output file.
+     * <h2>mergeFiles({@link File}, {@link File}...)</h2>
+     * <br>
+     * <p>Merges the given files into the output file.</p>
+     * <h3>Example:</h3>
+     * <pre>{@code
+     * final FileMerging fileMerging = new FileMerging();
+     * fileMerging.mergeFiles(new File("output.txt"), new File("input1.txt"), new File("input2.txt"));
+     * }</pre>
+     * <br>
      *
      * @param output the output file
      * @param input  the input files
@@ -42,7 +72,15 @@ public abstract class AbstractFileMerging implements IFileMerging {
 
 
     /**
-     * Reads a file into memory
+     * <h2>readFile({@link File})</h2>
+     * <br>
+     * <p>This method reads the content of the given file into a byte array and returns it.</p>
+     * <h3>Example:</h3>
+     * <pre>{@code
+     * final FileMerging fileMerging = new FileMerging();
+     * final byte[] bytes = fileMerging.readFile(new File("input.txt"));
+     * }</pre>
+     * <br>
      *
      * @param file the file to read
      * @return the content of the file as a byte array
@@ -59,7 +97,15 @@ public abstract class AbstractFileMerging implements IFileMerging {
     }
 
     /**
-     * Stores the given bytes into the given file
+     * <h2>storeFile({@link File}, byte[])</h2>
+     * <br>
+     * <p>This method stores the given bytes into the given file.</p>
+     * <h3>Example:</h3>
+     * <pre>{@code
+     * final FileMerging fileMerging = new FileMerging();
+     * final byte[] data = {...}
+     * fileMerging.storeFile(new File("output.txt"), data);
+     * }</pre>
      *
      * @param file  the file to store the bytes in
      * @param bytes the bytes to store
@@ -70,7 +116,15 @@ public abstract class AbstractFileMerging implements IFileMerging {
     }
 
     /**
-     * Stores the given bytes into the given file
+     * <h2>storeFile({@link File}, byte[], boolean)</h2>
+     * <br>
+     * <p>This method stores the given bytes into the given file.</p>
+     * <h3>Example:</h3>
+     * <pre>{@code
+     * final FileMerging fileMerging = new FileMerging();
+     * final byte[] data = {...}
+     * fileMerging.storeFile(new File("output.txt"), data, true);
+     * }</pre>
      *
      * @param file          the file to store the bytes in
      * @param bytes         the bytes to store

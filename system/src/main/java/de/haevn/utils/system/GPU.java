@@ -1,11 +1,16 @@
 package de.haevn.utils.system;
 
 /**
- * A simple class for GPU information.
+ * <h1>GPU</h1>
+ * <p>The GPU class provides information about the GPU of the system.</p>
+ *
+ * <p>This functionality is not implemented yet.</p>
+ *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
-public class GPU {
-    private GPU(){}
+public final class GPU {
+    private GPU() {
+    }
 }

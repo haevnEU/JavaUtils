@@ -1,7 +1,8 @@
 package de.haevn.utils.logging;
 
 /**
- * Defines the log levels.
+ * <h1>Level</h1>
+ * <p>This enum represents the different levels of logging that can be used in the logger.</p>
  * <ul>
  *     Following levels are defined:
  *     <li>DEBUG</li>
@@ -17,7 +18,7 @@ package de.haevn.utils.logging;
  * @version 1.0
  * @since 1.0
  */
-enum Level {
+public enum Level {
     DEBUG(0b00000001),
     INFO(0b00000010),
     WARNING(0b00000100),

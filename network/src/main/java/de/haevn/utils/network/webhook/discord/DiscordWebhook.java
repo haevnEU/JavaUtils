@@ -1,6 +1,6 @@
 package de.haevn.utils.network.webhook.discord;
 
-import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.SerializationUtilsV2;
 import de.haevn.utils.exceptions.ValidationFailedException;
 import de.haevn.utils.logging.Logger;
 import de.haevn.utils.network.NetworkInteraction;
@@ -111,7 +111,7 @@ public class DiscordWebhook implements IWebhook<Embed> {
             throw new ValidationFailedException("Total length is too long");
         }
 
-        SerializationUtils.exportJson(embed).ifPresent(e -> {
+        SerializationUtilsV2.json().useSafeModule().export(embed).ifPresent(e -> {
             final String data = "{\"embeds\": [" + e + "]}";
             LOGGER.atDebug().withMessage("Sending %s", data).log();
             NetworkInteraction.sendPostRequest(url, data).ifPresent(response -> {
