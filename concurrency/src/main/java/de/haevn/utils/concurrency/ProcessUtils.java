@@ -1,5 +1,6 @@
 package de.haevn.utils.concurrency;
 
+import de.haevn.annotations.Draft;
 import de.haevn.utils.datastructure.Tuple;
 
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
+@Draft(description = "This class should be used to start processes in a more convenient way",
+        todo = {"Add javadoc", "Refactor pipe"})
 public class ProcessUtils {
 
 
@@ -31,17 +34,17 @@ public class ProcessUtils {
             args.add(name);
         }
 
-        public Builder addArg(String arg) {
+        public Builder addArg(final String arg) {
             args.add(arg);
             return this;
         }
 
-        public Builder directory(String directory) {
+        public Builder directory(final String directory) {
             this.directory = directory;
             return this;
         }
 
-        public Builder inheritIO(boolean inheritIO) {
+        public Builder inheritIO(final boolean inheritIO) {
             this.inheritIO = inheritIO;
             return this;
         }
@@ -54,7 +57,7 @@ public class ProcessUtils {
 
         public Tuple<CompletableFuture<Integer>, Procc> startAsync() throws IOException {
 
-            ProcessBuilder processBuilder = new ProcessBuilder(args);
+            final ProcessBuilder processBuilder = new ProcessBuilder(args);
             if (!directory.isBlank()) processBuilder.directory(Path.of(directory).toFile());
             if (inheritIO) processBuilder.inheritIO();
 

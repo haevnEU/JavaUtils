@@ -3,7 +3,8 @@ package de.haevn.utils.network.webhook;
 import de.haevn.utils.exceptions.ValidationFailedException;
 
 /**
- * Represents a webhook
+ * <h1>IWebhook</h1>
+ * <p>This interface is used to abstract the sending of data to a webhook</p>
  *
  * @param <T> the type of the data to send
  * @author haevn
@@ -13,7 +14,8 @@ import de.haevn.utils.exceptions.ValidationFailedException;
 public interface IWebhook<T> {
 
     /**
-     * Sends the given Type to the webhook
+     * <h2>send(T)</h2>
+     * <p>This method sends the data to the webhook</p>
      *
      * @param data the data to send
      * @throws ValidationFailedException if the validation of the data fails
@@ -21,12 +23,11 @@ public interface IWebhook<T> {
     void send(final T data) throws ValidationFailedException;
 
     /**
-     * Send the data without throwing an exception
-     * <br>
-     * It wraps the {@link #send(T)} method
+     * <h2>sendWithoutException(T)</h2>
+     * <p>This method sends the data to the webhook without throwing an exception</p>
      *
      * @param data the data to send
-     * @return true if the embed was sent successfully, false otherwise
+     * @return true iff the data was sent successfully, false otherwise
      */
     default boolean sendWithoutException(final T data) {
         try {

@@ -5,7 +5,8 @@ import de.haevn.utils.logging.Logger;
 
 import java.util.concurrent.Callable;
 
-@Draft(description = "This class is a utility class for running tasks concurrently.")
+@Draft(description = "This class is a utility class for running tasks concurrently.",
+        todo = {"Add javadoc", "Refactor"})
 public final class ConcurrencyUtils {
     private static final Logger LOGGER = new Logger(ConcurrencyUtils.class);
 

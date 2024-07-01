@@ -5,16 +5,19 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class provides a simple way to execute tasks in the background.<br>
- * It uses a {@link BackgroundWorkerThreadService} to execute the tasks.<br>
- * Accessing via {@link BackgroundWorker#getInstance()} will return a singleton instance with 70% of the available processors.<br>
- * Accessing via {@link BackgroundWorker#getInstance(int)} will return a singleton instance with the given amount of threads.
+ * <h1>BackgroundWorker</h1>
+ * <br>This class provides a simple way to execute tasks in the background
+ * <br>It uses the {@link BackgroundWorkerThreadService} to execute the tasks
+ * <br>When accessed via the {@link BackgroundWorker#getInstance() getInstance()} method the maximum capacity for threads are 70%
+ * <br>This behaviour can be overridden using the {@link BackgroundWorker#getInstance(int) getInstance(int)} method
  * <br>
- * <b>Example</b>
+ * <h2>Example</h2>
  * <pre>
  * {@code
  * BackgroundWorker.getInstance().submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
  * }
+ * </pre>
+ *
  * @author haevn
  * @version 1.1
  * @since 1.0
@@ -24,9 +27,17 @@ public class BackgroundWorker {
     private static BackgroundWorker instance;
 
     /**
-     * Initialize the singleton instance with the given amount of threads, e.g. 70% of the available processors
+     * <h2>initialize(int)</h2>
+     * <p>Initializes the singleton instance with a given capacity</p>
      *
-     * @param amountThreads the amount of threads
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorker.initialize(60);
+     *     }
+     *     </pre>
+     *
+     * @param amountThreads The amount of usable threads
      * @return the singleton instance
      */
     public static BackgroundWorker initialize(final int amountThreads) {
@@ -35,9 +46,16 @@ public class BackgroundWorker {
     }
 
     /**
-     * Get the singleton instance with the given amount of threads, e.g. 70% of the available processors
+     * <h2>initialize()</h2>
+     * <p>Initializes the singleton instance with a given amount Threads</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorker.initialize(5);
+     *     }
+     * </pre>
      *
-     * @param amountThreads the amount of threads
+     * @param amountThreads amount of usable threads
      * @return the singleton instance
      */
     public static synchronized BackgroundWorker getInstance(final int amountThreads) {
@@ -48,7 +66,14 @@ public class BackgroundWorker {
     }
 
     /**
-     * Get the singleton instance with 70% of the available processors
+     * <h2>getInstance()</h2>
+     * <p>Initializes the singleton instance with 70% of the available processors</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorker.initialize();
+     *     }
+     * </pre>
      *
      * @return the singleton instance
      */
@@ -59,24 +84,46 @@ public class BackgroundWorker {
 
     private final BackgroundWorkerThreadService executor;
 
+
     /**
-     * Creates a new BackgroundWorker with 70% of the available processors
+     * <h2>BackgroundWorker()</h2>
+     * <p>Creates a new BackgroundWorker with 70% of the available processors</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorker worker = new BackgroundWorker();
+     *     }
+     * </pre>
      */
     public BackgroundWorker() {
-        this((int) (Runtime.getRuntime().availableProcessors() * 0.7));
+        this(Runtime.getRuntime().availableProcessors() * 0.7);
     }
 
     /**
-     * Creates a new BackgroundWorker with the given amount of threads
+     * <h2>BackgroundWorker(double)</h2>
+     * <p>Creates a new BackgroundWorker with the given amount of threads</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorker worker = new BackgroundWorker(5);
+     *     }
+     * </pre>
      *
      * @param amountThreads the amount of threads
      */
-    public BackgroundWorker(final int amountThreads) {
-        executor = new BackgroundWorkerThreadService(amountThreads);
+    public BackgroundWorker(final double amountThreads) {
+        executor = new BackgroundWorkerThreadService((int) amountThreads);
     }
 
     /**
-     * Submits a task to the background worker.
+     * <h2>submit(Runnable, String, int, TimeUnit)</h2>
+     * <p>Submits a repeatable task to the background worker and return a {@link ScheduledFuture} as result</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
+     *     }
+     * </pre>
      *
      * @param runnable the task
      * @param name     the name of the task
@@ -89,7 +136,14 @@ public class BackgroundWorker {
     }
 
     /**
-     * Submits a task to the background worker.
+     * <h2>submit(Runnable, String, int, int, TimeUnit)</h2>
+     * <p>Submits a repeatable delayed task to the background worker and return a {@link ScheduledFuture} as result</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submit(() -> System.out.println("Hello World"), "HelloWorld", 1, 1, TimeUnit.SECONDS);
+     *     }
+     * </pre>
      *
      * @param runnable the task
      * @param name     the name of the task
@@ -103,7 +157,14 @@ public class BackgroundWorker {
     }
 
     /**
-     * Submits a task to the background worker.
+     * <h2>submitOnce(Runnable, String)</h2>
+     * <p>Submits a task to the background worker and return a {@link ScheduledFuture} as result</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submitOnce(() -> System.out.println("Hello World"), "HelloWorld");
+     *     }
+     * </pre>
      *
      * @param runnable the task
      * @param name     the name of the task
@@ -114,7 +175,14 @@ public class BackgroundWorker {
     }
 
     /**
-     * Submits a task to the background worker.
+     * <h2>submitOnce(Runnable, String, long)</h2>
+     * <p>Submits a delayed task to the background worker and return a {@link ScheduledFuture} as result</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submitOnce(() -> System.out.println("Hello World"), "HelloWorld", 1);
+     *     }
+     * </pre>
      *
      * @param runnable the task
      * @param name     the name of the task
@@ -126,14 +194,28 @@ public class BackgroundWorker {
     }
 
     /**
-     * Shuts down the background worker.
+     * <h2>shutdown()</h2>
+     * <p>Request a shutdown of the {@link BackgroundWorker}</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *      worker.shutdown();
+     *     }
+     * </pre>
      */
     public void shutdown() {
         executor.shutdown();
     }
 
     /**
-     * Waits for all tasks to finish.
+     * <h2>join()</h2>
+     * <p>Waits for all tasks to finish</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.join();
+     *     }
+     * </pre>
      */
     public void join() {
         executor.join();

@@ -1,10 +1,27 @@
 package de.haevn.utils.enumeration;
 
 /**
- * A simple enum for nano time units.
+ * <h1>NanoTimeUnits</h1>
+ * <br>
+ * <br> A simple enum for nano time units.
+ * <br> The base unit is a nanosecond.
+ * <br> The enum provides the following units:
+ * <ul>
+ *     <li>NANOSECONDS</li>
+ *     <li>MICROSECONDS</li>
+ *     <li>MILLISECONDS</li>
+ *     <li>SECONDS</li>
+ *     <li>MINUTES</li>
+ *     <li>HOURS</li>
+ *     <li>DAYS</li>
+ *     <li>WEEKS</li>
+ *     <li>MONTHS</li>
+ *     <li>YEARS</li>
+ * </ul>
+ *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
 public enum NanoTimeUnits {
     NANOSECONDS(1),

@@ -3,7 +3,10 @@ package de.haevn.utils.network;
 import java.net.http.HttpRequest;
 
 /**
- * The type of the body of a {@link HttpRequest}.
+ * <h1>BodyType</h1>
+ * <br>
+ * <p>The type of the body of a {@link HttpRequest}.</p>
+ * <p>Supported body types are:</p>
  * <ul>
  *     <li>{@link #DEFAULT} - The default body type. This is the same as {@link #STRING}.</li>
  *     <li>{@link #STRING} - The body is a {@link String}.</li>

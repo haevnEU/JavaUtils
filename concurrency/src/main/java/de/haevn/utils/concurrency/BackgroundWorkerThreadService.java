@@ -7,16 +7,25 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This is an internal class that enhances the {@link ScheduledThreadPoolExecutor} with logging and exception handling.
- * It is used by the {@link BackgroundWorker} to execute tasks in the background.
+ * <h1>BackgroundWorkerThreadService</h1>
+ * <br>This class extends the {@link ScheduledThreadPoolExecutor} to provide custom behaviour.
+ * <br>Only the {@link BackgroundWorker} should uses this class to execute tasks in the background
  * <br>
- * <b>Example</b>
+ * <h3>Example</h3>
  * <pre>
  *     {@code
  *     BackgroundWorkerThreadService service = new BackgroundWorkerThreadService();
  *     service.submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
  *     }
  * </pre>
+ * <br>
+ * <h3>Custom extension</h3>
+ * <ul>
+ *     <li>Adds logging to start and finishing of tasks</li>
+ *     <li>Overrides the default shutdown method to wait for all tasks to finish</li>
+ *     <li>Use virtual threads instead of platform ones</li>
+ *     <li>Adds exception handling for threads</li>
+ * </ul>
  *
  * @author haevn
  * @version 1.0
@@ -29,7 +38,16 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     private static final Logger LOGGER = new Logger(BackgroundWorker.class);
 
     /**
-     * Creates a new {@link BackgroundWorkerThreadService} with the given amount of threads
+     * <h2>BackgroundWorkerThreadService(double)</h2>
+     * <p>Creates a new BackgroundWorkerThreadService with the given amount of threads</p>
+     * <p>It will set the innerhited poolsize to the given amount</p>
+     * <p>Overrides the thread creation to use a virtual thread with {@link BackgroundWorkerThreadService#exceptionHandler(Thread, Throwable)}</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorkerThreadService worker = new BackgroundWorkerThreadService(5);
+     *     }
+     * </pre>
      *
      * @param corePoolSize the amount of threads
      */
@@ -41,7 +59,15 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
 
 
     /**
-     * Creates a new {@link BackgroundWorkerThreadService} with 70% of the available processors
+     * <h2>BackgroundWorkerThreadService()</h2>
+     * <p>Creates a new BackgroundWorkerThreadService with 70% of available cores</p>
+     * <p>internally the {@link BackgroundWorkerThreadService#BackgroundWorkerThreadService(int)} constructor is called</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     BackgroundWorkerThreadService worker = new BackgroundWorkerThreadService();
+     *     }
+     * </pre>
      */
     public BackgroundWorkerThreadService() {
         this((int) (Runtime.getRuntime().availableProcessors() * 0.7));
@@ -49,7 +75,15 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
 
 
     /**
-     * Submits a {@link Runnable} to the service, it will be executed as soon as possible and then every {@code interval} time units
+     * <h2>submit(Runnable, String, int, TimeUnit)</h2>
+     * <p>This method logs the submission of a task to the background worker and returns a {@link ScheduledFuture} as result</p>
+     * <p>After the logging the task is scheduled to be executed in the given interval</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
+     *     }
+     * </pre>
      *
      * @param runnable the task to be executed
      * @param name     the name of the task
@@ -63,14 +97,21 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     }
 
     /**
-     * Submits a {@link Runnable} to the service, it will be executed after {@code delay} time units and then every {@code interval} time units
+     * <h2>submit(Runnable, String, int, TimeUnit)</h2>
+     * <p>This method logs the submission of a task to the background worker and returns a {@link ScheduledFuture} as result</p>
+     * <p>After both logging and a delay the task is scheduled to be executed in the given interval</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submit(() -> System.out.println("Hello World"), "HelloWorld", 1, TimeUnit.SECONDS);
+     *     }
+     * </pre>
      *
-     * @param runnable the task to be executed
+     * @param runnable the task
      * @param name     the name of the task
-     * @param delay    the delay before the task should be executed
      * @param interval the interval in which the task should be executed
      * @param unit     the unit of the interval
-     * @return a ScheduledFuture representing pending completion of the task
+     * @return a {@link ScheduledFuture} representing pending completion of the task
      */
     public ScheduledFuture<?> submit(final Runnable runnable, final String name, final int delay, final int interval, final TimeUnit unit) {
         LOGGER.atInfo().withMessage("Submitting %s to background worker", name).log();
@@ -78,7 +119,14 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     }
 
     /**
-     * Submits a {@link Runnable} to the service, it will be executed as soon as possible
+     * <h2>submitOnce(Runnable, String, long)</h2>
+     * <p>Submits a {@link Runnable} to the service, it will be executed as soon as possible</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.submitOnce(() -> System.out.println("Hello World"), "HelloWorld", 1);
+     *     }
+     * </pre>
      *
      * @param runnable the task to be executed
      * @param name     the name of the task
@@ -90,7 +138,14 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     }
 
     /**
-     * Stops the service and waits 5 seconds for all tasks to finish
+     * <h2>shutdown()</h2>
+     * <p>Shuts down the service and waits for all tasks to finish</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.shutdown();
+     *     }
+     * </pre>
      */
     @Override
     public void shutdown() {
@@ -107,7 +162,14 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     }
 
     /**
-     * Stops the service and waits for all tasks to finish
+     * <h2>join()</h2>
+     * <p>Request a shutdown and waits for all tasks to finish</p>
+     * <h3>Example:</h3>
+     * <pre>
+     *     {@code
+     *     worker.join();
+     *     }
+     * </pre>
      */
     public void join() {
         LOGGER.atInfo().withMessage("Waiting for all tasks to finish").log();
@@ -119,11 +181,11 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
         }
     }
 
-
-
-
     /**
-     * Logs an uncaught exception in a thread
+     * <h2>exceptionHandler(Thread, Throwable)</h2>
+     * <p>Logs an uncaught exception in a thread</p>
+     * <h3>Example:</h3>
+     * <b>This is an internal method and should not be called directly</b>
      *
      * @param thread    the thread
      * @param throwable the throwable
@@ -133,25 +195,27 @@ final class BackgroundWorkerThreadService extends ScheduledThreadPoolExecutor {
     }
 
     /**
-     * Logs the start of a task
+     * <h2>beforeExecute(Thread, Runnable)</h2>
+     * <p>Overrides the default beforeExecute method to log the start of a task</p>
      *
      * @param thread   the thread that will run task {@code r}
      * @param runnable the task that will be executed
      */
     @Override
-    protected void beforeExecute(Thread thread, Runnable runnable) {
+    protected void beforeExecute(final Thread thread, final Runnable runnable) {
         super.beforeExecute(thread, runnable);
         LOGGER.atInfo().withMessage("Executing %s", thread.getName()).withObject(thread).log();
     }
 
     /**
-     * Logs the end of a task
+     * <h2>afterExecute(Runnable, Throwable)</h2>
+     * <p>Overrides the default afterExecute method to log the end of a task</p>
      *
      * @param runnable  the task that has been executed
      * @param throwable the exception that has been thrown
      */
     @Override
-    protected void afterExecute(Runnable runnable, Throwable throwable) {
+    protected void afterExecute(final Runnable runnable, final Throwable throwable) {
         super.afterExecute(runnable, throwable);
         LOGGER.atInfo().withMessage("Finished").withException(throwable).log();
     }

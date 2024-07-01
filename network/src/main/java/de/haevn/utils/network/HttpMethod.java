@@ -1,7 +1,10 @@
 package de.haevn.utils.network;
 
 /**
- * Supported HTTP methods.
+ * <h1>HttpMethod</h1>
+ * <br>
+ * <p>The type of the HTTP method of a request.</p>
+ * <p>Supported methods are:</p>
  * <ul>
  *     <li>NONE</li>
  *     <li>GET</li>

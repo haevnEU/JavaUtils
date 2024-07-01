@@ -16,7 +16,14 @@ import java.util.function.Supplier;
 import static de.haevn.utils.network.NetworkUtils.isUrl;
 
 /**
- * Provides methods to interact with the network.
+ * <h1>NetworkInteraction</h1>
+ * <br>
+ *
+ * <h2>Congiguration file</h2>
+ * <p>The configuration file must contain the following properties:</p>
+ * <ul>
+ *     <li>timeout - The timeout in seconds for the requests</li>
+ * </ul>
  *
  * @author haevn
  * @version 1.0
@@ -30,11 +37,14 @@ public final class NetworkInteraction {
     }
 
     /**
-     * Initializes the Network configuration.
-     * <ul>
-     *  <li>If the file does not exists, default values are used</li>
-     *  <li>If the file cannot be parsed, default values are used</li>
-     * </ul>
+     * <h1>init({@link File}</h1>
+     * <br>
+     * <p>Initializes the Network configuration using the given configuration.</p>
+     * <p>When the configuration cannot be found or parsed the default values are used.</p>
+     * <h2>Example:</h2>
+     * <pre>{@code
+     * NetworkInteraction.init(new File("config.properties"));
+     * }</pre>
      *
      * @param config Configuration file
      */

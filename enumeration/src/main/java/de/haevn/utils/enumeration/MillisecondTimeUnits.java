@@ -1,10 +1,25 @@
 package de.haevn.utils.enumeration;
 
 /**
- * A simple enum for millisecond time units.
+ * <h1>MillisecondTimeUnits</h1>
+ * <br>
+ * <br> A simple enum for millisecond time units.
+ * <br> The base unit is a millisecond.
+ * <br> The enum provides the following units:
+ * <ul>
+ *     <li>MILLISECONDS</li>
+ *     <li>SECONDS</li>
+ *     <li>MINUTES</li>
+ *     <li>HOURS</li>
+ *     <li>DAYS</li>
+ *     <li>WEEKS</li>
+ *     <li>MONTHS</li>
+ *     <li>YEARS</li>
+ * </ul>
+ *
+ * @author haevn
  * @version 1.0
  * @since 1.0
- * @author haevn
  */
 public enum MillisecondTimeUnits {
     MILLISECONDS(1),

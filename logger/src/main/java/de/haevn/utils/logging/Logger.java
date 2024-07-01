@@ -1,8 +1,9 @@
 package de.haevn.utils.logging;
 
 import de.haevn.annotations.Launcher;
-import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.SerializationUtilsV2;
 import de.haevn.utils.debug.MethodTools;
+import de.haevn.utils.exceptions.ApplicationException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +15,16 @@ import java.util.function.Consumer;
 import static de.haevn.annotations.AnnotationUtils.findLauncher;
 
 /**
+ * <h1>Logger</h1>
+ * <br>
+ * <p>This class is a custom logger that can be used to log messages to the console and a file.</p>
+ * <p>It uses the pipeline pattern to create log entries.</p>
+ *
+ * <p>A result of the design decision is that maintability and readability is increased.
+ * Another advantage is that an entry is logged iff the {@link EntryBuilder#log()} method is invoked .</p>
+ * <p>The logger can be configured to log only messages with a certain log level or to flush the log entries automatically.</p>
+ * <p>The logger is thread-safe and can be used in a multi-threaded environment.</p> *
+ *
  * @author Haevn
  * @version 1.1
  * @since 1.0
@@ -25,17 +36,61 @@ public final class Logger {
     private final List<LogEntry> logEntries = new ArrayList<>();
     private final Thread shutdownHook = new Thread(this::flush);
 
+    /**
+     * <h2>Logger()</h2>
+     * Creates a new anonymous Logger with the default configuration
+     *
+     * @param <T> The type of the logger
+     */
     public <T> Logger() {
         this(null, new LoggerConfig());
     }
 
+    /**
+     * <h2>Logger({@link Class})</h2>
+     * <p>Create a new Logger associated with the given class and the default configuration</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *   class Dummy{
+     *       private static final Logger LOGGER = new Logger(Dummy.class);
+     *       public void doSomething(){
+     *          LOGGER.atInfo().withMessage("Doing something").log();
+     *       }
+     *   }
+     * }
+     * </pre>
+     *
+     * @param cl  The class to use
+     * @param <T> The type of the logger
+     */
     public <T> Logger(Class<?> cl) {
         this(cl, new LoggerConfig());
     }
 
     /**
-     * Creates a new Logger with the given configuration
+     * <h2>Logger({@link Class}, {@link LoggerConfig})</h2>
+     * <br>
+     * <p>Create a new Logger associated with the given class and configuration</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     class Dummy{
+     *        private static final Logger LOGGER = new Logger(Dummy.class, new LoggerConfig().setLevel(Level.INFO));
+     *        public void doSomething(){
+     *          LOGGER.atInfo().withMessage("Doing something").log();
+     *        }
+     *     }
+     * }
+     * </pre>
+     * <ul>
+     *   <li>The logger will use the class name as the logger name, if the class is null the logger name will be "Logger"</li>
+     *   <li>The logger will store the logs under the user home directory in a folder called "haevn"
+     *   and a subfolder with the name of the application</li>
+     *   <li>When the directories do not exist, they will be created</li>
+     * </ul>
      *
+     * @param cl     The class to use
      * @param config The configuration to use
      */
     public <T> Logger(final Class<?> cl, final LoggerConfig config) {
@@ -57,8 +112,8 @@ public final class Logger {
                     logFile.createNewFile();
                 }
                 this.config.setFileOutput(new PrintStream(new FileOutputStream(logFile, true)));
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (final Exception ex) {
+                throw new ApplicationException(ex);
             }
         }
         HANDLER.addLogger(this);
@@ -66,7 +121,8 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the given log level
+     * <h2>at({@link Level})</h2>
+     * <p>Creates a new {@link EntryBuilder} for the given log level</p>
      *
      * @param level The log level to use
      * @return The EntryBuilder
@@ -76,7 +132,9 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the given log level
+     * <h2>atInternal({@link Level})</h2>
+     * <p>Creates a new {@link EntryBuilder} for the given log level</p>
+     * <p>This is an internal method and should only be used by the logger</p>
      *
      * @param level The log level to use
      * @return The EntryBuilder
@@ -86,7 +144,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the DEBUG log level
+     * <h2>atDebug()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the DEBUG log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atDebug().withMessage("Debug message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#DEBUG}</p>
      *
      * @return The EntryBuilder
      */
@@ -95,7 +161,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the INFO log level
+     * <h2>atInfo()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the INFO log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atInfo().withMessage("Info message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#INFO}</p>
      *
      * @return The EntryBuilder
      */
@@ -104,7 +178,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the WARNING log level
+     * <h2>atWarning()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the WARNING log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atWarning().withMessage("Warning message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#WARNING}</p>
      *
      * @return The EntryBuilder
      */
@@ -113,7 +195,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the ERROR log level
+     * <h2>atError()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the ERROR log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atError().withMessage("Error message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#ERROR}</p>
      *
      * @return The EntryBuilder
      */
@@ -122,7 +212,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the FATAL log level
+     * <h2>atFatal()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the FATAL log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atFatal().withMessage("Fatal message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#FATAL}</p>
      *
      * @return The EntryBuilder
      */
@@ -131,7 +229,15 @@ public final class Logger {
     }
 
     /**
-     * Creates a new EntryBuilder for the UNKNOWN log level
+     * <h2>atUnknown()</h2>
+     * <p>Creates a new {@link EntryBuilder} for the UNKNOWN log level</p>
+     * <p>Example:</p>
+     * <pre>
+     * {@code
+     *     LOGGER.atUnknown().withMessage("Unknown message").log();
+     * }
+     * </pre>
+     * <p>Internally {@link #atInternal(Level)} is called with {@link Level#UNKNOWN}</p>
      *
      * @return The EntryBuilder
      */
@@ -140,7 +246,8 @@ public final class Logger {
     }
 
     /**
-     * Returns a list of previous logged entries
+     * <h2>getLogEntries()</h2>
+     * <p>Gets the list of log entries</p>
      *
      * @return The list of log entries
      */
@@ -149,7 +256,8 @@ public final class Logger {
     }
 
     /**
-     * Returns a list of previous logged entries with the given log level
+     * <h2>getLogEntries(int)</h2>
+     * <p>Gets the list of log entries with the given log level</p>
      *
      * @param level The log level to use
      * @return The list of log entries
@@ -159,14 +267,30 @@ public final class Logger {
     }
 
     /**
-     * Clears the log entries
+     * <h2>getLogEntries({@link Level})</h2>
+     * <p>Gets the list of log entries with the given log level</p>
+     *
+     * @param level The log level to use
+     * @return The list of log entries
+     */
+    public List<LogEntry> getLogEntries(final Level level) {
+        return getLogEntries(level.value);
+    }
+
+    /**
+     * <h2>clearLogEntries()</h2>
+     * <p>Clears the list of log entries</p>
      */
     public void clearLogEntries() {
         logEntries.clear();
     }
 
     /**
-     * Flushes the log entries to a given output
+     * <h2>flush()</h2>
+     * <p>Flushes the log entries to the console and the file</p>
+     * <p>The method is synchronized to ensure that the log entries are not modified while flushing</p>
+     * <p>The entries are printed to the console</p>
+     * <p>The entries are also appended as a json entry to the log file</p>
      */
     public void flush() {
         synchronized (logEntries) {
@@ -179,9 +303,9 @@ public final class Logger {
                     if (null == stream) {
                         return;
                     }
-                    SerializationUtils.disablePretty();
-                    SerializationUtils.exportJson(SanitizedLogEntry.getFromLogEntry(entry)).ifPresent(stream::println);
-                    SerializationUtils.enablePretty();
+                    SerializationUtilsV2.json().disablePretty().useSafeModule()
+                            .export(SanitizedLogEntry.getFromLogEntry(entry))
+                            .ifPresent(stream::println);
                 };
 
                 consumer.accept(consoleOutput);
@@ -192,8 +316,11 @@ public final class Logger {
     }
 
     /**
-     * Activates the shutdown hook
+     * <h2>activateShutdownHook()</h2>
+     * <p>Activates the shutdown hook</p>
+     * <p>The shutdown hook will flush the log entries when the application is terminated</p>
      *
+     * @return The Logger
      * @hidden This method is preview method and should not be used in production
      */
     public Logger activateShutdownHook() {
@@ -202,8 +329,10 @@ public final class Logger {
     }
 
     /**
-     * Deactivates the shutdown hook
+     * <h2>deactivateShutdownHook()</h2>
+     * <p>Deactivates the shutdown hook</p>
      *
+     * @return The Logger
      * @hidden This method is preview method and should not be used in production
      */
     public Logger deactivateShutdownHook() {
@@ -213,13 +342,28 @@ public final class Logger {
 
 
     /**
-     * Builder class for log entries
+     * <h1>EntryBuilder</h1>
+     * <p>This class is a builder for log entries, that can be used to create log entries with a fluent API</p>
+     * <p>It is used in the pipeline pattern to create log entries</p>
+     *
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     LOGGER.atInfo().withMessage("Info message").log();
+     * }
+     * </pre>
+     *
+     * @author Haevn
+     * @version 1.0
+     * @since 1.0
      */
     public final class EntryBuilder {
         private final LogEntry entry = new LogEntry();
 
         /**
-         * Creates a new EntryBuilder for the given log level
+         * <h2>EntryBuilder({@link Level})</h2>
+         * <p>Creates a new EntryBuilder with the given log level</p>
+         * <p>The EntryBuilder is also used as a pipeline</p>
          *
          * @param level The log level to use
          */
@@ -228,9 +372,10 @@ public final class Logger {
         }
 
         /**
-         * Sets the helper to the current method
+         * <h2>forEnclosingMethod()</h2>
+         * <p>Sets the helper to the current method</p>
          *
-         * @return The EntryBuilder
+         * @return The used pipeline
          */
         public EntryBuilder forEnclosingMethod() {
             MethodTools.getMethod(2).ifPresent(entry::setHelper);
@@ -238,9 +383,10 @@ public final class Logger {
         }
 
         /**
-         * Sets the helper to the current method
+         * <h2>forEnclosingMethod(int)</h2>
+         * <p>Sets the helper to the method that is {@code skip} levels above the current method</p>
          *
-         * @return The EntryBuilder
+         * @return The used pipeline
          */
         private EntryBuilder forEnclosingMethod(final int skip) {
             MethodTools.getMethod(skip).ifPresent(entry::setHelper);
@@ -248,26 +394,34 @@ public final class Logger {
         }
 
         /**
-         * Appends a throwable to the log entry
+         * <h2>withException({@link Throwable})</h2>
+         * <p>Adds a {@link Throwable} to the log entry</p>
          *
-         * @param throwable The throwable to append
-         * @return The EntryBuilder
+         * @param throwable The exception to set
+         * @return The used pipeline
          */
         public EntryBuilder withException(final Throwable throwable) {
             entry.setThrowable(throwable);
             return this;
         }
 
+        /**
+         * <h2>withThreadName()</h2>
+         * <p>Adds the thread name of the log entry</p>
+         *
+         * @return The used pipeline
+         */
         public EntryBuilder withThreadName() {
             entry.setThreadName(Thread.currentThread().getName());
             return this;
         }
 
         /**
-         * Sets the message of the log entry
+         * <h2>withMessage()</h2>
+         * <p>Adds a message of the log entry</p>
          *
-         * @param message The message to set
-         * @return The EntryBuilder
+         * @param message The message to log
+         * @return The used pipeline
          */
         public EntryBuilder withMessage(final String message) {
             entry.setMessage(message);
@@ -275,24 +429,36 @@ public final class Logger {
         }
 
         /**
-         * Sets the message of the log entry
+         * <h2>withMessage(String, {@link Object}...)</h2>
+         * <p>Adds a message of the log entry with arguments</p>
          *
          * @param message The message to set
          * @param args    The arguments to use
-         * @return The EntryBuilder
+         * @return The used pipeline
          */
         public EntryBuilder withMessage(final String message, final Object... args) {
             entry.setMessage(String.format(message, args));
             return this;
         }
 
+        /**
+         * <h2>withObject({@link Object})</h2>
+         * <p>Adds an object to the log entry</p>
+         *
+         * @param obj The object to set
+         * @return The used pipeline
+         */
         public EntryBuilder withObject(final Object obj) {
             entry.setObj(obj);
             return this;
         }
 
         /**
-         * Adds the log entry to the log entries list if the log level is high enough
+         * <h2>log()</h2>
+         * <p>Logs the log entry</p>
+         * <p>The log entry is only logged if the log level of the entry is greater or equal to the log level of the logger</p>
+         * <p>The log entry is also added to the list of log entries</p>
+         * <p>If the auto flush is enabled or the log size is reached, the log entries are flushed</p>
          */
         public synchronized void log() {
             synchronized (logEntries) {
@@ -308,7 +474,9 @@ public final class Logger {
         }
 
         /**
-         * Does nothing and discards the log entry
+         * <h2>noop()</h2>
+         * <p>This is the no-operation method</p>
+         * <p>It will discard the log entry</p>
          */
         public void noop() {
             // Do nothing

@@ -5,6 +5,7 @@ import de.haevn.utils.exceptions.NotYetImplementedException;
 import java.util.List;
 
 /**
+ * <h1>USB</h1>
  * <p>This class provides an interface to find and interact with USB devices.</p>
  * <b>THIS FEATURE WILL BE IMPLEMENTED WITH VERSION 1.2</b>
  *
@@ -40,7 +41,7 @@ public class USB {
 
 
     private void shutdown() {
-
+        // This method is called when the application is closed
     }
 
     public interface Device {

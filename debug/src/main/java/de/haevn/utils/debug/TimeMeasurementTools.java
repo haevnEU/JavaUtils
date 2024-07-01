@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * This class can be used to measure the time of a code.
+ * <h1>TimeMeasurementTools</h1>
+ * <br>
+ * <p>This class can be used to measure the time of a code.</p>
  * <br>
  * <b>Example 1</b>
  * <pre>
@@ -41,25 +43,42 @@ public class TimeMeasurementTools implements AutoCloseable {
     private static final List<String> RUN_TIME_STACK = new ArrayList<>();
     private final PrintStream out;
 
+
     /**
-     * Create a new TimeMeasurement with {@link System#out} as default output stream.
+     * <h2>TimeMeasurementTools()</h2>
+     * <p>Create a new TimeMeasurement with the default output stream ({@link System#out}).</p>
      */
     public TimeMeasurementTools() {
         this(System.out);
     }
 
     /**
-     * Create a new TimeMeasurement with the given output stream.
-     *
-     * @param out The output stream where the result should be printed.
+     * <h2>TimeMeasurementTools({@link PrintStream})</h2>
+     * <p>Create a new TimeMeasurement with the given output stream.</p>
+     * @param out The {@link PrintStream} to print the results.
      */
     public TimeMeasurementTools(final PrintStream out) {
         this.out = out;
     }
 
     /**
-     * Measure the time of the given code.
-     *
+     * <h2>TimeMeasurementTools({@link Runnable}, {@link Class<?>}, {@link String}, {@link String}})</h2>
+     * <p>Create a new TimeMeasurement with the given code, class, method name and description.</p>
+     * <p>It will measure the time of the provided {@link Runnable}.</p>
+     * <h3>Example 1:</h3>
+     * <pre>
+     * {@code
+     * new TimeMeasurement(() -> {
+     *     // Code to measure
+     *     }, this.getClass(), "methodName", "description");
+     * }
+     * </pre>
+     * <h3>Example 2:</h3>
+     * <pre>
+     *     {@code
+     *     new TimeMeasurement(this::methodToMeasure, this.getClass(), "methodName", "description");
+     *     }
+     * </pre>
      * @param code        The code to measure.
      * @param cl          The class of the code.
      * @param methodName  The method name of the code.
@@ -73,7 +92,23 @@ public class TimeMeasurementTools implements AutoCloseable {
     }
 
     /**
-     * Measure the time of the given code.
+     * <h2>TimeMeasurementTools({@link Callable}, {@link Class<?>}, {@link String}, {@link String})</h2>
+     * <p>Create a new TimeMeasurement with the given code, class, method name and description.</p>
+     * <p>It will measure the time of the provided {@link Callable} and returns the result of the code.</p>
+     * <h3>Example 1:</h3>
+     * <pre>
+     * {@code
+     *     var result = new TimeMeasurement(() -> {
+     *     // Code to measure
+     *     }, this.getClass(), "methodName", "description");
+     * }
+     * </pre>
+     * <h3>Example 2:</h3>
+     * <pre>
+     * {@code
+     *     var result = new TimeMeasurement(this::methodToMeasure, this.getClass(), "methodName", "description");
+     * }
+     * </pre>
      *
      * @param code        The code to measure.
      * @param cl          The class of the code.
@@ -102,7 +137,8 @@ public class TimeMeasurementTools implements AutoCloseable {
     }
 
     /**
-     * Stop the time measurement and print the result.
+     * <h2>stop()</h2>
+     * <p>Stop the time measurement and print the results to the specified {@link java.io.PrintWriter} .</p>
      * <ul>
      *     <li><b>result[0]</b>: Class.Method</li>
      *     <li><b>result[1]</b>: Execution time</li>
@@ -127,6 +163,14 @@ public class TimeMeasurementTools implements AutoCloseable {
         return result;
     }
 
+    /**
+     * <h2>close()</h2>
+     * <p>This method invokes {@link TimeMeasurementTools#stop()}</p>
+     * {@see TimeMeasurementTools#stop()}
+     * {@see AutoCloseable#close()}
+     *
+     * @throws Exception If an error occurs.
+     */
     @Override
     public void close() throws Exception {
         stop();
@@ -139,7 +183,17 @@ public class TimeMeasurementTools implements AutoCloseable {
 
 
     /**
-     * Measure the time of the given code.
+     * <h2>measure({@link Runnable})</h2>
+     * <p>This method can be used to measure the time of a code.</p>
+     * <p>This is a static version of the {@link TimeMeasurementTools#time(Runnable, Class, String, String)} method.
+     * and does not require an instance of the {@link TimeMeasurementTools} class.</p>
+     * <p>It will return the execution time in milliseconds.</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     long time = TimeMeasurementTools.measure(() -> {...});
+     * }
+     * </pre>
      *
      * @param code The code to measure.
      * @return The execution time in milliseconds.
@@ -151,7 +205,20 @@ public class TimeMeasurementTools implements AutoCloseable {
     }
 
     /**
-     * Measure the time of the given code.
+     * <h2>measure({@link Callable})</h2>
+     * <p>This method can be used to measure the time of a code.</p>
+     * <p>This is a static version of the {@link TimeMeasurementTools#time(Callable, Class, String, String)} method.
+     * and does not require an instance of the {@link TimeMeasurementTools} class.</p>
+     * <p>It will return a {@link de.haevn.utils.datastructure.Tuple} containing the result and the
+     * execution time in milliseconds.</p>
+     * <h3>Example:</h3>
+     * <pre>
+     * {@code
+     *     var result = TimeMeasurementTools.measure(() -> {...});
+     *     System.out.println("Result: " + result.getFirst());
+     *     System.out.println("Execution time: " + result.getSecond());
+     * }
+     * </pre>
      *
      * @param code The code to measure.
      * @param <T>  The type of the result.

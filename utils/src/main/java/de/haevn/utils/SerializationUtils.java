@@ -2,22 +2,29 @@ package de.haevn.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * <h1>SerializationUtils</h1>
+ * <p>SerializationUtils provides utility methods for serialization and deserialization of objects.</p>
+ *
+ * @author Haevn
+ * @version 1.0
+ * @since 1.1
+ * @deprecated This class is deprecated and will be removed in the next version.
+ */
 public final class SerializationUtils {
-    private static final ObjectMapper jsonMapper = new JsonMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .enable(SerializationFeature.INDENT_OUTPUT);
 
-    private static final ObjectMapper xmlMapper = new XmlMapper()
-            .enable(SerializationFeature.INDENT_OUTPUT);
+    /**
+     * The JSON mapper with default configuration.
+     */
+    private static final SerializationUtilsV2 jsonMapper = SerializationUtilsV2.json();
+    /**
+     * The XML mapper with default configuration.
+     */
+    private static final SerializationUtilsV2 xmlMapper = SerializationUtilsV2.xml();
 
     private SerializationUtils() {
     }
@@ -27,58 +34,91 @@ public final class SerializationUtils {
     //  Regular
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static <T> T parseXml(final String json, final Class<T> type) throws JsonProcessingException {
-        return xmlMapper.readValue(json, type);
+    /**
+     * <h2>parseXml(String, {@link Class})</h2>
+     * <p>Parses the given XML string to the given class.</p>
+     * <p>It uses the default XML mapper.</p>
+     *
+     * @param xml  The XML string.
+     * @param type The class to parse the XML to.
+     * @param <T>  The type of the object.
+     * @return The parsed object.
+     * @throws JsonProcessingException If the parsing fails.
+     */
+    public static <T> T parseXml(final String xml, final Class<T> type) throws JsonProcessingException {
+        return xmlMapper.parse(xml, type);
     }
 
-    public static <T> T parseXml(final String json, final TypeReference<T> type) throws JsonProcessingException {
-        return xmlMapper.readValue(json, type);
+    /**
+     * <h2>parseXml(String, {@link TypeReference})</h2>
+     * <p>Parses the given XML string to the given type reference.</p>
+     * <p>It uses the default XML mapper.</p>
+     *
+     * @param xml  The XML string.
+     * @param type The type reference to parse the XML to.
+     * @param <T>  The type of the object.
+     * @return The parsed object.
+     * @throws JsonProcessingException If the parsing fails.
+     */
+    public static <T> T parseXml(final String xml, final TypeReference<T> type) throws JsonProcessingException {
+        return xmlMapper.parse(xml, type);
     }
 
-
+    /**
+     * <h2>parseJson(String, {@link Class})</h2>
+     * <p>Parses the given JSON string to the given class.</p>
+     * <p>It uses the default JSON mapper.</p>
+     *
+     * @param json The JSON string.
+     * @param type The class to parse the JSON to.
+     * @param <T>  The type of the object.
+     * @return The parsed object.
+     * @throws JsonProcessingException If the parsing fails.
+     */
     public static <T> T parseJson(final String json, final Class<T> type) throws JsonProcessingException {
-        return jsonMapper.readValue(json, type);
+        return jsonMapper.parse(json, type);
     }
 
+    /**
+     * <h2>parseJson(String, {@link TypeReference})</h2>
+     * <p>Parses the given JSON string to the given type reference.</p>
+     * <p>It uses the default JSON mapper.</p>
+     *
+     * @param json The JSON string.
+     * @param type The type reference to parse the JSON to.
+     * @param <T>  The type of the object.
+     * @return The parsed object.
+     * @throws JsonProcessingException If the parsing fails.
+     */
     public static <T> T parseJson(final String json, final TypeReference<T> type) throws JsonProcessingException {
-        return jsonMapper.readValue(json, type);
+        return jsonMapper.parse(json, type);
     }
+
 
     public static <T> Optional<T> getElementSecure(final String json, final Class<T> type, final String... keys) {
-        try {
-            return Optional.of(getElement(json, type, keys));
-        } catch (JsonProcessingException e) {
-            return Optional.empty();
-        }
+        return jsonMapper.useSafeModule().getElement(json, type, keys);
     }
 
     public static <T> T getElement(final String json, final Class<T> type, final String... keys) throws JsonProcessingException {
-        JsonNode root = jsonMapper.readTree(json);
-        for (String key : keys) {
-            root = root.get(key);
+        try {
+            return jsonMapper.getElement(json, type, keys);
+        } catch (IOException e) {
+            throw new JsonProcessingException(e.getMessage()) {
+            };
         }
-
-        return jsonMapper.readValue(root.toString(), type);
     }
 
-    public static <T> Optional<T>  getElementSecure(final String json, final TypeReference<T> type, final String... keys) {
-        try {
-            return Optional.of(getElement(json, type, keys));
-        } catch (
-                JsonProcessingException e) {
-            return Optional.empty();
-        }
-
+    public static <T> Optional<T> getElementSecure(final String json, final TypeReference<T> type, final String... keys) {
+        return jsonMapper.useSafeModule().getElement(json, type, keys);
     }
 
     public static <T> T getElement(final String json, final TypeReference<T> type, final String... keys) throws JsonProcessingException {
-        JsonNode root = jsonMapper.readTree(json);
-        for (String key : keys) {
-            root = root.get(key);
+        try {
+            return jsonMapper.getElement(json, type, keys);
+        } catch (IOException e) {
+            throw new JsonProcessingException(e.getMessage()) {
+            };
         }
-
-        return jsonMapper.readValue(root.toString(), type);
-
     }
 
     //----------------------------------------------------------------------------------------------------------------------
@@ -86,38 +126,20 @@ public final class SerializationUtils {
     //----------------------------------------------------------------------------------------------------------------------
 
     public static <T> Optional<T> parseXmlSecure(final String xml, final Class<T> type) {
-        try {
-            var value = xmlMapper.readValue(xml, type);
-            return Optional.of(value);
-        } catch (JsonProcessingException ignored) {
-            return Optional.empty();
-        }
+        return xmlMapper.useSafeModule().parse(xml, type);
     }
 
     public static <T> Optional<T> parseXmlSecure(final String xml, final TypeReference<T> type) {
-        try {
-            var value = xmlMapper.readValue(xml, type);
-            return Optional.of(value);
-        } catch (JsonProcessingException ignored) {
-            return Optional.empty();
-        }
+        return xmlMapper.useSafeModule().parse(xml, type);
     }
 
 
     public static <T> Optional<T> parseJsonSecure(final String json, final Class<T> type) {
-        try {
-            return Optional.of(jsonMapper.readValue(json, type));
-        } catch (JsonProcessingException ex) {
-            return Optional.empty();
-        }
+        return jsonMapper.useSafeModule().parse(json, type);
     }
 
     public static <T> Optional<T> parseJsonSecure(final String json, final TypeReference<T> type) {
-        try {
-            return Optional.of(jsonMapper.readValue(json, type));
-        } catch (JsonProcessingException ex) {
-            return Optional.empty();
-        }
+        return jsonMapper.useSafeModule().parse(json, type);
     }
 
 
@@ -126,42 +148,24 @@ public final class SerializationUtils {
     //----------------------------------------------------------------------------------------------------------------------
 
     public static Optional<String> exportXml(final Object data) {
-        try {
-            final String result = xmlMapper.writeValueAsString(data);
-            return Optional.of(result);
-        } catch (JsonProcessingException e) {
-            return Optional.empty();
-        }
+        return xmlMapper.useSafeModule().export(data);
     }
 
     public static Optional<String> exportJson(final Object data) {
-        try {
-            final String result = jsonMapper.writeValueAsString(data);
-            return Optional.of(result);
-        } catch (JsonProcessingException e) {
-            return Optional.empty();
-        }
+        return jsonMapper.useSafeModule().export(data);
     }
 
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void disablePretty() {
-        jsonMapper.disable(SerializationFeature.INDENT_OUTPUT);
-        xmlMapper.disable(SerializationFeature.INDENT_OUTPUT);
     }
 
     public static void enablePretty() {
-        jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     public static void disableUnknownProperties() {
-        jsonMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public static void enableUnknownProperties() {
-        jsonMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        xmlMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 }

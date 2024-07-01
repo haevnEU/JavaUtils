@@ -1,11 +1,14 @@
 package de.haevn.utils.network.server;
 
+import de.haevn.annotations.Draft;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+@Draft(description = "This class should provide a simple http server")
 final class HttpServer {
     private final Builder config;
     com.sun.net.httpserver.HttpServer server;

@@ -1,7 +1,10 @@
 package de.haevn.utils.network;
 
 /**
- * Supported content types.
+ * <h1>ContentType</h1>
+ * <br>
+ * <p>The type of the content of a request.</p>
+ * <p>Supported content types are:</p>
  * <ul>
  *     <li>JSON</li>
  *     <li>XML</li>
