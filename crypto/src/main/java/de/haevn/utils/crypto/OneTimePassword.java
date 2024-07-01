@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -20,7 +22,7 @@ import java.time.Instant;
  * <h1>OneTimePassword</h1>
  * <br>
  * <br> This class provides methods to generate a One Time Password (OTP) based on the Time-based One Time Password (TOTP) algorithm.
- * <br> The TOTP algorithm is based on the HMAC-SHA1 algorithm and generates a 6-digit OTP.
+ * <br> The TOTP algorithm is based on the HMAC-SHA algorithm and generates a 6-digit OTP.
  * <br> The class also provides methods to generate a secret key and a QR code for the secret key.
  * <br>
  * <h3>Example:</h3>
@@ -40,11 +42,13 @@ public final class OneTimePassword {
     /**
      * The time step in milliseconds.
      */
-    private static final long TIME_STEP = 30_000L;
+    private static final long TIME_STEP = 30;
     /**
      * The length of the secret key.
      */
     private static final int SECRET_KEY_LENGTH = 20;
+
+    private static final Enryption ALGORITHM = Enryption.SHA512;
 
     private OneTimePassword() {
     }
@@ -64,28 +68,27 @@ public final class OneTimePassword {
      * @return The generated OTP
      */
     public static String generateTOTP(final String secret) {
-        byte[] key = Base32Util.decode(secret);
-        final long time = (Instant.now().toEpochMilli() / TIME_STEP);
-
+        final byte[] key = Base32Util.decode(secret);
+        long time = Instant.now().getEpochSecond() / TIME_STEP;
         final byte[] data = ByteBuffer.allocate(8).putLong(time).array();
-        final byte[] hash = hmacSha1(key, data);
+        final byte[] hash = hmacSha(key, data);
 
-        final int offset = hash[hash.length - 1] & 0xF;
-        final int binaryCode = (hash[offset] & 0x7F) << 24 |
-                (hash[offset + 1] & 0xFF) << 16 |
-                (hash[offset + 2] & 0xFF) << 8 |
-                (hash[offset + 3] & 0xFF);
-
+        // Convert the hash to an integer value
+        int offset = hash[hash.length - 1] & 0xF;
+        int binary =
+                ((hash[offset] & 0x7f) << 24) |
+                        ((hash[offset + 1] & 0xff) << 16) |
+                        ((hash[offset + 2] & 0xff) << 8) |
+                        (hash[offset + 3] & 0xff);
         // Generate a 6-digit OTP
-        final int otp = binaryCode % 1_000_000;
+        int otp = (binary % 1000000);
 
-        // Format the OTP to ensure it's 6 digits
         return String.format("%06d", otp);
     }
 
     /**
-     * <h2>hmacSha1(byte[], byte[])</h2>
-     * <p>Generates a HMAC-SHA1 hash based on the given key and data.</p>
+     * <h2>hmacSha(byte[], byte[])</h2>
+     * <p>Generates a HMAC-SHA hash based on the given key and data.</p>
      * <h3>Example:</h3>
      * <pre>
      *     {@code
@@ -99,10 +102,11 @@ public final class OneTimePassword {
      * @param data The data
      * @return The generated hash
      */
-    private static byte[] hmacSha1(final byte[] key, final byte[] data) {
+    private static byte[] hmacSha(final byte[] key, final byte[] data) {
         try {
-            final SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA1");
-            final Mac mac = Mac.getInstance("HmacSHA1");
+            final String algorithm = ALGORITHM.algorithm;
+            final Mac mac = Mac.getInstance(algorithm);
+            final SecretKeySpec secretKeySpec = new SecretKeySpec(key, algorithm);
             mac.init(secretKeySpec);
             return mac.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
@@ -204,9 +208,9 @@ public final class OneTimePassword {
      */
     public static String generateCodeAndShow(final String name, final String secret) throws IOException {
         final String totp = generateTOTP(secret);
-
-        final String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=otpauth://totp/%s?secret=%s";
-        final URI uri = URI.create(String.format(qrCodeUrl, name, secret));
+        final String data = String.format("otpauth://totp/%s?secret=%s&algorithm=%s", name, secret, ALGORITHM.name());
+        final String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + URLEncoder.encode(data, StandardCharsets.UTF_8);
+        final URI uri = URI.create(qrCodeUrl);
 
         final BufferedImage image = ImageIO.read(uri.toURL());
         final JTextField secretField = new JTextField(secret);
@@ -229,10 +233,33 @@ public final class OneTimePassword {
         frame.setSize(450, 300);
         Thread.ofVirtual().start(() -> {
             while (frame.isVisible()) {
-                otp.setText(generateTOTP(secret));
+                String otpValue = generateTOTP(secret);
+                otp.setText(otpValue);
                 TimeUtils.sleepSecond(1);
             }
         });
         return totp;
+    }
+
+    /**
+     * <h2>Enrypption</h2>
+     * <p>Enumeration of the supported encryption algorithms.</p>
+     */
+    private enum Enryption {
+
+        /**
+         * @deprecated This is a deprecated algorithm and should not be used.
+         */
+        SHA1("HmacSHA1", "SHA-1"),
+        SHA256("HmacSHA256", "SHA-256"),
+        SHA512("HmacSHA512", "SHA-512");
+
+        final String algorithm;
+        final String algorithmName;
+
+        Enryption(String algorithm, String algorithmName) {
+            this.algorithm = algorithm;
+            this.algorithmName = algorithmName;
+        }
     }
 }
