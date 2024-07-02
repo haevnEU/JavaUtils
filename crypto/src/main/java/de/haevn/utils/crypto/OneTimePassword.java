@@ -73,14 +73,12 @@ public final class OneTimePassword {
         final byte[] data = ByteBuffer.allocate(8).putLong(time).array();
         final byte[] hash = hmacSha(key, data);
 
-        // Convert the hash to an integer value
         int offset = hash[hash.length - 1] & 0xF;
         int binary =
                 ((hash[offset] & 0x7f) << 24) |
                         ((hash[offset + 1] & 0xff) << 16) |
                         ((hash[offset + 2] & 0xff) << 8) |
                         (hash[offset + 3] & 0xff);
-        // Generate a 6-digit OTP
         int otp = (binary % 1000000);
 
         return String.format("%06d", otp);

@@ -15,6 +15,7 @@ import java.io.PrintStream;
  */
 public final class LoggerConfig {
 
+    private File logFile;
     private PrintStream fileOutput;
     private PrintStream consoleOutput = System.out;
     private Level level = Level.ALL;
@@ -31,16 +32,6 @@ public final class LoggerConfig {
      */
     public PrintStream getFileOutput() {
         return fileOutput;
-    }
-
-    /**
-     * <h2>setFileOutput({@link PrintStream})</h2>
-     * <p>Sets the file output stream.</p>
-     *
-     * @param fileOutput The file output stream.
-     */
-    public void setFileOutput(final PrintStream fileOutput) {
-        this.fileOutput = fileOutput;
     }
 
     /**
@@ -161,5 +152,16 @@ public final class LoggerConfig {
      */
     public void setOutput(final File logFile) throws FileNotFoundException {
         this.fileOutput = new PrintStream(new FileOutputStream(logFile, true));
+        this.logFile = logFile;
+    }
+
+    /**
+     * <h2>getLogFile()</h2>
+     * <p>Gets the log file.</p>
+     *
+     * @return The log file.
+     */
+    public File getLogFile() {
+        return logFile;
     }
 }

@@ -6,8 +6,9 @@ import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ApplicationException;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -30,7 +31,21 @@ import static de.haevn.annotations.AnnotationUtils.findLauncher;
  * @since 1.0
  */
 public final class Logger {
-    private final String name;
+
+    public static void createValidJsonDoc(final Logger logger) throws IOException {
+        LogConversion.
+        final File logFile = logger.config.getLogFile();
+        final List<String> logEntries = Files.readAllLines(logFile.toPath());
+        final String data = String.join(",\n\t", logEntries);
+        String name = logFile.getName().substring(0, logFile.getName().lastIndexOf("."));
+        var file = new File(logFile.getParent(), name + ".json");
+        file.getParentFile().mkdirs();
+        if (file.exists()) {
+            file.delete();
+        }
+        Files.write(file.toPath(), ("[\n\t" + data + "\n]").getBytes());
+    }
+
     private static final LoggerHandler HANDLER = LoggerHandler.getInstance();
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
@@ -95,7 +110,7 @@ public final class Logger {
      */
     public <T> Logger(final Class<?> cl, final LoggerConfig config) {
 
-        this.name = (null == cl) ? "Logger" : cl.getSimpleName();
+        String name = (null == cl) ? "Logger" : cl.getSimpleName();
 
         final String appName = findLauncher("de.haevn")
                 .stream()
@@ -106,12 +121,12 @@ public final class Logger {
         this.config = config;
         if (null == this.config.getFileOutput()) {
             try {
-                final var logFile = new File(root, File.separatorChar + this.name + ".log");
+                final var logFile = new File(root, File.separatorChar + name + ".log");
                 if (!logFile.exists()) {
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
                 }
-                this.config.setFileOutput(new PrintStream(new FileOutputStream(logFile, true)));
+                this.config.setOutput(logFile);
             } catch (final Exception ex) {
                 throw new ApplicationException(ex);
             }
