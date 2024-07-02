@@ -6,9 +6,7 @@ import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ApplicationException;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -31,20 +29,6 @@ import static de.haevn.annotations.AnnotationUtils.findLauncher;
  * @since 1.0
  */
 public final class Logger {
-
-    public static void createValidJsonDoc(final Logger logger) throws IOException {
-        LogConversion.
-        final File logFile = logger.config.getLogFile();
-        final List<String> logEntries = Files.readAllLines(logFile.toPath());
-        final String data = String.join(",\n\t", logEntries);
-        String name = logFile.getName().substring(0, logFile.getName().lastIndexOf("."));
-        var file = new File(logFile.getParent(), name + ".json");
-        file.getParentFile().mkdirs();
-        if (file.exists()) {
-            file.delete();
-        }
-        Files.write(file.toPath(), ("[\n\t" + data + "\n]").getBytes());
-    }
 
     private static final LoggerHandler HANDLER = LoggerHandler.getInstance();
     private final LoggerConfig config;
@@ -133,6 +117,10 @@ public final class Logger {
         }
         HANDLER.addLogger(this);
         activateShutdownHook();
+    }
+
+    LoggerConfig getConfig() {
+        return config;
     }
 
     /**
