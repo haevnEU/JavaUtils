@@ -1,11 +1,13 @@
 package de.haevn.utils.crypto;
 
 import de.haevn.utils.TimeUtils;
+import de.haevn.utils.exceptions.ApplicationException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,105 +15,41 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Instant;
 
-/**
- * <h1>OneTimePassword</h1>
- * <br>
- * <br> This class provides methods to generate a One Time Password (OTP) based on the Time-based One Time Password (TOTP) algorithm.
- * <br> The TOTP algorithm is based on the HMAC-SHA algorithm and generates a 6-digit OTP.
- * <br> The class also provides methods to generate a secret key and a QR code for the secret key.
- * <br>
- * <h3>Example:</h3>
- * <pre>
- *     {@code
- *     final String secret = OneTimePassword.generateSecretKey();
- *     final String otp = OneTimePassword.generateTOTP(secret);
- *     final String otp = OneTimePassword.generateCode();
- *     final String otp = OneTimePassword.generateCode(secret);
- *     final String otp = OneTimePassword.generateCodeAndShow("MyApp");
- *     final String otp = OneTimePassword.generateCodeAndShow("MyApp", secret);
- *     }
- * </pre>
- */
-public final class OneTimePassword {
+public class OneTimePassword {
+    private final Builder builder;
 
     /**
-     * The time step in milliseconds.
-     */
-    private static final long TIME_STEP = 30;
-    /**
-     * The length of the secret key.
-     */
-    private static final int SECRET_KEY_LENGTH = 20;
-
-    private static final Enryption ALGORITHM = Enryption.SHA512;
-
-    private OneTimePassword() {
-    }
-
-    /**
-     * <h2>generateTOTP(String)</h2>
-     * <p>Generates a Time-based One Time Password (TOTP) based on the given secret key.</p>
+     * <h2>OneTimePassword({@link Builder})</h2>
+     * <p>This is the internal constructor for the OneTimePassword class.</p>
+     *
      * <h3>Example:</h3>
      * <pre>
-     *     {@code
-     *     final String secret = OneTimePassword.generateSecretKey();
-     *     final String otp = OneTimePassword.generateTOTP(secret);
-     *     }
+     * {@code
+     * OneTimePassword otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512)
+     *     .setSecretKeyLength(20)
+     *     .setTimeStep(30)
+     *     .showQrCode(true, "MyApp")
+     *     .build();
+     * var key = otp.generateSecretKey();
+     * otp.showToken(key);
+     * }
      * </pre>
      *
-     * @param secret The secret key
-     * @return The generated OTP
+     * @param builder The builder instance.
      */
-    public static String generateTOTP(final String secret) {
-        final byte[] key = Base32Util.decode(secret);
-        long time = Instant.now().getEpochSecond() / TIME_STEP;
-        final byte[] data = ByteBuffer.allocate(8).putLong(time).array();
-        final byte[] hash = hmacSha(key, data);
-
-        // Convert the hash to an integer value
-        int offset = hash[hash.length - 1] & 0xF;
-        int binary =
-                ((hash[offset] & 0x7f) << 24) |
-                        ((hash[offset + 1] & 0xff) << 16) |
-                        ((hash[offset + 2] & 0xff) << 8) |
-                        (hash[offset + 3] & 0xff);
-        // Generate a 6-digit OTP
-        int otp = (binary % 1000000);
-
-        return String.format("%06d", otp);
+    private OneTimePassword(Builder builder) {
+        this.builder = builder;
     }
 
-    /**
-     * <h2>hmacSha(byte[], byte[])</h2>
-     * <p>Generates a HMAC-SHA hash based on the given key and data.</p>
-     * <h3>Example:</h3>
-     * <pre>
-     *     {@code
-     *     final byte[] key = {...};
-     *     final byte[] data = {...};
-     *     final byte[] hash = OneTimePassword.hmacSha1(key, data);
-     *     }
-     * </pre>
-     *
-     * @param key  The key
-     * @param data The data
-     * @return The generated hash
-     */
-    private static byte[] hmacSha(final byte[] key, final byte[] data) {
-        try {
-            final String algorithm = ALGORITHM.algorithm;
-            final Mac mac = Mac.getInstance(algorithm);
-            final SecretKeySpec secretKeySpec = new SecretKeySpec(key, algorithm);
-            mac.init(secretKeySpec);
-            return mac.doFinal(data);
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException("Error generating TOTP", e);
-        }
+    public static Builder getInstance(final Algorithm.OTP algorithm) {
+        return new Builder(algorithm);
     }
 
     /**
@@ -120,17 +58,27 @@ public final class OneTimePassword {
      * <h3>Example:</h3>
      * <pre>
      *     {@code
+     *     final OneTimePassword otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512).build();
+     *     final String secret = otp.generateSecretKey();
      *     final String secret = OneTimePassword.generateSecretKey();
      *     }
      * </pre>
      *
      * @return The generated secret key
      */
-    public static String generateSecretKey() {
+    public String generateSecretKey() throws ApplicationException {
         final SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[SECRET_KEY_LENGTH];
+        byte[] bytes = new byte[builder.secretKeyLength];
         random.nextBytes(bytes);
-        return Base32Util.encode(bytes);
+        final String secret = Base32Util.encode(bytes);
+        if (builder.showQrCode) {
+            try {
+                showQrCode(builder.name, secret);
+            } catch (IOException ex) {
+                throw new ApplicationException(ex);
+            }
+        }
+        return secret;
     }
 
     /**
@@ -139,14 +87,15 @@ public final class OneTimePassword {
      * <h3>Example:</h3>
      * <pre>
      *     {@code
-     *     final String otp = OneTimePassword.generateCode();
+     *     final OneTimePassword otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512).build();
+     *     final String token = otp.generateCode();
      *     }
      * </pre>
      *
      * @return The generated OTP
      */
-    public static String generateCode() {
-        return generateTOTP(generateSecretKey());
+    public String generateCode() {
+        return generateCode(generateSecretKey());
     }
 
     /**
@@ -155,111 +104,185 @@ public final class OneTimePassword {
      * <h3>Example:</h3>
      * <pre>
      *     {@code
-     *     final String secret = OneTimePassword.generateSecretKey();
-     *     final String otp = OneTimePassword.generateCode(secret);
+     *     final OneTimePassword otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512).build();
+     *     final String key = otp.generateSecretKey();
+     *     final String token = otp.generateCode(secret);
      *     }
      * </pre>
      *
      * @param secret The secret key
      * @return The generated OTP
      */
-    public static String generateCode(final String secret) {
-        return generateTOTP(secret);
+    public String generateCode(final String secret) throws ApplicationException {
+        try {
+            final byte[] key = Base32Util.decode(secret);
+            long time = Instant.now().getEpochSecond() / builder.timeStep;
+            final byte[] data = ByteBuffer.allocate(8).putLong(time).array();
+            final byte[] hash;
+
+            final String algorithm = builder.algorithm.algorithm;
+            final Mac mac = Mac.getInstance(algorithm);
+
+            final SecretKeySpec secretKeySpec = new SecretKeySpec(key, algorithm);
+            mac.init(secretKeySpec);
+            hash = mac.doFinal(data);
+
+            int offset = hash[hash.length - 1] & 0xF;
+            int binary =
+                    ((hash[offset] & 0x7f) << 24) |
+                            ((hash[offset + 1] & 0xff) << 16) |
+                            ((hash[offset + 2] & 0xff) << 8) |
+                            (hash[offset + 3] & 0xff);
+            int otp = (binary % 1000000);
+            return String.format("%06d", otp);
+        } catch (NoSuchAlgorithmException | InvalidKeyException ex) {
+            throw new ApplicationException(ex);
+        }
     }
 
-    /**
-     * <h2>generateCodeAndShow(String)</h2>
-     * <p>Generates a Time-based One Time Password (TOTP) based on a random secret key and shows a QR code with
-     * the secret key.</p>
-     * <h3>Example:</h3>
-     * <pre>
-     *     {@code
-     *     final String otp = OneTimePassword.generateCodeAndShow("MyApp");
-     *     }
-     * </pre>
-     *
-     * @param name The name of the application
-     * @return The generated OTP
-     * @throws IOException If an I/O error occurs
-     */
-    public static String generateCodeAndShow(final String name) throws IOException {
-        return generateCodeAndShow(name, generateSecretKey());
+    public void showToken(final String secret) {
+        final String code = generateCode(secret);
+
+        final JLabel secretField = new JLabel(code);
+        secretField.setFont(new Font("Arial", Font.BOLD, 20));
+        secretField.setHorizontalAlignment(SwingConstants.CENTER);
+
+        final JButton btCopy = new JButton("Copy to Clipboard");
+        btCopy.addActionListener(_ -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new java.awt.datatransfer.StringSelection(secretField.getText()), null));
+
+
+        final JProgressBar progressBar = new JProgressBar();
+        progressBar.setMaximum((int) builder.timeStep - 1);
+
+        final JFrame frame = new JFrame();
+
+        final Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setBorder(padding);
+        contentPanel.add(secretField, BorderLayout.CENTER);
+        contentPanel.add(progressBar, BorderLayout.NORTH);
+        contentPanel.add(btCopy, BorderLayout.SOUTH);
+
+        frame.setTitle(builder.name);
+        frame.setContentPane(contentPanel);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        frame.pack();
+        frame.setSize(250, 150);
+        frame.setResizable(false);
+        Thread.ofVirtual().start(() -> {
+            while (frame.isVisible()) {
+                secretField.setText(generateCode(secret));
+                progressBar.setValue((int) (Instant.now().getEpochSecond() % builder.timeStep));
+                TimeUtils.sleepMillis(500);
+            }
+        });
     }
 
-    /**
-     * <h2>generateCodeAndShow(String, String)</h2>
-     * <p>Generates a Time-based One Time Password (TOTP) based on the given secret key and shows a QR code with
-     * the secret key.</p>
-     * <p>The OTP is updated every second.</p>
-     * <p>The QR code will be generated by an external service.</p>
-     * <a href="https://goqr.me/api/">https://goqr.me/api/</a>
-     * <h3>Example:</h3>
-     * <pre>
-     *     {@code
-     *     final String secret = OneTimePassword.generateSecretKey();
-     *     final String otp = OneTimePassword.generateCodeAndShow("MyApp", secret);
-     *     }
-     * </pre>
-     *
-     * @param name   The name of the application
-     * @param secret The secret key
-     * @return The generated OTP
-     * @throws IOException If an I/O error occurs
-     */
-    public static String generateCodeAndShow(final String name, final String secret) throws IOException {
-        final String totp = generateTOTP(secret);
-        final String data = String.format("otpauth://totp/%s?secret=%s&algorithm=%s", name, secret, ALGORITHM.name());
+    private void showQrCode(String name, String secret) throws IOException {
+        final String data = String.format("otpauth://totp/%s?secret=%s&algorithm=%s", name, secret, builder.algorithm.name());
         final String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + URLEncoder.encode(data, StandardCharsets.UTF_8);
         final URI uri = URI.create(qrCodeUrl);
 
         final BufferedImage image = ImageIO.read(uri.toURL());
         final JTextField secretField = new JTextField(secret);
+        secretField.setHorizontalAlignment(SwingConstants.CENTER);
         final JLabel label = new JLabel(new ImageIcon(image));
-        final JLabel otp = new JLabel();
+        final JButton btSave = new JButton("Save QR Code");
 
-        otp.setFont(new Font("Arial", Font.PLAIN, 20));
+        btSave.addActionListener(_ -> {
+            try {
+                ImageIO.write(image, "png", new java.io.File(name + "_token_qr.png"));
+                Files.write(Paths.get(name + "_token_secret.txt"), secret.getBytes());
+            } catch (IOException ignored) {
+            }
+        });
+
         secretField.setFont(new Font("Arial", Font.PLAIN, 20));
         secretField.setEditable(false);
+        final Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setBorder(padding);
+        contentPanel.add(label, BorderLayout.CENTER);
+        contentPanel.add(secretField, BorderLayout.NORTH);
+        contentPanel.add(btSave, BorderLayout.SOUTH);
+
 
         final JFrame frame = new JFrame();
         frame.setTitle("One Time Password Generator");
-        frame.add(label, BorderLayout.CENTER);
-        frame.add(secretField, BorderLayout.NORTH);
-        frame.add(otp, BorderLayout.SOUTH);
+        frame.setContentPane(contentPanel);
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();
-        frame.setSize(450, 300);
-        Thread.ofVirtual().start(() -> {
-            while (frame.isVisible()) {
-                String otpValue = generateTOTP(secret);
-                otp.setText(otpValue);
-                TimeUtils.sleepSecond(1);
-            }
-        });
-        return totp;
+        frame.setSize(500, 350);
     }
 
-    /**
-     * <h2>Enrypption</h2>
-     * <p>Enumeration of the supported encryption algorithms.</p>
-     */
-    private enum Enryption {
+    public static final class Builder {
+        private final Algorithm.OTP algorithm;
+        private long timeStep = 30;
+        private int secretKeyLength = 20;
+        private boolean showQrCode = false;
+        private String name = "";
 
         /**
-         * @deprecated This is a deprecated algorithm and should not be used.
+         * <h2>Builder(Algorithm.OTP)</h2>
+         * <p>Constructor for the Builder class.</p>
          */
-        SHA1("HmacSHA1", "SHA-1"),
-        SHA256("HmacSHA256", "SHA-256"),
-        SHA512("HmacSHA512", "SHA-512");
-
-        final String algorithm;
-        final String algorithmName;
-
-        Enryption(String algorithm, String algorithmName) {
+        private Builder(final Algorithm.OTP algorithm) {
             this.algorithm = algorithm;
-            this.algorithmName = algorithmName;
+        }
+
+        /**
+         * <h2>build()</h2>
+         * Build the OneTimePassword instance.
+         *
+         * @return The OneTimePassword instance.
+         */
+        public OneTimePassword build() {
+            return new OneTimePassword(this);
+        }
+
+        /**
+         * <h2>setTimeStep(long)</h2>
+         * Set the time step in seconds.
+         *
+         * @param timeStep The time step in seconds.
+         * @return The builder instance.
+         */
+        public Builder setTimeStep(final long timeStep) {
+            this.timeStep = timeStep;
+            return this;
+        }
+
+        /**
+         * <h2>setSecretKeyLength(int)</h2>
+         * Set the length of the secret key.
+         *
+         * @param secretKeyLength The length of the secret key.
+         * @return The builder instance.
+         */
+
+        public Builder setSecretKeyLength(final int secretKeyLength) {
+            this.secretKeyLength = secretKeyLength;
+            return this;
+        }
+
+
+        /**
+         * <h2>showQrCode(boolean)</h2>
+         * Show the QR code.
+         *
+         * @param showQrCode Show the QR code.
+         * @return The builder instance.
+         */
+        public Builder showQrCode(final boolean showQrCode, final String name) {
+            this.showQrCode = showQrCode;
+            this.name = name;
+            return this;
         }
     }
+
 }

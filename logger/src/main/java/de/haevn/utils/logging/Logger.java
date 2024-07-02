@@ -6,7 +6,6 @@ import de.haevn.utils.debug.MethodTools;
 import de.haevn.utils.exceptions.ApplicationException;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ import static de.haevn.annotations.AnnotationUtils.findLauncher;
  * @since 1.0
  */
 public final class Logger {
-    private final String name;
+
     private static final LoggerHandler HANDLER = LoggerHandler.getInstance();
     private final LoggerConfig config;
     private final List<LogEntry> logEntries = new ArrayList<>();
@@ -95,7 +94,7 @@ public final class Logger {
      */
     public <T> Logger(final Class<?> cl, final LoggerConfig config) {
 
-        this.name = (null == cl) ? "Logger" : cl.getSimpleName();
+        String name = (null == cl) ? "Logger" : cl.getSimpleName();
 
         final String appName = findLauncher("de.haevn")
                 .stream()
@@ -106,18 +105,22 @@ public final class Logger {
         this.config = config;
         if (null == this.config.getFileOutput()) {
             try {
-                final var logFile = new File(root, File.separatorChar + this.name + ".log");
+                final var logFile = new File(root, File.separatorChar + name + ".log");
                 if (!logFile.exists()) {
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
                 }
-                this.config.setFileOutput(new PrintStream(new FileOutputStream(logFile, true)));
+                this.config.setOutput(logFile);
             } catch (final Exception ex) {
                 throw new ApplicationException(ex);
             }
         }
         HANDLER.addLogger(this);
         activateShutdownHook();
+    }
+
+    LoggerConfig getConfig() {
+        return config;
     }
 
     /**
