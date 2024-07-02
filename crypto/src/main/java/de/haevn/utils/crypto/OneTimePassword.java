@@ -22,7 +22,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Instant;
 
-
 public class OneTimePassword {
     private final Builder builder;
 
@@ -61,6 +60,7 @@ public class OneTimePassword {
      *     {@code
      *     final OneTimePassword otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512).build();
      *     final String secret = otp.generateSecretKey();
+     *     final String secret = OneTimePassword.generateSecretKey();
      *     }
      * </pre>
      *
@@ -284,6 +284,5 @@ public class OneTimePassword {
             return this;
         }
     }
-
 
 }

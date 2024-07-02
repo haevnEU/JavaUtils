@@ -34,6 +34,7 @@ public final class LoggerConfig {
         return fileOutput;
     }
 
+
     /**
      * <h2>getConsoleOutput()</h2>
      * <p>Gets the console output stream.</p>
