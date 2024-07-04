@@ -25,6 +25,17 @@ import java.time.Instant;
 public class OneTimePassword {
     private final Builder builder;
 
+    public static void main(String[] args) throws IOException {
+        var otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512)
+                .setSecretKeyLength(20)
+                .setTimeStep(30)
+                .showQrCode(true, "MyApp")
+                .build();
+        var key = "XM5TLYWA5J64RLURB7OWXQ2BX4XJPM2U";//otp.generateSecretKey();
+        otp.showToken(key);
+        otp.showQrCode("MyApp", key);
+    }
+
     /**
      * <h2>OneTimePassword({@link Builder})</h2>
      * <p>This is the internal constructor for the OneTimePassword class.</p>
@@ -218,6 +229,19 @@ public class OneTimePassword {
         frame.setVisible(true);
         frame.pack();
         frame.setSize(500, 350);
+    }
+
+    public void saveCode(final String secret) {
+        final String name = builder.name.isEmpty() ? "MyApp" : builder.name;
+        final String data = String.format("otpauth://totp/%s?secret=%s&algorithm=%s", name, secret, builder.algorithm.name());
+        final String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + URLEncoder.encode(data, StandardCharsets.UTF_8);
+
+        try {
+            final BufferedImage image = ImageIO.read(URI.create(qrCodeUrl).toURL());
+            ImageIO.write(image, "png", new java.io.File(name + "_token_qr.png"));
+            Files.write(Paths.get(name + "_token_secret.txt"), secret.getBytes());
+        } catch (IOException ignored) {
+        }
     }
 
     public static final class Builder {
