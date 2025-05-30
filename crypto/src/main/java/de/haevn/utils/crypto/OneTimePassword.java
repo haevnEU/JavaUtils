@@ -220,6 +220,19 @@ public class OneTimePassword {
         frame.setSize(500, 350);
     }
 
+    public void saveCode(final String secret) {
+        final String name = builder.name.isEmpty() ? "MyApp" : builder.name;
+        final String data = String.format("otpauth://totp/%s?secret=%s&algorithm=%s", name, secret, builder.algorithm.name());
+        final String qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + URLEncoder.encode(data, StandardCharsets.UTF_8);
+
+        try {
+            final BufferedImage image = ImageIO.read(URI.create(qrCodeUrl).toURL());
+            ImageIO.write(image, "png", new java.io.File(name + "_token_qr.png"));
+            Files.write(Paths.get(name + "_token_secret.txt"), secret.getBytes());
+        } catch (IOException ignored) {
+        }
+    }
+
     public static final class Builder {
         private final Algorithm.OTP algorithm;
         private long timeStep = 30;
