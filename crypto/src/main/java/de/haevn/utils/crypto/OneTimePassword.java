@@ -25,17 +25,6 @@ import java.time.Instant;
 public class OneTimePassword {
     private final Builder builder;
 
-    public static void main(String[] args) throws IOException {
-        var otp = OneTimePassword.getInstance(Algorithm.OTP.SHA512)
-                .setSecretKeyLength(20)
-                .setTimeStep(30)
-                .showQrCode(true, "MyApp")
-                .build();
-        var key = "XM5TLYWA5J64RLURB7OWXQ2BX4XJPM2U";//otp.generateSecretKey();
-        otp.showToken(key);
-        otp.showQrCode("MyApp", key);
-    }
-
     /**
      * <h2>OneTimePassword({@link Builder})</h2>
      * <p>This is the internal constructor for the OneTimePassword class.</p>
