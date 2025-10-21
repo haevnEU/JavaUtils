@@ -188,6 +188,56 @@ public final class Embed {
         return this;
     }
 
+
+
+    /**
+     * <h2>setColor({@link DiscordColors})</h2>
+     * <p>Sets the color of the embed</p>
+     *
+     * @param color the color of the embed
+     * @return Reference to this object
+     */
+    public Embed setColor(final DiscordColors color) {
+        this.color = color.value;
+        return this;
+    }
+
+    /**
+     * <h2>setColor(String)</h2>
+     * <p>Sets the color of the embed</p>
+     *
+     * @param hexColor the color of the embed
+     * @return Reference to this object
+     */
+    public Embed setColor(final String hexColor) {
+        if(hexColor.startsWith("#")) {
+            this.color = Long.parseLong(hexColor.substring(1), 16);
+            return this;
+        }else if(hexColor.startsWith("0x")) {
+            this.color = Long.parseLong(hexColor.substring(2), 16);
+            return this;
+        }
+        throw new RuntimeException("Invalid hex color format. Must start with '#' or '0x'");
+    }
+
+
+
+    /**
+     * <h2>setColor(int, int, int)</h2>
+     * <p>Sets the color of the embed</p>
+     *
+     * @param r the red value of the color
+     * @param g the green value of the color
+     * @param b the blue value of the color
+     * @return Reference to this object
+     */
+    public Embed setColor(final int r, final int g, final int b) {
+        this.color = (r << 16) + (g << 8) + b;
+        return this;
+    }
+
+
+
     /**
      * <h2>getFooter()</h2>
      * <p>Gets the footer of the embed</p>
